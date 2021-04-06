@@ -1,0 +1,170 @@
+TABLE Candidat {
+  key int [pk]
+  Civ text [not null]
+  Nom text
+  Prenom text
+  Naissance text
+  Adresse1 text
+  Adresse2 text
+  Code_Postal int
+  Commune text
+  Pays text
+  Email text
+  Telephone text
+  Portable text
+  Filliere text
+  Statut text
+  Etablissement text
+}
+
+TABLE Classement_Note_MP {
+  candidat_id int [pk]
+  Math1 int
+  Math2 int
+  Phy1 int
+  Phy2 int
+  Chimie int
+  Fr int
+  LV1 int
+  IPT int
+  Spe int
+  bonification int
+  total_ecrit int
+  rang_ecrit int
+  
+  Math_oral int
+  Phy_oral int
+  Fr_oral int
+  Ang_oral int
+  total_oral int
+  
+  total int
+  rang int
+}
+
+TABLE Classement_Note_PSI {
+  candidat_id int [pk]
+  Math1 int
+  Math2 int
+  Phy1 int
+  Phy2 int
+  Chimie int
+  Fr int
+  LV1 int
+  IPT int
+  SI int
+  bonification int
+  total_ecrit int
+  rang_ecrit int
+  
+  Math_oral int
+  Phy_oral int
+  Fr_oral int
+  Ang_oral int
+  total_oral int
+  
+  total int
+  rang int
+}
+
+TABLE Classement_Note_PC {
+  candidat_id int [pk]
+  Math1 int
+  Math2 int
+  Phy1 int
+  Phy2 int
+  Chimie int
+  Fr int
+  LV1 int
+  IPT int
+  bonification int
+  total_ecrit int
+  rang_ecrit int
+  
+  Math_oral int
+  Phy_oral int
+  Fr_oral int
+  Ang_oral int
+  total_oral int
+  
+  total int
+  rang int
+}
+
+TABLE Classement_Note_PT {
+  candidat_id int [pk]
+  Math1 int
+  Math2 int
+  Phy1 int
+  Phy2 int
+  "Info/Model" int
+  SI int
+  Fr int
+  LV1 int
+  bonification int
+  total_ecrit int
+  rang_ecrit int
+  
+  Math_oral int
+  Phy_oral int
+  Fr_oral int
+  Ang_oral int
+  total_oral int
+  
+  total int
+  rang int
+}
+
+TABLE Classement_Note_TSI {
+  candidat_id int [pk]
+  Math1 int
+  Math2 int
+  Phy1 int
+  Phy2 int
+  Fr int
+  LV1 int
+  SI int
+  Info int
+  bonification int
+  total_ecrit int
+  rang_ecrit int
+  
+  Math1_oral int
+  Math2_oral int
+  Phy1_oral int
+  Phy2_oral int
+  LV_oral int
+  TP_Phy_oral int
+  S2I_oral int
+  total_oral int
+  
+  total int
+  rang int
+}
+
+Ref: Classement_Note_MP.candidat_id > Candidat.key
+Ref: Classement_Note_PSI.candidat_id > Candidat.key
+Ref: Classement_Note_PC.candidat_id > Candidat.key
+Ref: Classement_Note_PT.candidat_id > Candidat.key
+Ref: Classement_Note_TSI.candidat_id > Candidat.key
+
+TABLE Etablissement {
+  Etablissement text [pk]
+  Type text
+  Ville text
+  CP int
+  Pays text
+}
+
+Ref: Candidat.Etablissement > Etablissement.Etablissement
+
+TABLE Voeux {
+  candidat_id int [pk] 
+  Ecole text [pk]
+  ordre int 
+}
+
+Ref: Voeux.candidat_id > Candidat.key
+
+
+
