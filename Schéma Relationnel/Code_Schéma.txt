@@ -168,3 +168,111 @@ Ref: Voeux.candidat_id > Candidat.key
 
 
 
+
+TABLE Admission_ATS {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_ATS {
+  candidat_id int [pk]
+  rang int
+}
+
+Ref: Admission_ATS.candidat_id > Candidat.key
+Ref: Admis_ATS.candidat_id > Candidat.key
+
+TABLE Admission_MP {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_MP {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_MP_SPE {
+  candidat_id int [pk]
+  rang int
+}
+
+Ref: Admission_MP.candidat_id > Candidat.key
+Ref: Admis_MP.candidat_id > Candidat.key
+Ref: Admis_MP_SPE.candidat_id > Candidat.key
+
+TABLE Admission_PC {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_PC {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_PC_SPE {
+  candidat_id int [pk]
+  rang int
+}
+
+Ref: Admission_PC.candidat_id > Candidat.key
+Ref: Admis_PC.candidat_id > Candidat.key
+Ref: Admis_PC_SPE.candidat_id > Candidat.key
+
+TABLE Admission_PSI {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_PSI {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_PSI_SPE {
+  candidat_id int [pk]
+  rang int
+}
+
+Ref: Admission_PSI.candidat_id > Candidat.key
+Ref: Admis_PSI.candidat_id > Candidat.key
+Ref: Admis_PSI_SPE.candidat_id > Candidat.key
+
+TABLE Admission_PT {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_PT {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_PT_SPE {
+  candidat_id int [pk]
+  rang int
+}
+
+Ref: Admission_PT.candidat_id > Candidat.key
+Ref: Admis_PT.candidat_id > Candidat.key
+Ref: Admis_PT_SPE.candidat_id > Candidat.key
+
+TABLE Admission_TSI {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_TSI {
+  candidat_id int [pk]
+  rang int
+}
+
+TABLE Admis_TSI_SPE {
+  candidat_id int [pk]
+  rang int
+}
+
+Ref: Admission_TSI.candidat_id > Candidat.key
+Ref: Admis_TSI.candidat_id > Candidat.key
+Ref: Admis_TSI_SPE.candidat_id > Candidat.key
