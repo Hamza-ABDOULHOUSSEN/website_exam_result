@@ -19,127 +19,151 @@ TABLE Candidat {
 
 TABLE Classement_Note_MP {
   candidat_id int [pk]
-  Math1 int
-  Math2 int
-  Phy1 int
-  Phy2 int
-  Chimie int
-  Fr int
-  LV1 int
-  IPT int
-  Spe int
+  Math1 double
+  Math2 double
+  Phy1 double
+  Phy2 double
+  Chimie double
+  Fr double
+  LV1 double
+  IPT double
+  Spe double
   bonification int
-  total_ecrit int
+  total_ecrit double
   rang_ecrit int
   
-  Math_oral int
-  Phy_oral int
-  Fr_oral int
-  Ang_oral int
-  total_oral int
+  Math_oral double
+  Phy_oral double
+  Fr_oral double
+  Ang_oral double
+  total_oral double
   
-  total int
+  total double
   rang int
 }
 
 TABLE Classement_Note_PSI {
   candidat_id int [pk]
-  Math1 int
-  Math2 int
-  Phy1 int
-  Phy2 int
-  Chimie int
-  Fr int
-  LV1 int
-  IPT int
-  SI int
+  Math1 double
+  Math2 double
+  Phy1 double
+  Phy2 double
+  Chimie double
+  Fr double
+  LV1 double
+  IPT double
+  SI double
   bonification int
-  total_ecrit int
+  total_ecrit double
   rang_ecrit int
   
-  Math_oral int
-  Phy_oral int
-  Fr_oral int
-  Ang_oral int
-  total_oral int
+  Math_oral double
+  Phy_oral double
+  Fr_oral double
+  Ang_oral double
+  total_oral double
   
-  total int
+  total double
   rang int
 }
 
 TABLE Classement_Note_PC {
   candidat_id int [pk]
-  Math1 int
-  Math2 int
-  Phy1 int
-  Phy2 int
-  Chimie int
-  Fr int
-  LV1 int
-  IPT int
+  Math1 double
+  Math2 double
+  Phy1 double
+  Phy2 double
+  Chimie double
+  Fr double
+  LV1 double
+  IPT double
   bonification int
-  total_ecrit int
+  total_ecrit double
   rang_ecrit int
   
-  Math_oral int
-  Phy_oral int
-  Fr_oral int
-  Ang_oral int
-  total_oral int
+  Math_oral double
+  Phy_oral double
+  Fr_oral double
+  Ang_oral double
+  total_oral double
   
-  total int
+  total double
   rang int
 }
 
 TABLE Classement_Note_PT {
   candidat_id int [pk]
-  Math1 int
-  Math2 int
-  Phy1 int
-  Phy2 int
-  "Info/Model" int
-  SI int
-  Fr int
-  LV1 int
+  Math1 double
+  Math2 double
+  Phy1 double
+  Phy2 double
+  "Info/Model" double
+  SI double
+  Fr double
+  LV1 double
   bonification int
-  total_ecrit int
+  total_ecrit double
   rang_ecrit int
   
-  Math_oral int
-  Phy_oral int
-  Fr_oral int
-  Ang_oral int
-  total_oral int
+  Math_oral double
+  Phy_oral double
+  Fr_oral double
+  Ang_oral double
+  total_oral double
   
-  total int
+  total double
   rang int
 }
 
 TABLE Classement_Note_TSI {
   candidat_id int [pk]
-  Math1 int
-  Math2 int
-  Phy1 int
-  Phy2 int
-  Fr int
-  LV1 int
-  SI int
-  Info int
+  Math1 double
+  Math2 double
+  Phy1 double
+  Phy2 double
+  Fr double
+  LV1 double
+  SI double
+  Info double
   bonification int
-  total_ecrit int
+  total_ecrit double
   rang_ecrit int
   
-  Math1_oral int
-  Math2_oral int
-  Phy1_oral int
-  Phy2_oral int
-  LV_oral int
-  TP_Phy_oral int
-  S2I_oral int
-  total_oral int
+  Math1_oral double
+  Math2_oral double
+  Phy1_oral double
+  Phy2_oral double
+  LV_oral double
+  TP_Phy_oral double
+  S2I_oral double
+  total_oral double
   
-  total int
+  total double
   rang int
+}
+
+TABLE Classement_Note_ATS {
+  candidat_id int [pk]
+  Math double
+  Phy double
+  Fr double
+  Ang double
+  SI double
+  bonification int
+  moyenne_ecrit double
+  total_ecrit double
+  rang_ecrit int
+  
+  Math_oral double
+  Phy_oral double
+  Genie_elec_oral double
+  Genie_meca_oral double
+  LV_oral double
+  Epreuve_ATS_oral double
+  moyenne_oral double
+  total_oral double
+  rang_oral int
+  
 }
 
 Ref: Classement_Note_MP.candidat_id > Candidat.key
@@ -147,6 +171,7 @@ Ref: Classement_Note_PSI.candidat_id > Candidat.key
 Ref: Classement_Note_PC.candidat_id > Candidat.key
 Ref: Classement_Note_PT.candidat_id > Candidat.key
 Ref: Classement_Note_TSI.candidat_id > Candidat.key
+Ref: Classement_Note_ATS.candidat_id > Candidat.key
 
 TABLE Etablissement {
   Etablissement text [pk]
@@ -158,13 +183,19 @@ TABLE Etablissement {
 
 Ref: Candidat.Etablissement > Etablissement.Etablissement
 
+TABLE Ecole {
+  ecole_id int [pk] 
+  nom text
+}
+
 TABLE Voeux {
   candidat_id int [pk] 
-  Ecole text [pk]
+  ecole_id int [pk]
   ordre int 
 }
 
 Ref: Voeux.candidat_id > Candidat.key
+Ref: Voeux.ecole_id > Ecole.ecole_id
 
 
 
