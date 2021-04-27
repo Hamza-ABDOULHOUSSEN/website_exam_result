@@ -1,3 +1,5 @@
+import sqlite3
+
 import pandas as pd
 import os
 
@@ -50,5 +52,22 @@ for file in csvFiles:
     with open(file[0]) as f:
         csvFilesContents[file[1]] = parser(f.read())
 
-print("[*] Tous les fichiers ont été chargés en mémoire.")
+print("[*] Tous les fichiers ont été importés.")
+# endregion
+
+# region remplissage de la base de données
+# partie pour l'ajout des données dans la base
+print("[*] Début du chargement des données dans la base")
+
+DATABASE = "CMT_database.db" # la base de données se situe dans le fichier python
+conn = sqlite3.connect(DATABASE)
+c = conn.cursor()
+
+# on charge en premier les fichiers xlsx
+
+
+
+
+conn.commit() # fonction pour ajouter les changements à la base
+conn.close()
 # endregion
