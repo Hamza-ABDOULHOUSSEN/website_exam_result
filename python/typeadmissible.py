@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+dirPath = "../data/public/"
 classes = ['Classes_MP_CMT_spe_XXXX.xlsx', 'Classes_PC_CMT_spe_XXXX.xlsx', 'Classes_PSI_CMT_spe_XXXX.xlsx', 'Classes_PT_CMT_spe_XXXX.xlsx', 'Classes_TSI_CMT_spe_XXXX.xlsx']
 fichiers_admissible = ['ADMISSIBLE_MP.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMISSIBLE_PSI.xlsx', 'ADMISSIBLE_PT.xlsx', 'ADMISSIBLE_TSI.xlsx']
 fichiers_admissible_spe = ['ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PSI-SPE.xlsx', 'ADMISSIBLE_PT-SPE.xlsx', 'ADMISSIBLE_TSI-SPE.xlsx']
@@ -40,10 +41,10 @@ def comparetypeadmis(classe,file,filespe):
 
 n = len(classes)
 for i in range(n):
-    print(comparetypeadmis(classes[i], fichiers_admis[i], fichiers_admis_spe[i]))
+    print(comparetypeadmis(dirPath+classes[i], dirPath+fichiers_admis[i], dirPath+fichiers_admis_spe[i]))
 print("")
 for i in range(n):
-    print(comparetypeadmis(classes[i], fichiers_admissible[i], fichiers_admissible_spe[i]))
+    print(comparetypeadmis(dirPath+classes[i], dirPath+fichiers_admissible[i], dirPath+fichiers_admissible_spe[i]))
 
 print("")
 print("Les type admissible A sont les élèves admis de classe normale")

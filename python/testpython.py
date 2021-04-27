@@ -1,8 +1,10 @@
 import pandas as pd
 import numpy as np
 
+dirPath = "../data/public/"
+
 ### lire le fichier excel
-df = pd.read_excel('ADMIS_MP.xlsx')
+df = pd.read_excel(dirPath+'ADMIS_MP.xlsx')
 
 ### afficher le fichier
 #print (df)

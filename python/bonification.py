@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+dirPath = "../data/public/"
 classes = ['Classes_MP_CMT_spe_XXXX.xlsx', 'Classes_PC_CMT_spe_XXXX.xlsx', 'Classes_PSI_CMT_spe_XXXX.xlsx', 'Classes_PT_CMT_spe_XXXX.xlsx', 'Classes_TSI_CMT_spe_XXXX.xlsx']
 
 def bonif(file):
@@ -17,6 +18,6 @@ def bonif(file):
     return True
 
 for file in classes:
-    print(bonif(file))
+    print(bonif(dirPath+file))
 
 print("Les bonifications ecrites et orales sont les mêmes")
