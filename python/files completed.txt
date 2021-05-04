@@ -1,0 +1,957 @@
+#####	ADMISSIBLE_ATS.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_MP-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_MP.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_PC-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_PC.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_PSI-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_PSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_PT-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_PT.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_TSI-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMISSIBLE_TSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_ATS.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_MP-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_MP.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_PC-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_PC.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_PSI-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_PSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_PT-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_PT.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_TSI-SPE.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ADMIS_TSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	CMT_Oraux_YYYY_MP.xlsx : 
+Numéro d'inscription
+Centre
+Jury
+Phys.
+Maths
+Entretien
+Anglais
+Unnamed: 7
+
+#####	CMT_Oraux_YYYY_PC.xlsx : 
+Numéro d'inscription
+Centre
+Jury
+Phys.
+Maths
+Entretien
+Anglais
+Unnamed: 7
+
+#####	CMT_Oraux_YYYY_PSI.xlsx : 
+Numéro d'inscription
+Centre
+Jury
+S.I.
+Maths
+Entretien
+Anglais
+Unnamed: 7
+
+#####	CMT_Oraux_YYYY_PT.xlsx : 
+Numéro d'inscription
+Centre
+Jury
+S.I.
+Maths
+Entretien
+Anglais
+Unnamed: 7
+
+#####	Classes_MP_CMT_spe_XXXX.xlsx : 
+login
+nom
+prenom
+filiere
+type_admissible
+mail
+adresse
+code_postal
+ville
+pays
+mobile
+date_naissance
+n_demi
+28 (Langue)
+599 (Informatique ou Sciences industrielles)
+600 (Mathématiques 1)
+601 ( Mathématiques 2)
+602 (Physique 1)
+603 (Physique 2)
+604 (Chimie)
+605 (Français)
+1050 (Informatique)
+bonification_ecrit
+total_ecrit
+rang_admissible
+1 (QCM info/physique)
+2 (Entretien nouvelles technologies)
+3 (QCM anglais)
+4 (Mathématiques)
+5 (Physique ou Sciences industrielles)
+6 (Entretien)
+7 (Anglais)
+8 (Mathématiques)
+9 (Physique)
+10 (Français)
+11 (Anglais)
+12 (Mathématiques)
+400 (Mathématiques (harmonisée))
+401 (Mathématiques (affichée))
+max_physique
+max_anglais
+bonification_oral
+total_oral
+total
+bonus_interclassement
+total_avec_interclassement
+note_entretien_exaequo
+note_anglais_exaequo
+date_naissance_exaequo
+rang_classe
+
+#####	Classes_MP_CMT_spe_XXXX_SCEI.csv : 
+scei
+nom
+etat
+total_oral
+total_points
+moyenne_generale
+rang_classe
+
+#####	Classes_PC_CMT_spe_XXXX.xlsx : 
+login
+nom
+prenom
+filiere
+type_admissible
+mail
+adresse
+code_postal
+ville
+pays
+mobile
+date_naissance
+n_demi
+28 (Langue)
+600 (Mathématiques 1)
+601 ( Mathématiques 2)
+602 (Physique 1)
+603 (Physique 2)
+604 (Chimie)
+605 (Français)
+1050 (Informatique)
+bonification_ecrit
+total_ecrit
+rang_admissible
+1 (QCM info/physique)
+2 (Entretien nouvelles technologies)
+3 (QCM anglais)
+4 (Mathématiques)
+5 (Physique ou Sciences industrielles)
+6 (Entretien)
+7 (Anglais)
+8 (Mathématiques)
+9 (Physique)
+10 (Français)
+11 (Anglais)
+12 (Mathématiques)
+400 (Mathématiques (harmonisée))
+401 (Mathématiques (affichée))
+max_physique
+max_anglais
+bonification_oral
+total_oral
+total
+bonus_interclassement
+total_avec_interclassement
+note_entretien_exaequo
+note_anglais_exaequo
+date_naissance_exaequo
+rang_classe
+
+#####	Classes_PC_CMT_spe_XXXX_SCEI.csv : 
+scei
+nom
+etat
+total_oral
+total_points
+moyenne_generale
+rang_classe
+
+#####	Classes_PSI_CMT_spe_XXXX.xlsx : 
+login
+nom
+prenom
+filiere
+type_admissible
+mail
+adresse
+code_postal
+ville
+pays
+mobile
+date_naissance
+n_demi
+28 (Langue)
+600 (Mathématiques 1)
+601 ( Mathématiques 2)
+602 (Physique 1)
+603 (Physique 2)
+604 (Chimie)
+605 (Français)
+606 (Sciences industrielles)
+1050 (Informatique)
+bonification_ecrit
+total_ecrit
+rang_admissible
+1 (QCM info/physique)
+2 (Entretien nouvelles technologies)
+3 (QCM anglais)
+4 (Mathématiques)
+5 (Physique ou Sciences industrielles)
+6 (Entretien)
+7 (Anglais)
+8 (Mathématiques)
+9 (Physique)
+10 (Français)
+11 (Anglais)
+12 (Mathématiques)
+400 (Mathématiques (harmonisée))
+401 (Mathématiques (affichée))
+max_physique
+max_anglais
+bonification_oral
+total_oral
+total
+bonus_interclassement
+total_avec_interclassement
+note_entretien_exaequo
+note_anglais_exaequo
+date_naissance_exaequo
+rang_classe
+
+#####	Classes_PSI_CMT_spe_XXXX_SCEI.csv : 
+scei
+nom
+etat
+total_oral
+total_points
+moyenne_generale
+rang_classe
+
+#####	Classes_PT_CMT_spe_XXXX.xlsx : 
+login
+nom
+prenom
+filiere
+type_admissible
+mail
+adresse
+code_postal
+ville
+pays
+mobile
+date_naissance
+n_demi
+700 (Mathématiques B)
+701 (Mathématiques C)
+702 (Physique A)
+703 (Physique B)
+704 (Informatique modélisation)
+705 (Sciences industrielles A)
+706 (Français B)
+707 (Langue A)
+bonification_ecrit
+total_ecrit
+rang_admissible
+1 (QCM info/physique)
+2 (Entretien nouvelles technologies)
+3 (QCM anglais)
+4 (Mathématiques)
+5 (Physique ou Sciences industrielles)
+6 (Entretien)
+7 (Anglais)
+8 (Mathématiques)
+400 (Mathématiques (harmonisée))
+401 (Mathématiques (affichée))
+max_physique
+max_anglais
+bonification_oral
+total_oral
+total
+bonus_interclassement
+total_avec_interclassement
+note_entretien_exaequo
+note_anglais_exaequo
+date_naissance_exaequo
+rang_classe
+Unnamed: 45
+Unnamed: 46
+Unnamed: 47
+Unnamed: 48
+
+#####	Classes_PT_CMT_spe_XXXX_SCEI.csv : 
+scei
+nom
+etat
+total_oral
+total_points
+moyenne_generale
+rang_classe
+
+#####	Classes_TSI_CMT_spe_XXXX.xlsx : 
+login
+nom
+prenom
+filiere
+type_admissible
+mail
+adresse
+code_postal
+ville
+pays
+mobile
+date_naissance
+n_demi
+800 (Mathématiques 1)
+801 (Mathématiques 2)
+802 (Physique 1)
+803 (Physique 2)
+804 (Français)
+805 (Langue)
+806 (Sciences industrielles)
+807 (Informatique)
+bonification_ecrit
+total_ecrit
+rang_admissible
+1 (QCM info/physique)
+2 (Entretien nouvelles technologies)
+3 (QCM anglais)
+4 (Mathématiques)
+13 (Mathématiques 1)
+14 (Mathématiques 2)
+15 (Physique-chimie 1)
+16 (Physique-chimie 2)
+17 (Langue vivante)
+18 (TP Physique-chimie)
+19 (S2I)
+400 (Mathématiques (harmonisée))
+401 (Mathématiques (affichée))
+bonification_oral
+total_oral
+total
+bonus_interclassement
+total_avec_interclassement
+note_anglais_exaequo
+date_naissance_exaequo
+rang_classe
+Unnamed: 45
+Unnamed: 46
+Unnamed: 47
+Unnamed: 48
+
+#####	Classes_TSI_CMT_spe_XXXX_SCEI.csv : 
+scei
+nom
+etat
+total_oral
+total_points
+moyenne_generale
+rang_classe
+
+#####	Ecrit_MP.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Ecrit_PC.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Ecrit_PSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Ecrit_PT.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Ecrit_TSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Inscription.xlsx : 
+CODE_CANDIDAT
+NOM
+PRENOM
+AUTRES_PRENOMS
+CIVILITE
+DATE_NAISSANCE
+VILLE_NAISSANCE
+CODE_PAYS_NAISSANCE
+PAYS_NAISSANCE
+FRANCAIS
+CODE_PAYS_NATIONALITE
+AUTRE_NATIONALITE
+ADRESSE1
+ADRESSE2
+CP
+VILLE
+CODE_PAYS
+LIBELLE_PAYS
+TELEPHONE
+TEL_PORTABLE
+EMAIL
+CLASSE
+PUISSANCE
+CODE_ETABLISSEMENT
+ETABLISSEMENT
+VILLE_ETABLISSEMENT
+EPREUVE1
+OPTION1
+EPREUVE2
+OPTION2
+EPREUVE3
+OPTION3
+EPREUVE4
+OPTION4
+LIBELLE_VILLE_ECRIT
+CODE_CONCOURS
+LIBELLE_CONCOURS
+VOIE
+ANNEE_BAC
+MOIS_BAC
+CODE_SERIE
+SERIE
+MENTION
+SUJET_TIPE
+NUMERO_INE
+COD_CSP_PERE
+LIB_CSP_PERE
+COD_CSP_MERE
+LIB_CSP_MERE
+CODE_ETAT_DOSSIER
+LIBELLE_ETAT_DOSSIER
+ARRONDISSEMENT_NAISSANCE
+DECLARATION_HANDICAP
+QUALITE
+CAN_DEP_BAC
+
+#####	Oral_MP.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Oral_PC.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Oral_PSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Oral_PT.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	Oral_TSI.xlsx : 
+Can _cod
+Civ _lib
+Nom
+Prenom
+Can _ad 1
+Can _ad 2
+Can _cod _pos
+Can _com
+Can _pay _adr
+Can _mel
+Can _tel
+Can _por
+rang
+
+#####	ResultatEcrit_DD_MM_YYYY_ATS.xlsx : 
+Numéro d'inscription
+Rang
+Total
+Moyenne
+Bonification
+Mathématiques
+Sc. Physiques
+Français
+Sciences Industrielles
+Anglais
+
+#####	ResultatOral_DD_MM_YYYY_ATS.xlsx : 
+Numéro d'inscription
+Rang
+Total
+Moyenne
+Bonification
+Rang CCP
+Mathématiques
+Sciences Physiques
+Génie électrique
+Génie mécanique
+Langue au choix (oral commun)
+Epreuve ATS
+
+#####	listeEcoles.xlsx : 
+Ecole
+Nom _ecole
+
+#####	listeEtablissements.xlsx : 
+Rne
+Type _etab
+Etab
+Code _postal _etab
+Ville _etab
+Pays _atab
+
+#####	listeEtatsReponsesAppel.xlsx : 
+Ata _cod
+Ata _lib
+
+#####	listeVoeux_ATS.xlsx : 
+Can _cod
+Voe _ran
+Voe _ord
+Eco _cod
+
+#####	listeVoeux_MP.xlsx : 
+Can _cod
+Voe _ran
+Voe _ord
+Eco _cod
+
+#####	listeVoeux_PC.xlsx : 
+Can _cod
+Voe _ran
+Voe _ord
+Eco _cod
+
+#####	listeVoeux_PSI.xlsx : 
+Can _cod
+Voe _ran
+Voe _ord
+Eco _cod
+
+#####	listeVoeux_PT.xlsx : 
+Can _cod
+Voe _ran
+Voe _ord
+Eco _cod
+
+#####	listeVoeux_TSI.xlsx : 
+Can _cod
+Voe _ran
+Voe _ord
+Eco _cod
+
