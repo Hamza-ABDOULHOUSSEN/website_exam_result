@@ -1,24 +1,91 @@
 TABLE Candidat {
   key int [pk]
+  INE text
   Civ text [not null]
   Nom text
   Prenom text
-  Naissance text
+  Autres_Prenoms text
+  
+  Date_Naissance text
+  Ville_Naissance text
+  Pays_Naissance_id int
+  
+  Francais int
+  Autre_Nationalite_id int
+  
   Adresse1 text
   Adresse2 text
   Code_Postal int
   Commune text
-  Pays text
+  Pays_id text
+  
   Email text
   Telephone text
   Portable text
+  
   Filliere text
+  Classe text
+  Puissance text
   Statut text
-  Etablissement text
+  Etablissement_id int
+  
+  Epreuve1 text
+  LV text
+  
+  Ville_ecrit text
+  
+  Bac_id int
+  Bac_Mention text
+  Bac_dep int
+  
+  Sujet_TIPE text
+  
+  Profession_pere_code int
+  Profession_mere_code int
+  Boursier int
+  
 }
+
+TABLE Pays {
+  pays_id int [pk]
+  pays text
+  code_pays int
+  nationalite text
+}
+
+Ref: Pays.pays_id > Candidat.Pays_id
+Ref: Pays.pays_id > Candidat.Pays_Naissance_id
+Ref: Pays.pays_id > Candidat.Autre_Nationalite_id
+
+TABLE Code_Concours {
+  Filliere text [pk]
+  code int
+}
+
+Ref: Code_Concours.Filliere > Candidat.Filliere
+
+TABLE Bac {
+  bac_id int [pk]
+  annee int
+  mois int
+  serie text
+  code_serie int
+}
+
+Ref: Bac.bac_id > Candidat.Bac_id
+
+TABLE Profession {
+  code int [pk]
+  prof text
+}
+
+Ref: Profession.code > Candidat.Profession_pere_code
+Ref: Profession.code > Candidat.Profession_mere_code
 
 TABLE Classement_Note_MP {
   candidat_id int [pk]
+  Spe_Info_SI text
+  
   Math1 double
   Math2 double
   Phy1 double
@@ -38,12 +105,14 @@ TABLE Classement_Note_MP {
   Ang_oral double
   total_oral double
   
+  Moyenne_generale double
   total double
   rang int
 }
 
 TABLE Classement_Note_PSI {
   candidat_id int [pk]
+  
   Math1 double
   Math2 double
   Phy1 double
@@ -63,6 +132,7 @@ TABLE Classement_Note_PSI {
   Ang_oral double
   total_oral double
   
+  Moyenne_generale double
   total double
   rang int
 }
@@ -87,6 +157,7 @@ TABLE Classement_Note_PC {
   Ang_oral double
   total_oral double
   
+  Moyenne_generale double
   total double
   rang int
 }
@@ -111,6 +182,7 @@ TABLE Classement_Note_PT {
   Ang_oral double
   total_oral double
   
+  Moyenne_generale double
   total double
   rang int
 }
@@ -138,6 +210,7 @@ TABLE Classement_Note_TSI {
   S2I_oral double
   total_oral double
   
+  Moyenne_generale double
   total double
   rang int
 }
@@ -174,14 +247,16 @@ Ref: Classement_Note_TSI.candidat_id > Candidat.key
 Ref: Classement_Note_ATS.candidat_id > Candidat.key
 
 TABLE Etablissement {
-  Etablissement text [pk]
+  etablissement_id int [pk]
+  Etablissement text
   Type text
   Ville text
   CP int
-  Pays text
+  Pays_id int
+  Code text
 }
 
-Ref: Candidat.Etablissement > Etablissement.Etablissement
+Ref: Candidat.Etablissement_id > Etablissement.etablissement_id
 
 TABLE Ecole {
   ecole_id int [pk] 
@@ -191,7 +266,7 @@ TABLE Ecole {
 TABLE Voeux {
   candidat_id int [pk] 
   ecole_id int [pk]
-  ordre int 
+  ordre int [pk]
 }
 
 Ref: Voeux.candidat_id > Candidat.key
@@ -213,3 +288,7 @@ TABLE Admis {
 Ref: Admission.candidat_id > Candidat.key
 Ref: Admis.candidat_id > Candidat.key
 
+TABLE EtatReponse {
+  code int [pk]
+  reponse text
+}
