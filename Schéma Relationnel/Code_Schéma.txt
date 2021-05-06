@@ -36,7 +36,7 @@ TABLE Candidat {
   
   Bac_id int
   Bac_Mention text
-  Bac_dep int
+  Bac_dep text
   
   Sujet_TIPE text
   

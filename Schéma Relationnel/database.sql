@@ -29,7 +29,7 @@ CREATE TABLE Candidat(
     Ville_ecrit     TEXT,
     Bac_id          INT,
     Bac_Mention     TEXT,
-    Bac_dep         INT,
+    Bac_dep         TEXT,
 
     Sujet_TIPE      TEXT,
 
