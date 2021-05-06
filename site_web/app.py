@@ -7,11 +7,11 @@ path = "../python/CMT_database.db"
 
 
 class IdForm(Form):
-    id = IntegerField('ID candidat')
+    id = IntegerField('ID du candidat')
 
 class NameForm(Form):
-    name = StringField('Nom candidat')
-    FirstName = StringField('Prénom candidat')
+    name = StringField('Nom du candidat')
+    FirstName = StringField('Prénom du candidat')
 
 
 app = Flask(__name__)
