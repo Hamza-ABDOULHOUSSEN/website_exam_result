@@ -1,3 +1,9 @@
-## A faire
+#Démarrer le site internet
 
-- Chacun doit faire son brouillon du schéma relationnel pour Mardi 06/04/2021 à 16h (prochaine réunion)
+##Initialisation du site internet
+
+Exécuter le script init.sh
+
+##Lancer le site internet
+
+Exécuter le script run.sh
