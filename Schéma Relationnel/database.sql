@@ -1,23 +1,27 @@
-CREATE TABLE Candidat(
+CREATE TABLE Candidat
+(
     candidat_id   INTEGER PRIMARY KEY,
-    Civ           TEXT NOT NULL,
-    Nom           TEXT NOT NULL,
-    Prenom        TEXT NOT NULL,
-    Naissance     TEXT NOT NULL,
-    Adresse1      TEXT NOT NULL,
-    Adresse2      TEXT NOT NULL,
-    Code_Postal   INTEGER  NOT NULL,
-    Commune       TEXT NOT NULL,
-    Pays          TEXT NOT NULL,
-    Email         TEXT NOT NULL,
-    Telephone     TEXT,
-    Portable      TEXT,
-    Filliere      TEXT NOT NULL,
-    Statut        TEXT,
-    Etablissement TEXT
+    Civ           TEXT    NOT NULL,
+    Nom           TEXT    NOT NULL,
+    Autre_prenoms TEXT,
+    Prenom        TEXT    NOT NULL,
+    Naissance     TEXT    NOT NULL,
+    Adresse1      TEXT    NOT NULL,
+    Adresse2      TEXT    NOT NULL,
+    Code_Postal   INTEGER NOT NULL,
+    Commune       TEXT    NOT NULL,
+    Pays          TEXT    NOT NULL,
+    Email         TEXT    NOT NULL,
+    Telephone     TEXT    NOT NULL,
+    Portable      TEXT    NOT NULL,
+    Filliere      TEXT    NOT NULL,
+    Statut        TEXT    NOT NULL,
+    Etablissement TEXT,
+
 );
 
-CREATE TABLE Classement_Note_MP(
+CREATE TABLE Classement_Note_MP
+(
     candidat_id  INTEGER PRIMARY KEY,
     Math1        DOUBLE,
     Math2        DOUBLE,
@@ -41,7 +45,8 @@ CREATE TABLE Classement_Note_MP(
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Classement_Note_PSI(
+CREATE TABLE Classement_Note_PSI
+(
     candidat_id  INTEGER PRIMARY KEY,
     Math1        DOUBLE,
     Math2        DOUBLE,
@@ -65,7 +70,8 @@ CREATE TABLE Classement_Note_PSI(
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Classement_Note_PC(
+CREATE TABLE Classement_Note_PC
+(
     candidat_id  INTEGER PRIMARY KEY,
     Math1        DOUBLE,
     Math2        DOUBLE,
@@ -88,7 +94,8 @@ CREATE TABLE Classement_Note_PC(
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Classement_Note_PT(
+CREATE TABLE Classement_Note_PT
+(
     candidat_id  INTEGER PRIMARY KEY,
     Math1        DOUBLE,
     Math2        DOUBLE,
@@ -111,7 +118,8 @@ CREATE TABLE Classement_Note_PT(
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Classement_Note_TSI(
+CREATE TABLE Classement_Note_TSI
+(
     candidat_id  INTEGER PRIMARY KEY,
     Math1        DOUBLE,
     Math2        DOUBLE,
@@ -137,7 +145,8 @@ CREATE TABLE Classement_Note_TSI(
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Classement_Note_ATS(
+CREATE TABLE Classement_Note_ATS
+(
     candidat_id      INTEGER PRIMARY KEY,
     Math             DOUBLE,
     Phy              DOUBLE,
@@ -160,125 +169,145 @@ CREATE TABLE Classement_Note_ATS(
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Etablissement(
-    Etablissement TEXT PRIMARY KEY,
-    Type          TEXT,
-    Ville         TEXT,
-    CP            INTEGER,
-    Pays          TEXT,
+CREATE TABLE Etablissement
+(
+    Etablissement TEXT PRIMARY KEY NOT NULL,
+    Type          TEXT NOT NULL,
+    Ville         TEXT NOT NULL,
+    CP            INTEGER NOT NULL,
+    Pays          TEXT NOT NULL,
     FOREIGN KEY (Etablissement) REFERENCES Candidat (Etablissement)
 );
 
-CREATE TABLE Ecole(
-    ecole_id INTEGER PRIMARY KEY,
-    nom      TEXT,
+CREATE TABLE Ecole
+(
+    ecole_id INTEGER PRIMARY KEY NOT NULL,
+    nom      TEXT NOT NULL,
     FOREIGN KEY (ecole_id) REFERENCES Voeux (ecole_id)
 );
 
-CREATE TABLE Voeux(
-    candidat_id INTEGER,
-    ecole_id    INTEGER,
-    ordre       INTEGER,
+CREATE TABLE Voeux
+(
+    candidat_id INTEGER NOT NULL,
+    ecole_id    INTEGER NOT NULL,
+    ordre       INTEGER NOT NULL,
     PRIMARY KEY (candidat_id, ecole_id)
 );
 
-CREATE TABLE Admission_ATS(
+CREATE TABLE Admission_ATS
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_ATS(
+CREATE TABLE Admis_ATS
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admission_MP(
+CREATE TABLE Admission_MP
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_MP(
+CREATE TABLE Admis_MP
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_MP_SPE(
+CREATE TABLE Admis_MP_SPE
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admission_PC(
+CREATE TABLE Admission_PC
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_PC(
+CREATE TABLE Admis_PC
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_PC_SPE(
+CREATE TABLE Admis_PC_SPE
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admission_PSI(
+CREATE TABLE Admission_PSI
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_PSI(
+CREATE TABLE Admis_PSI
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_PSI_SPE(
+CREATE TABLE Admis_PSI_SPE
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admission_PT(
+CREATE TABLE Admission_PT
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_PT(
+CREATE TABLE Admis_PT
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_PT_SPE(
+CREATE TABLE Admis_PT_SPE
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admission_TSI(
+CREATE TABLE Admission_TSI
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_TSI(
+CREATE TABLE Admis_TSI
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
 );
 
-CREATE TABLE Admis_TSI_SPE(
+CREATE TABLE Admis_TSI_SPE
+(
     candidat_id INTEGER PRIMARY KEY,
     rang        INTEGER,
     FOREIGN KEY (candidat_id) REFERENCES Candidat (candidat_id)
