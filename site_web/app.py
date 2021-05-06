@@ -6,11 +6,12 @@ import sqlite3
 path = "../python/CMT_database.db"
 
 
-class QueryForm(Form):
+class IdForm(Form):
     id = IntegerField('ID candidat')
+
+class NameForm(Form):
     name = StringField('Nom candidat')
     FirstName = StringField('Prénom candidat')
-    field = SelectField('Filière suivie')
 
 
 app = Flask(__name__)
@@ -23,12 +24,13 @@ def index():
 
 @app.route('/candidats', methods = ["GET"])
 def candidates():
-    # form = QueryForm(request.form)
+    idForm = IdForm(request.form)
+    nameForm = NameForm(request.form)
     # result = []
     # arguments = request.args
     # req = BuildRequest(arguments)
 
-    return render_template("candidates.html")
+    return render_template("candidates.html", idForm = idForm, nameForm = nameForm)
 
 @app.route('/resultats')
 def results():
