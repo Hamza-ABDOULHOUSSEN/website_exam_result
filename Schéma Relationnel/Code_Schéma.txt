@@ -86,155 +86,155 @@ TABLE Classement_Note_MP {
   candidat_id int [pk]
   Spe_Info_SI text
   
-  Math1 double
-  Math2 double
-  Phy1 double
-  Phy2 double
-  Chimie double
-  Fr double
-  LV1 double
-  IPT double
-  Spe double
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Chimie float
+  Fr float
+  LV1 float
+  IPT float
+  Spe float
   bonification int
-  total_ecrit double
+  total_ecrit float
   rang_ecrit int
   
-  Math_oral double
-  Phy_oral double
-  Fr_oral double
-  Ang_oral double
-  total_oral double
+  Math_oral float
+  Phy_oral float
+  Fr_oral float
+  Ang_oral float
+  total_oral float
   
-  Moyenne_generale double
-  total double
+  Moyenne_generale float
+  total float
   rang int
 }
 
 TABLE Classement_Note_PSI {
   candidat_id int [pk]
   
-  Math1 double
-  Math2 double
-  Phy1 double
-  Phy2 double
-  Chimie double
-  Fr double
-  LV1 double
-  IPT double
-  SI double
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Chimie float
+  Fr float
+  LV1 float
+  IPT float
+  SI float
   bonification int
-  total_ecrit double
+  total_ecrit float
   rang_ecrit int
   
-  Math_oral double
-  Phy_oral double
-  Fr_oral double
-  Ang_oral double
-  total_oral double
+  Math_oral float
+  Phy_oral float
+  Fr_oral float
+  Ang_oral float
+  total_oral float
   
-  Moyenne_generale double
-  total double
+  Moyenne_generale float
+  total float
   rang int
 }
 
 TABLE Classement_Note_PC {
   candidat_id int [pk]
-  Math1 double
-  Math2 double
-  Phy1 double
-  Phy2 double
-  Chimie double
-  Fr double
-  LV1 double
-  IPT double
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Chimie float
+  Fr float
+  LV1 float
+  IPT float
   bonification int
-  total_ecrit double
+  total_ecrit float
   rang_ecrit int
   
-  Math_oral double
-  Phy_oral double
-  Fr_oral double
-  Ang_oral double
-  total_oral double
+  Math_oral float
+  Phy_oral float
+  Fr_oral float
+  Ang_oral float
+  total_oral float
   
-  Moyenne_generale double
-  total double
+  Moyenne_generale float
+  total float
   rang int
 }
 
 TABLE Classement_Note_PT {
   candidat_id int [pk]
-  Math1 double
-  Math2 double
-  Phy1 double
-  Phy2 double
-  "Info/Model" double
-  SI double
-  Fr double
-  LV1 double
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  "Info/Model" float
+  SI float
+  Fr float
+  LV1 float
   bonification int
-  total_ecrit double
+  total_ecrit float
   rang_ecrit int
   
-  Math_oral double
-  Phy_oral double
-  Fr_oral double
-  Ang_oral double
-  total_oral double
+  Math_oral float
+  Phy_oral float
+  Fr_oral float
+  Ang_oral float
+  total_oral float
   
-  Moyenne_generale double
-  total double
+  Moyenne_generale float
+  total float
   rang int
 }
 
 TABLE Classement_Note_TSI {
   candidat_id int [pk]
-  Math1 double
-  Math2 double
-  Phy1 double
-  Phy2 double
-  Fr double
-  LV1 double
-  SI double
-  Info double
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Fr float
+  LV1 float
+  SI float
+  Info float
   bonification int
-  total_ecrit double
+  total_ecrit float
   rang_ecrit int
   
-  Math1_oral double
-  Math2_oral double
-  Phy1_oral double
-  Phy2_oral double
-  LV_oral double
-  TP_Phy_oral double
-  S2I_oral double
-  total_oral double
+  Math1_oral float
+  Math2_oral float
+  Phy1_oral float
+  Phy2_oral float
+  LV_oral float
+  TP_Phy_oral float
+  S2I_oral float
+  total_oral float
   
-  Moyenne_generale double
-  total double
+  Moyenne_generale float
+  total float
   rang int
 }
 
 TABLE Classement_Note_ATS {
   candidat_id int [pk]
-  Math double
-  Phy double
-  Fr double
-  Ang double
-  SI double
+  Math float
+  Phy float
+  Fr float
+  Ang float
+  SI float
   bonification int
-  moyenne_ecrit double
-  total_ecrit double
+  moyenne_ecrit float
+  total_ecrit float
   rang_ecrit int
   
-  Math_oral double
-  Phy_oral double
-  Genie_elec_oral double
-  Genie_meca_oral double
-  LV_oral double
-  Epreuve_ATS_oral double
-  moyenne_oral double
-  total_oral double
+  Math_oral float
+  Phy_oral float
+  Genie_elec_oral float
+  Genie_meca_oral float
+  LV_oral float
+  Epreuve_ATS_oral float
+  moyenne_oral float
+  total_oral float
   rang_oral int
   
 }
