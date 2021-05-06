@@ -21,14 +21,22 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/query', methods = ["GET"])
-def query():
-    form = QueryForm(request.form)
-    result = []
-    arguments = request.args
-    req = BuildRequest(arguments)
+@app.route('/candidats', methods = ["GET"])
+def candidates():
+    # form = QueryForm(request.form)
+    # result = []
+    # arguments = request.args
+    # req = BuildRequest(arguments)
 
-    render_template("query.html", form = form, result = result)
+    return render_template("candidates.html")
+
+@app.route('/resultats')
+def results():
+    return render_template("results.html")
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
 
 
 def BuildRequest(args):
