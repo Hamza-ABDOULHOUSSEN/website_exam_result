@@ -3,6 +3,7 @@ from wtforms import Form, StringField, SelectField, IntegerField, validators
 from wtforms.validators import input_required
 import sqlite3
 
+DATABASE = "CMT_database.db"
 
 
 class IdForm(Form):
@@ -34,7 +35,8 @@ def candidates():
         result, query = BuildRequest(arguments)
         asked = 1
 
-    return render_template("candidates.html", idForm = idForm, nameForm = nameForm, asked = asked, result = result, query = query)
+    return render_template("candidates.html", idForm = idForm, nameForm = nameForm, asked = asked, result = result,
+                           query = query, len = len(result))
 
 
 @app.route('/resultats', methods = ["GET"])
@@ -51,28 +53,34 @@ def BuildRequest(args):
     if "id" in args and len(args) == 1:
         # on a fait une demande de candidat avec un ID
         ID = args["id"]
-        req = f"SELECT candidat_id, Civ, Nom, Prenom, Adresse1, Code_Postal, Commune, Email, Telephone FROM Candidat WHERE candidat_id = '{ID}'"
+        req = f"SELECT * FROM Candidat WHERE candidat_id = '{ID}'"
         c = GetDB().cursor()
         c.execute(req)
-        # content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
-        return None, "id"
+        content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
+        return content, "id"
     elif "name" in args and "FirstName" in args and len(args) == 2:
-        # name = args["name"]
-        # FirstName = args["FirstName"]
-        # req = f"SELECT candidat_id, Civ, Nom, Prenom, Adresse1, Code_Postal, Commune, Email, Telephone FROM Candidat WHERE '{name}' = Nom AND '{FirstName}' = Prenom"
-        # c = GetDB().cursor()
-        # c.execute(req)
-        # content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
-        return None, "name"
+        name = args["name"]
+        FirstName = args["FirstName"]
+        req = f"SELECT * FROM Candidat WHERE '{name}' = Nom AND '{FirstName}' = Prenom"
+        content = buildCoordinates(req)
+        return content, "name"
     else:
         return None
 
 
+def buildCoordinates(req):
+    c = GetDB().cursor()
+    c.execute(req)
+    content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
+    return content
+
+
+
+
 def GetDB():
     db = getattr(g, '_database', None)
-    path = "CMT_database.db"
     if db is None:
-        db = g._database = sqlite3.connect(path)
+        db = g._database = sqlite3.connect(DATABASE)
     return db
 
 
