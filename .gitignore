@@ -1,4 +1,4 @@
 env
 data
-*__pycache__*
+site_web/__pycache__
 .idea
