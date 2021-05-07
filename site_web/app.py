@@ -3,21 +3,21 @@ from wtforms import Form, StringField, SelectField, IntegerField, validators
 from wtforms.validators import input_required
 import sqlite3
 
-path = "../python/CMT_database.db"
 
 
 class IdForm(Form):
-    id = IntegerField('ID du candidat')
+    id = IntegerField('ID du candidat', validators = [input_required()])
+
 
 class NameForm(Form):
-    name = StringField('Nom du candidat')
-    FirstName = StringField('Prénom du candidat')
+    name = StringField('Nom du candidat', validators = [input_required()])
+    FirstName = StringField('Prénom du candidat', validators = [input_required()])
 
 
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods = ["GET"])
 def index():
     return render_template("index.html")
 
@@ -26,51 +26,51 @@ def index():
 def candidates():
     idForm = IdForm(request.form)
     nameForm = NameForm(request.form)
-    # result = []
-    # arguments = request.args
-    # req = BuildRequest(arguments)
+    arguments = request.args
+    query = "none"
+    asked = 0
+    result = None
+    if len(arguments) != 0:
+        result, query = BuildRequest(arguments)
+        asked = 1
 
-    return render_template("candidates.html", idForm = idForm, nameForm = nameForm)
+    return render_template("candidates.html", idForm = idForm, nameForm = nameForm, asked = asked, result = result, query = query)
 
-@app.route('/resultats')
+
+@app.route('/resultats', methods = ["GET"])
 def results():
     return render_template("results.html")
 
-@app.route('/about')
+
+@app.route('/about', methods = ["GET"])
 def about():
     return render_template("about.html")
 
 
 def BuildRequest(args):
-    req = 'SELECT * FROM Candidat'
-    req += 'WHERE'
-    added = False
-    if args["name"]:
-        name = args["name"]
-        req += f"Nom = '{name}'"
-        added = True
-    if args["FirstName"]:
-        FirstName = args["FirstName"]
-        if added:
-            req += " AND "
-        req += f"Prenom = '{FirstName}'"
-        added = True
-    if args["id"]:
-        id = int(args["id"])
-        if added:
-            req += " AND "
-        req += f"candidat_id = '{id}'"
-        added = True
-    if args["field"]:
-        field = args["field"]
-        if added:
-            req += " AND "
-        req += f"Filiere = '{field}'"
-    return req
+    if "id" in args and len(args) == 1:
+        # on a fait une demande de candidat avec un ID
+        ID = args["id"]
+        req = f"SELECT candidat_id, Civ, Nom, Prenom, Adresse1, Code_Postal, Commune, Email, Telephone FROM Candidat WHERE candidat_id = '{ID}'"
+        c = GetDB().cursor()
+        c.execute(req)
+        # content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
+        return None, "id"
+    elif "name" in args and "FirstName" in args and len(args) == 2:
+        # name = args["name"]
+        # FirstName = args["FirstName"]
+        # req = f"SELECT candidat_id, Civ, Nom, Prenom, Adresse1, Code_Postal, Commune, Email, Telephone FROM Candidat WHERE '{name}' = Nom AND '{FirstName}' = Prenom"
+        # c = GetDB().cursor()
+        # c.execute(req)
+        # content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
+        return None, "name"
+    else:
+        return None
 
 
 def GetDB():
     db = getattr(g, '_database', None)
+    path = "CMT_database.db"
     if db is None:
         db = g._database = sqlite3.connect(path)
     return db
