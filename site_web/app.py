@@ -15,6 +15,10 @@ class NameForm(Form):
     FirstName = StringField('Prénom du candidat', validators = [input_required()])
 
 
+class IneForm(Form):
+    INE = StringField('INE du candidat', validators = [input_required()])
+
+
 app = Flask(__name__)
 
 
@@ -27,16 +31,17 @@ def index():
 def candidates():
     idForm = IdForm(request.form)
     nameForm = NameForm(request.form)
+    ineForm = IneForm(request.form)
     arguments = request.args
     query = "none"
-    asked = 0
     result = None
+    count = 0
     if len(arguments) != 0:
         result, query = BuildRequest(arguments)
-        asked = 1
-
-    return render_template("candidates.html", idForm = idForm, nameForm = nameForm, asked = asked, result = result,
-                           query = query, len = len(result))
+        count = len(result)
+    return render_template("candidates.html", idForm = idForm, nameForm = nameForm, ineForm = ineForm,
+                           result = result,
+                           query = query, count = count)
 
 
 @app.route('/resultats', methods = ["GET"])
@@ -54,16 +59,19 @@ def BuildRequest(args):
         # on a fait une demande de candidat avec un ID
         ID = args["id"]
         req = f"SELECT * FROM Candidat WHERE candidat_id = '{ID}'"
-        c = GetDB().cursor()
-        c.execute(req)
-        content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
+        content = buildCoordinates(req)
         return content, "id"
     elif "name" in args and "FirstName" in args and len(args) == 2:
         name = args["name"]
         FirstName = args["FirstName"]
-        req = f"SELECT * FROM Candidat WHERE '{name}' = Nom AND '{FirstName}' = Prenom"
+        req = f"SELECT * FROM Candidat WHERE Nom = '{name}' AND Prenom = '{FirstName}'"
         content = buildCoordinates(req)
         return content, "name"
+    elif "INE" in args and len(args) == 1:
+        ine = args["INE"]
+        req = f"SELECT * FROM Candidat WHERE INE = '{ine}'"
+        content = buildCoordinates(req)
+        return content, "INE"
     else:
         return None
 
@@ -73,8 +81,6 @@ def buildCoordinates(req):
     c.execute(req)
     content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
     return content
-
-
 
 
 def GetDB():
