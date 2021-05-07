@@ -1,0 +1,220 @@
+#####	ADMISSIBLE_ATS.xlsx : 
+Can _cod;Candidat key
+Civ _lib;Candidat Civ
+Nom;Candidat Nom
+Prenom;Candidat Prenom
+Can _ad 1;Candidat Adresse1
+Can _ad 2;Candidat Adress2
+Can _cod _pos;Candidat Code_Postal
+Can _com;Candidat Commune
+Can _pay _adr;Candidat Pays	
+Can _mel;Candidat Email
+Can _tel;Candidat Telephone
+Can _por;Candidat Portable
+rang;? (Différent du rang écrit et oral des fichiers Classes...)
+
+#####	CMT_Oraux_YYYY_MP.xlsx : 
+Numéro d'inscription;Candidat key
+Centre;
+Jury;
+Phys.;Classement_Note_MP Phy_oral	
+Maths;Classement_Note_MP Math_oral
+Entretien;Classement_Note_MP Fr_oral
+Anglais;Classement_Note_MP Ang_oral
+Unnamed: 7;
+
+#####	Classes_MP_CMT_spe_XXXX.xlsx : 
+login;Candidat key
+nom;Candidat Nom
+prenom;Candidat Prenom
+filiere;Candidat Filière
+type_admissible;Candidat Statut
+mail;Candidat Email
+adresse;Candidat Adresse1
+code_postal;Candidat Code_Postal
+ville;Candidat Commune
+pays;Candidat Pays
+mobile;Candidat Portable
+date_naissance;Candidat Date_Naissance
+n_demi;Lien avec bonification ?
+28 (Langue);Classement_Note_MP LV1
+599 (Informatique ou Sciences industrielles);Classement_Note_MP Spe	
+600 (Mathématiques 1);Classement_Note_MP Math1
+601 ( Mathématiques 2);Classement_Note_MP Math2
+602 (Physique 1);Classement_Note_MP Phy1
+603 (Physique 2);Classement_Note_MP Phy2
+604 (Chimie);Classement_Note_MP Chimie
+605 (Français);Classement_Note_MP  Fr
+1050 (Informatique);Classement_Note_MP IPT
+bonification_ecrit;Lien bonification ?
+total_ecrit;Classement_Note_MP total_ecrit
+rang_admissible;Classement_Note_MP rang_ecrit
+1 (QCM info/physique);(X) Note en fct du type admissible
+2 (Entretien nouvelles technologies);(X) Note en fct du type admissible
+3 (QCM anglais);(X) Note en fct du type admissible
+4 (Mathématiques);(X) Note en fct du type admissible
+5 (Physique ou Sciences industrielles);(X) Note en fct du type admissible
+6 (Entretien);(X) Note en fct du type admissible
+7 (Anglais);(X) Note en fct du type admissible
+8 (Mathématiques);(X) Note en fct du type admissible
+9 (Physique);(X) Note en fct du type admissible
+10 (Français);(X) Note en fct du type admissible	
+11 (Anglais);(X) Note en fct du type admissible
+12 (Mathématiques);(X) Note en fct du type admissible
+400 (Mathématiques (harmonisée));(X) Note en fct du type admissible
+401 (Mathématiques (affichée));(X) Note en fct du type admissible
+max_physique;(X) Note en fct du type admissible
+max_anglais;(X) Note en fct du type admissible
+bonification_oral;Lien avec bonification ?
+total_oral;Classement_Note_MP total oral
+total;Classement_Note_MP total
+bonus_interclassement;Lien avec type admissible ?
+total_avec_interclassement;Lien avec type admissible ?
+note_entretien_exaequo;(?) Classement_Note_MP Fr_oral
+note_anglais_exaequo;(?) Classement_Note_MP Ang_oral 
+date_naissance_exaequo;Candidat Date_Naissance
+rang_classe;Classement_Note_MP rang
+
+#####	Classes_MP_CMT_spe_XXXX_SCEI.csv : 
+scei;Candidat key
+nom;Candidat Nom
+etat;???
+total_oral;Classement_Note_MP total_oral
+total_points;Classement_Note_MP  total
+moyenne_generale;Classement_Note_MP Moyenne_generale
+rang_classe;Classement_Note_MP rang
+
+#####	Ecrit_MP.xlsx : 
+Can _cod;Candidat key
+Civ _lib;Candidat Civ
+Nom;Candidat Nom
+Prenom;Candidat Prenom
+Can _ad 1;Candidat Adresse1
+Can _ad 2;Candidat Adresse2
+Can _cod _pos;Candidat Code_Postal
+Can _com;Candidat Commune
+Can _pay _adr;Candidat Pays
+Can _mel;Candidat Email
+Can _tel;Candidat Telephone
+Can _por;Candidat Portable
+rang;Classement_Note_MP rang_ecrit
+
+#####	Inscription.xlsx : 
+CODE_CANDIDAT;Candidat key
+NOM;Candidat Nom
+PRENOM;Candidat Prenom
+AUTRES_PRENOMS;Candidat Autres_Prenoms
+CIVILITE;Candidat Civ
+DATE_NAISSANCE;Candidat Date_Naissance
+VILLE_NAISSANCE;Candidat Ville Naissance
+CODE_PAYS_NAISSANCE;Candidat Pays_id
+PAYS_NAISSANCE;Candidat Pays_Naissance
+FRANCAIS;Candidat Francais
+CODE_PAYS_NATIONALITE		
+AUTRE_NATIONALITE;Candidat Autre_Nationalite_id
+ADRESSE1;Candidat Adresse1
+ADRESSE2;Candidat Adresse2
+CP;Candidat Code_Postal
+VILLE;Candidat Commune
+CODE_PAYS;Candidat Pays_id
+LIBELLE_PAYS;Pays pays
+TELEPHONE;Candidat Telephone
+TEL_PORTABLE;Candidat Portable
+EMAIL;Candidat Email
+CLASSE;Candidat Classe
+PUISSANCE;Candidat Puissance
+CODE_ETABLISSEMENT;
+ETABLISSEMENT;Candidat Etablissement_id
+VILLE_ETABLISSEMENT;
+EPREUVE1;Candidat Epreuve1
+OPTION1;Candidat LV
+EPREUVE2;Classement_Note_MP Spe_Info_SI
+OPTION2;
+EPREUVE3;
+OPTION3;
+EPREUVE4;
+OPTION4;
+LIBELLE_VILLE_ECRIT;Candidat Ville_ecrit
+CODE_CONCOURS;Code_Concours code_concours
+LIBELLE_CONCOURS;
+VOIE;Candidat Filliere
+ANNEE_BAC;Candidat Bac_id	
+MOIS_BAC;
+CODE_SERIE;
+SERIE;
+MENTION;Candidat Bac_Mention
+SUJET_TIPE;Candidat Sujet_TIPE
+NUMERO_INE;Candidat INE
+COD_CSP_PERE;Candidat Profession_pere_code
+LIB_CSP_PERE;
+COD_CSP_MERE;Candidat Profession_mere_code
+LIB_CSP_MERE;
+CODE_ETAT_DOSSIER;
+LIBELLE_ETAT_DOSSIER;
+ARRONDISSEMENT_NAISSANCE;
+DECLARATION_HANDICAP;
+QUALITE;Candidat Boursier
+CAN_DEP_BAC;Candidat Bac_dep
+
+#####	Oral_MP.xlsx : 
+Can _cod;Candidat key
+Civ _lib;Candidat Civ
+Nom;Candidat Nom
+Prenom;Candidat Prenom
+Can _ad 1;Candidat Adresse1
+Can _ad 2;Candidat Adresse2
+Can _cod _pos;Candidat Code_Postal
+Can _com;Candidat Commune
+Can _pay _adr;Candidat Pays_id
+Can _mel;Candidat Email
+Can _tel;Candidat Teleephone
+Can _por;Candidat Portable
+rang;Classement_Note_MP rang
+
+#####	ResultatEcrit_DD_MM_YYYY_ATS.xlsx : 
+Numéro d'inscription;Candidat key
+Rang;Classement_Note_ATS rang_ecrit
+Total;Classement_Note_ATS total_ecrit
+Moyenne;Classement_Note_ATS moyenne_ecrit
+Bonification;Lien avec la puissance
+Mathématiques;Classement_Note_ATS Math
+Sc. Physiques;Classement_Note_ATS Phy
+Français;Classement_Note_ATS Fr
+Sciences Industrielles;Classement_Note_ATS SI
+Anglais;Classement_Note_ATS Ans
+
+#####	ResultatOral_DD_MM_YYYY_ATS.xlsx : 
+Numéro d'inscription;Candidat key
+Rang;Classement_Note_ATS rang_oral
+Total;Classement_Note_ATS total_oral
+Moyenne;Classement_Note_ATS moyenne_oral
+Bonification;Lien avec la puissance ?
+Rang CCP;Vide
+Mathématiques;Classement_Note_ATS Math_oral
+Sciences Physiques;Classement_Note_ATS Phy_oral
+Génie électrique;Classement_Note_ATS Genie_elec_oral
+Génie mécanique;Classement_Note_ATS Genie_meca_oral
+Langue au choix (oral commun);Classement_Note_ATS LV_oral
+Epreuve ATS;Classement_Note_ATS Epreuve_ATS_oral
+
+#####	listeEcoles.xlsx : 
+Ecole;Ecole ecole_id
+Nom _ecole;Ecole nom
+
+#####	listeEtablissements.xlsx : 
+Rne;Etablissement Code
+Type _etab;Etablissement Type
+Etab;Etablissement Etablissement
+Code _postal _etab;Etablissement CP
+Ville _etab;Etablissement Ville
+Pays _atab;Etablissement Pays_id
+
+#####	listeEtatsReponsesAppel.xlsx : 
+Ata _cod;EtatReponse code
+Ata _lib;EtatReponse reponse
+
+#####	listeVoeux_ATS.xlsx : 
+Can _cod;Voeux candidat_id
+Voe _ran;Classement_Note_ATS rang_oral
+Voe _ord;Voeux ordre
+Eco _cod;Voeux ecole_id
