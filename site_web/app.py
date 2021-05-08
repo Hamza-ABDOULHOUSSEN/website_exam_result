@@ -55,31 +55,38 @@ def about():
 
 
 def BuildRequest(args):
+    query = ""
+    req = ""
     if "id" in args and len(args) == 1:
         # on a fait une demande de candidat avec un ID
         ID = args["id"]
-        req = f"SELECT * FROM Candidat WHERE candidat_id = '{ID}'"
-        content = buildCoordinates(req)
-        return content, "id"
+        req = f"WHERE candidat_id = '{ID}'"
+        query = "id"
+
     elif "name" in args and "FirstName" in args and len(args) == 2:
         name = args["name"]
         FirstName = args["FirstName"]
-        req = f"SELECT * FROM Candidat WHERE Nom = '{name}' AND Prenom = '{FirstName}'"
-        content = buildCoordinates(req)
-        return content, "name"
+        req = f"WHERE Nom = '{name}' AND Prenom = '{FirstName}'"
+        query = "name"
+
     elif "INE" in args and len(args) == 1:
         ine = args["INE"]
-        req = f"SELECT * FROM Candidat WHERE INE = '{ine}'"
+        req = f"WHERE INE = '{ine}'"
+        query = "INE"
+
+    content = []
+    if req != "":
         content = buildCoordinates(req)
-        return content, "INE"
-    else:
-        return None
+
+    return content, query
 
 
 def buildCoordinates(req):
+    identite = "SELECT candidat_id, INE, Civ, Nom, Prenom, Date_Naissance, Ville_Naissance FROM Candidat " + req
     c = GetDB().cursor()
-    c.execute(req)
-    content = [(t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]) for t in c.fetchall()]
+    c.execute(identite)
+    content = [(t[0], t[1], t[2] + " " + t[3] + " " + t[4], "Né le " + t[5] + " à " + t[6]) for t in
+               c.fetchall()]
     return content
 
 
