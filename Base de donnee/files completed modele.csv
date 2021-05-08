@@ -123,8 +123,8 @@ TEL_PORTABLE;Candidat Portable
 EMAIL;Candidat Email
 CLASSE;Candidat Classe
 PUISSANCE;Candidat Puissance
-CODE_ETABLISSEMENT;
-ETABLISSEMENT;Candidat Etablissement_id
+CODE_ETABLISSEMENT;Candidat Etablissement_id
+ETABLISSEMENT;Etablissement etablissement
 VILLE_ETABLISSEMENT;
 EPREUVE1;Candidat Epreuve1
 OPTION1;Candidat LV
@@ -202,9 +202,9 @@ Ecole;Ecole ecole_id
 Nom _ecole;Ecole nom
 
 #####	listeEtablissements.xlsx : 
-Rne;Etablissement Code
+Rne;Etablissement code_etablissement
 Type _etab;Etablissement Type
-Etab;Etablissement Etablissement
+Etab;Etablissement etablissement
 Code _postal _etab;Etablissement CP
 Ville _etab;Etablissement Ville
 Pays _atab;Etablissement Pays_id

@@ -1,7 +1,7 @@
 TABLE Candidat {
-  key int [pk]
+  candidat_id int [pk]
   INE text
-  Civ text [not null]
+  Civ text
   Nom text
   Prenom text
   Autres_Prenoms text
@@ -10,7 +10,7 @@ TABLE Candidat {
   Ville_Naissance text
   Pays_Naissance_id int
   
-  Francais int
+  Francais text
   Autre_Nationalite_id int
   
   Adresse1 text
@@ -26,7 +26,6 @@ TABLE Candidat {
   Filliere text
   Classe text
   Puissance text
-  Statut text
   Etablissement_id int
   
   Epreuve1 text
@@ -42,45 +41,43 @@ TABLE Candidat {
   
   Profession_pere_code int
   Profession_mere_code int
-  Boursier int
+  Boursier text
   
 }
 
 TABLE Pays {
-  pays_id int [pk]
+  code_pays int [pk]
   pays text
-  code_pays int
   nationalite text
 }
 
-Ref: Pays.pays_id > Candidat.Pays_id
-Ref: Pays.pays_id > Candidat.Pays_Naissance_id
-Ref: Pays.pays_id > Candidat.Autre_Nationalite_id
+Ref: Candidat.Pays_id > Pays.pays_id
+Ref: Candidat.Pays_Naissance_id > Pays.pays_id
+Ref: Candidat.Autre_Nationalite_id > Pays.pays_id
 
 TABLE Code_Concours {
   Filliere text [pk]
-  code int
+  code_concours int
 }
 
-Ref: Code_Concours.Filliere > Candidat.Filliere
-
+Ref: Candidat.Filliere > Code_Concours.Filliere
+ 
 TABLE Bac {
   bac_id int [pk]
   annee int
   mois int
   serie text
-  code_serie int
 }
 
-Ref: Bac.bac_id > Candidat.Bac_id
+Ref: Candidat.Bac_id > Bac.bac_id
 
 TABLE Profession {
-  code int [pk]
-  prof text
+  code_profession int [pk]
+  profession text
 }
 
-Ref: Profession.code > Candidat.Profession_pere_code
-Ref: Profession.code > Candidat.Profession_mere_code
+Ref: Candidat.Profession_pere_code > Profession.code
+Ref: Candidat.Profession_mere_code > Profession.code
 
 TABLE Classement_Note_MP {
   candidat_id int [pk]
@@ -239,25 +236,24 @@ TABLE Classement_Note_ATS {
   
 }
 
-Ref: Classement_Note_MP.candidat_id > Candidat.key
-Ref: Classement_Note_PSI.candidat_id > Candidat.key
-Ref: Classement_Note_PC.candidat_id > Candidat.key
-Ref: Classement_Note_PT.candidat_id > Candidat.key
-Ref: Classement_Note_TSI.candidat_id > Candidat.key
-Ref: Classement_Note_ATS.candidat_id > Candidat.key
+Ref: Classement_Note_MP.candidat_id > Candidat.candidat_id
+Ref: Classement_Note_PSI.candidat_id > Candidat.candidat_id
+Ref: Classement_Note_PC.candidat_id > Candidat.candidat_id
+Ref: Classement_Note_PT.candidat_id > Candidat.candidat_id
+Ref: Classement_Note_TSI.candidat_id > Candidat.candidat_id
+Ref: Classement_Note_ATS.candidat_id > Candidat.candidat_id
 
 TABLE Etablissement {
-  etablissement_id int [pk]
-  Etablissement text
+  code_etablissement text [pk]
+  etablissement text
   Type text
   Ville text
   CP int
   Pays_id int
-  Code text
 }
 
-Ref: Candidat.Etablissement_id > Etablissement.etablissement_id
-
+Ref: Candidat.Etablissement_id > Etablissement.code_etablissement
+ 
 TABLE Ecole {
   ecole_id int [pk] 
   nom text
@@ -269,7 +265,7 @@ TABLE Voeux {
   ordre int [pk]
 }
 
-Ref: Voeux.candidat_id > Candidat.key
+Ref: Candidat.candidat_id > Voeux.candidat_id
 Ref: Voeux.ecole_id > Ecole.ecole_id
 
 
@@ -285,8 +281,8 @@ TABLE Admis {
   rang int
 }
 
-Ref: Admission.candidat_id > Candidat.key
-Ref: Admis.candidat_id > Candidat.key
+Ref: Admission.candidat_id > Candidat.candidat_id
+Ref: Admis.candidat_id > Candidat.candidat_id
 
 TABLE EtatReponse {
   code int [pk]
