@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 dirPath = "../data/public/"
 fichiers_admis = ['ADMIS_MP-SPE.xlsx', 'ADMIS_MP.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PC.xlsx', 'ADMIS_PSI-SPE.xlsx', 'ADMIS_PSI.xlsx', 'ADMIS_PT-SPE.xlsx', 'ADMIS_PT.xlsx', 'ADMIS_TSI-SPE.xlsx', 'ADMIS_TSI.xlsx']
@@ -7,15 +6,12 @@ fichiers_admissible = ['ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_MP.xlsx', 'ADMISSIB
 
 def include(filespe, file):
 
-    ### lire le fichier excel
+    ### lecture du fichier excel
     df = pd.read_excel(file)
     dfspe = pd.read_excel(filespe)
-    ### On ne garde que la colonne des id
-    df.drop( df.columns[1:] , axis=1)
-    dfspe.drop( dfspe.columns[1:] , axis=1)
 
     n = len(df['Can _cod'])
-    values = dfspe['Can _cod'].values
+    values = dfspe['Can _cod'].values   # liste des id des candidats admis en spe
 
     for i in range(n):
         cod = df['Can _cod'][i]
@@ -36,3 +32,4 @@ print("")
 print("Fichier ADMISSIBLE")
 for i in range(0,nadmissible,2):
     print( include(dirPath+fichiers_admissible[i], dirPath+fichiers_admissible[i+1]) )
+    

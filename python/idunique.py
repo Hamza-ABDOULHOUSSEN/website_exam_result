@@ -1,28 +1,46 @@
 import pandas as pd
-import numpy as np
+from main import *
 
-dirPath = "../data/public/"
-fichiers = ['ADMISSIBLE_ATS.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMISSIBLE_PT.xlsx', 'ADMIS_MP-SPE.xlsx', 'ADMIS_PSI-SPE.xlsx', 'ADMIS_TSI-SPE.xlsx', 'ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_PSI-SPE.xlsx', 'ADMISSIBLE_TSI-SPE.xlsx', 'ADMIS_MP.xlsx', 'ADMIS_PSI.xlsx', 'ADMIS_TSI.xlsx', 'ADMISSIBLE_MP.xlsx', 'ADMISSIBLE_PSI.xlsx', 'ADMISSIBLE_TSI.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PT-SPE.xlsx', 'ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PT-SPE.xlsx', 'ADMIS_ATS.xlsx', 'ADMIS_PC.xlsx', 'ADMIS_PT.xlsx']
+def uniq(file,col):
 
-def uniq(file):
+    ### lecture fichier excel
+    df = lecture(file)
 
-    ### lire le fichier excel
-    df = pd.read_excel(file)
-    ### On ne garde que la colonne des id
-    df.drop( df.columns[1:] , axis=1)
-
-    parc = []
-    n = len(df['Can _cod'])
+    # parc: les nombres d'occurence de chaque valeur
+    parc = df[col].value_counts().values    # nombre d'occurence des différentes valeurs dans la colonne
+    n = len(parc)
     
     for i in range(n):
-        cod = df['Can _cod'][i]
-
-        if cod in parc:
+        if parc[i] != 1:        # chaque element ne doit etre qu'une fois dans la colonne
             return False
-        else:
-            parc.append(cod)
-    
+
     return True
 
-for file in fichiers:
-    print( uniq(dirPath+file) )
+
+for file in fichiers_admis:
+    col = 'Can _cod'
+    print(file+'\t'+col+'\t\t'+ str(uniq(file,col)))
+
+for file in fichiers_CMT:
+    col = "Numéro d'inscription"
+    print(file+'\t'+col+'\t\t'+ str(uniq(file,col)))
+
+for file in fichiers_Classes_xlsx:
+    col = 'login'
+    print(file+'\t'+col+'\t\t'+ str(uniq(file,col)))
+
+for file in fichiers_Classes_csv:
+    col = 'scei'
+    print(file+'\t'+col+'\t\t'+ str(uniq(file,col)))
+
+for file in fichiers_Ecrit+fichiers_Oral:
+    col = 'Can _cod'
+    print(file+'\t'+col+'\t\t'+ str(uniq(file,col)))
+
+files = ['Inscription.xlsx', 'ResultatEcrit_DD_MM_YYYY_ATS.xlsx', 'ResultatOral_DD_MM_YYYY_ATS.xlsx', 'listeEcoles.xlsx', 'listeEtablissements.xlsx', 'listeEtatsReponsesAppel.xlsx']
+cols = ['CODE_CANDIDAT', "Numéro d'inscription", "Numéro d'inscription",'Ecole', 'Rne', 'Ata _cod']
+for i in range(6):
+    file = files[i]
+    col = cols[i]
+    print(file+'\t'+col+'\t\t'+ str(uniq(file,col)))
+
