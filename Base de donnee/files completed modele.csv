@@ -1,5 +1,5 @@
 #####	ADMISSIBLE_ATS.xlsx : 
-Can _cod;Candidat key
+Can _cod;Candidat candidat_id
 Civ _lib;Candidat Civ
 Nom;Candidat Nom
 Prenom;Candidat Prenom
@@ -14,7 +14,7 @@ Can _por;Candidat Portable
 rang;? (Différent du rang écrit et oral des fichiers Classes...)
 
 #####	CMT_Oraux_YYYY_MP.xlsx : 
-Numéro d'inscription;Candidat key
+Numéro d'inscription;Candidat candidat_id
 Centre;
 Jury;
 Phys.;Classement_Note_MP Phy_oral	
@@ -24,7 +24,7 @@ Anglais;Classement_Note_MP Ang_oral
 Unnamed: 7;
 
 #####	Classes_MP_CMT_spe_XXXX.xlsx : 
-login;Candidat key
+login;Candidat candidat_id
 nom;Candidat Nom
 prenom;Candidat Prenom
 filiere;Candidat Filière
@@ -76,7 +76,7 @@ date_naissance_exaequo;Candidat Date_Naissance
 rang_classe;Classement_Note_MP rang
 
 #####	Classes_MP_CMT_spe_XXXX_SCEI.csv : 
-scei;Candidat key
+scei;Candidat candidat_id
 nom;Candidat Nom
 etat;???
 total_oral;Classement_Note_MP total_oral
@@ -85,7 +85,7 @@ moyenne_generale;Classement_Note_MP Moyenne_generale
 rang_classe;Classement_Note_MP rang
 
 #####	Ecrit_MP.xlsx : 
-Can _cod;Candidat key
+Can _cod;Candidat candidat_id
 Civ _lib;Candidat Civ
 Nom;Candidat Nom
 Prenom;Candidat Prenom
@@ -100,7 +100,7 @@ Can _por;Candidat Portable
 rang;Classement_Note_MP rang_ecrit
 
 #####	Inscription.xlsx : 
-CODE_CANDIDAT;Candidat key
+CODE_CANDIDAT;Candidat candidat_id
 NOM;Candidat Nom
 PRENOM;Candidat Prenom
 AUTRES_PRENOMS;Candidat Autres_Prenoms
@@ -157,7 +157,7 @@ QUALITE;Candidat Boursier
 CAN_DEP_BAC;Candidat Bac_dep
 
 #####	Oral_MP.xlsx : 
-Can _cod;Candidat key
+Can _cod;Candidat candidat_id
 Civ _lib;Candidat Civ
 Nom;Candidat Nom
 Prenom;Candidat Prenom
@@ -172,7 +172,7 @@ Can _por;Candidat Portable
 rang;Classement_Note_MP rang
 
 #####	ResultatEcrit_DD_MM_YYYY_ATS.xlsx : 
-Numéro d'inscription;Candidat key
+Numéro d'inscription;Candidat candidat_id
 Rang;Classement_Note_ATS rang_ecrit
 Total;Classement_Note_ATS total_ecrit
 Moyenne;Classement_Note_ATS moyenne_ecrit
@@ -184,7 +184,7 @@ Sciences Industrielles;Classement_Note_ATS SI
 Anglais;Classement_Note_ATS Ans
 
 #####	ResultatOral_DD_MM_YYYY_ATS.xlsx : 
-Numéro d'inscription;Candidat key
+Numéro d'inscription;Candidat candidat_id
 Rang;Classement_Note_ATS rang_oral
 Total;Classement_Note_ATS total_oral
 Moyenne;Classement_Note_ATS moyenne_oral

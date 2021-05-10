@@ -40,6 +40,7 @@ CREATE TABLE "Candidat" (
 	FOREIGN KEY("Autre_Nationalite_id") REFERENCES "Pays"("code_pays"),
 	FOREIGN KEY("Pays_id") REFERENCES "Pays"("code_pays"),
 	FOREIGN KEY("Etablissement_id") REFERENCES "Etablissement"("code_etablissement"),
+	FOREIGN KEY("candidat_id") REFERENCES "Voeux"("candidat_id"),
 	PRIMARY KEY("candidat_id")
 );
 
@@ -86,4 +87,24 @@ CREATE TABLE "Etablissement" (
 	"Pays_id"	INT,
 	FOREIGN KEY("Pays_id") REFERENCES "Pays"("code_pays"),
 	PRIMARY KEY("code_etablissement")
+);
+
+CREATE TABLE "Voeux" (
+	"candidat_id"	INT,
+	"ecole_id"	INT,
+	"ordre"	INT,
+	PRIMARY KEY("candidat_id","ecole_id","ordre")
+);
+
+CREATE TABLE "Ecole" (
+	"ecole_id"	INT,
+	"nom"	TEXT,
+	FOREIGN KEY("ecole_id") REFERENCES "Voeux"("ecole_id"),
+	PRIMARY KEY("ecole_id")
+);
+
+CREATE TABLE "EtatReponse" (
+	"code"	INT,
+	"reponse"	TEXT,
+	PRIMARY KEY("code")
 );

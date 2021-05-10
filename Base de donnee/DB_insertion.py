@@ -1,33 +1,49 @@
 import sqlite3
 import pandas as pd
+import os
+import sys
+sys.path.append('../python')
+from main import *
 
 DATABASE = "CMT_database.db"
 conn = sqlite3.connect(DATABASE)
 c = conn.cursor()
 
-dirPath = "../data/public/"
+# importation donnee
+file = read_all()       # dictionnaire clé: nom du fichier , valeur: fichier lu avec pandas
+taille = {}
+for name in All:         # All = listes des fichiers
+    (nb_ligne,_) = file[name].shape
+    taille[name] = nb_ligne
 
-df = pd.read_excel(dirPath + 'Inscription.xlsx', skiprows=1)
 
-(nb_ligne_df,_) = df.shape
 
 ### TABLE Candidat
 
-# requetes
+## requetes
+# Candidat
 req = "insert into Candidat (candidat_id,INE, Civ, Nom, Prenom, Autres_Prenoms, Date_Naissance, Ville_Naissance, Pays_Naissance_id, Francais, Autre_Nationalite_id, Adresse1, Adresse2, Code_Postal, Commune, Pays_id, Email, Telephone, Portable, Filliere, Classe, Puissance, Etablissement_id, Epreuve1, LV, Ville_ecrit, Bac_id, Bac_Mention, Bac_dep, Sujet_TIPE, Profession_pere_code, Profession_mere_code, Boursier) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+# Bac
 req_bac = "insert into Bac (bac_id, annee, mois, serie) values (?,?,?,?)"
 req_code_serie_bac = "insert into Code_Serie_Bac (serie, code_serie) values (?,?)"
 req_code_concours = "insert into Code_Concours (Filliere, code_concours) values (?,?)"
+# Profession
 req_profession = "insert into Profession (code_profession, profession) values (?,?)"
-
+# Pays
 req_pays = "insert into Pays (code_pays, pays) values (?,?)"
 req_natio = "insert into Pays (code_pays, nationalite) values (?,?)"
 req_pays_upd = "UPDATE Pays SET pays = ? WHERE code_pays = ?"
 req_natio_upd = "UPDATE Pays SET nationalite = ? WHERE code_pays = ?"
-
+# Etablissement
 req_etab_ins = "insert into Etablissement (code_etablissement,etablissement) values (?,?)"
 req_etab_new = "insert into Etablissement (code_etablissement,etablissement, Type, Ville, CP, Pays_id) values (?,?,?,?,?,?)"
 req_etab_upd = "UPDATE Etablissement SET (Type, Ville, CP, Pays_id) = (?,?,?,?) WHERE code_etablissement = ?"
+# Ecole 
+req_ecole = "insert into Ecole (ecole_id,nom) values (?,?)"
+# Voeux
+req_voeux = "insert into Voeux (candidat_id,ecole_id,ordre) values (?,?,?)"
+# EtatReponse
+req_etat_rep = "insert into EtatReponse (code,reponse) values (?,?)"
 
 
 def civ(n):
@@ -155,23 +171,34 @@ def etab(code_etablissement, etablissement):
     return code_etablissement
 
 # Parcours de Inscription.xlsx
-for i in range(nb_ligne_df):
-    c.execute(req, (int(df['CODE_CANDIDAT'][i]) , ine(df['NUMERO_INE'][i]) ,  civ(df['CIVILITE'][i]) , df['NOM'][i] , df['PRENOM'][i] , df['AUTRES_PRENOMS'][i] , df['DATE_NAISSANCE'][i] , df['VILLE_NAISSANCE'][i] , pays(df['CODE_PAYS_NAISSANCE'][i],df['PAYS_NAISSANCE'][i]) ,  francais(df['FRANCAIS'][i]) , natio(df['CODE_PAYS_NATIONALITE'][i],df['AUTRE_NATIONALITE'][i]) , df['ADRESSE1'][i] , df['ADRESSE2'][i] , int(df['CP'][i]) , df['VILLE'][i] , pays(df['CODE_PAYS'][i],df['LIBELLE_PAYS'][i]) , df['EMAIL'][i] , df['TELEPHONE'][i] , df['TEL_PORTABLE'][i] , filliere(df['VOIE'][i],df['CODE_CONCOURS'][i]) , df['CLASSE'][i] , df['PUISSANCE'][i] , etab(df['CODE_ETABLISSEMENT'][i],df['ETABLISSEMENT'][i]) , df['EPREUVE1'][i] , df['OPTION1'][i] , df['LIBELLE_VILLE_ECRIT'][i] , bac(df['ANNEE_BAC'][i] , df['MOIS_BAC'][i] , df['SERIE'][i], df['CODE_SERIE'][i]), mention(df['MENTION'][i]) , bacdep(df['CAN_DEP_BAC'][i]) , df['SUJET_TIPE'][i] , prof(df['COD_CSP_PERE'][i],df['LIB_CSP_PERE'][i]) , prof(df['COD_CSP_MERE'][i],df['LIB_CSP_MERE'][i]) , boursier(df['QUALITE'][i])) )
+for i in range(taille['Inscription.xlsx']):
+    c.execute(req, (int(file['Inscription.xlsx']['CODE_CANDIDAT'][i]) , ine(file['Inscription.xlsx']['NUMERO_INE'][i]) ,  civ(file['Inscription.xlsx']['CIVILITE'][i]) , file['Inscription.xlsx']['NOM'][i] , file['Inscription.xlsx']['PRENOM'][i] , file['Inscription.xlsx']['AUTRES_PRENOMS'][i] , file['Inscription.xlsx']['DATE_NAISSANCE'][i] , file['Inscription.xlsx']['VILLE_NAISSANCE'][i] , pays(file['Inscription.xlsx']['CODE_PAYS_NAISSANCE'][i],file['Inscription.xlsx']['PAYS_NAISSANCE'][i]) ,  francais(file['Inscription.xlsx']['FRANCAIS'][i]) , natio(file['Inscription.xlsx']['CODE_PAYS_NATIONALITE'][i],file['Inscription.xlsx']['AUTRE_NATIONALITE'][i]) , file['Inscription.xlsx']['ADRESSE1'][i] , file['Inscription.xlsx']['ADRESSE2'][i] , int(file['Inscription.xlsx']['CP'][i]) , file['Inscription.xlsx']['VILLE'][i] , pays(file['Inscription.xlsx']['CODE_PAYS'][i],file['Inscription.xlsx']['LIBELLE_PAYS'][i]) , file['Inscription.xlsx']['EMAIL'][i] , file['Inscription.xlsx']['TELEPHONE'][i] , file['Inscription.xlsx']['TEL_PORTABLE'][i] , filliere(file['Inscription.xlsx']['VOIE'][i],file['Inscription.xlsx']['CODE_CONCOURS'][i]) , file['Inscription.xlsx']['CLASSE'][i] , file['Inscription.xlsx']['PUISSANCE'][i] , etab(file['Inscription.xlsx']['CODE_ETABLISSEMENT'][i],file['Inscription.xlsx']['ETABLISSEMENT'][i]) , file['Inscription.xlsx']['EPREUVE1'][i] , file['Inscription.xlsx']['OPTION1'][i] , file['Inscription.xlsx']['LIBELLE_VILLE_ECRIT'][i] , bac(file['Inscription.xlsx']['ANNEE_BAC'][i] , file['Inscription.xlsx']['MOIS_BAC'][i] , file['Inscription.xlsx']['SERIE'][i], file['Inscription.xlsx']['CODE_SERIE'][i]), mention(file['Inscription.xlsx']['MENTION'][i]) , bacdep(file['Inscription.xlsx']['CAN_DEP_BAC'][i]) , file['Inscription.xlsx']['SUJET_TIPE'][i] , prof(file['Inscription.xlsx']['COD_CSP_PERE'][i],file['Inscription.xlsx']['LIB_CSP_PERE'][i]) , prof(file['Inscription.xlsx']['COD_CSP_MERE'][i],file['Inscription.xlsx']['LIB_CSP_MERE'][i]) , boursier(file['Inscription.xlsx']['QUALITE'][i])) )
 
 
 # Remplissage TABLE ETABLISSEMENT
-file_etab = pd.read_excel(dirPath + 'listeEtablissements.xlsx')
-nb_ligne_file_etab,_ = file_etab.shape
-
 # Parcours de listeEtablissements.xlsx
-for i in range(nb_ligne_file_etab):
-    code_etablissement = file_etab['Rne'][i]
-    etablissement = file_etab['Etab'][i]
+for i in range(taille['listeEtablissements.xlsx']):
+    code_etablissement = file['listeEtablissements.xlsx']['Rne'][i]
+    etablissement = file['listeEtablissements.xlsx']['Etab'][i]
     if code_etablissement in Dic_etab and Dic_etab[code_etablissement] == etablissement:
-        c.execute(req_etab_upd, (file_etab['Type _etab'][i], file_etab['Ville _etab'][i], int(file_etab['Code _postal _etab'][i]), pays_etab(file_etab['Pays _atab'][i]), code_etablissement ) )
+        c.execute(req_etab_upd, (file['listeEtablissements.xlsx']['Type _etab'][i], file['listeEtablissements.xlsx']['Ville _etab'][i], int(file['listeEtablissements.xlsx']['Code _postal _etab'][i]), pays_etab(file['listeEtablissements.xlsx']['Pays _atab'][i]), code_etablissement ) )
     elif not(code_etablissement in Dic_etab):
         Dic_etab[code_etablissement] = etablissement
-        c.execute(req_etab_new, (code_etablissement, etablissement, file_etab['Type _etab'][i], file_etab['Ville _etab'][i], int(file_etab['Code _postal _etab'][i]), pays_etab(file_etab['Pays _atab'][i])) )
+        c.execute(req_etab_new, (code_etablissement, etablissement, file['listeEtablissements.xlsx']['Type _etab'][i], file['listeEtablissements.xlsx']['Ville _etab'][i], int(file['listeEtablissements.xlsx']['Code _postal _etab'][i]), pays_etab(file['listeEtablissements.xlsx']['Pays _atab'][i])) )
+
+
+# TABLE Ecole
+for i in range(taille['listeEcoles.xlsx']):
+    c.execute(req_ecole, (int(file['listeEcoles.xlsx']['Ecole'][i]), file['listeEcoles.xlsx']['Nom _ecole'][i]) )
+
+# TABLE Voeux
+for fichier in fichiers_Voeux:
+    for i in range(taille[fichier]):
+        c.execute(req_voeux, (int(file[fichier]['Can _cod'][i]), int(file[fichier]['Eco _cod'][i]), int(file[fichier]['Voe _ord'][i])) )
+
+# TABLE EtatReponse
+for i in range(taille['listeEtatsReponsesAppel.xlsx']):
+    c.execute(req_etat_rep, (int(file['listeEtatsReponsesAppel.xlsx']['Ata _cod'][i]), file['listeEtatsReponsesAppel.xlsx']['Ata _lib'][i]) )
 
 
 conn.commit()
