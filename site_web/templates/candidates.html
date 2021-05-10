@@ -125,31 +125,18 @@
                         </div>
                     {% endif %}
                     <div class="row">
-                        <div class="card bg-light mx-auto" style="width: 16rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Coordonnées</h5>
-                                <ul>
-                                    {% for element in res %}
-                                        <li>{{ element }}</li>
-                                    {% endfor %}
-                                </ul>
+                        {% for element in res %}
+                            <div class="card bg-light mx-auto" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ tags[loop.index0] }}</h5>
+                                    <ul>
+                                        {% for line in element %}
+                                            <li type="circle">{{ line }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card bg-light mx-auto" style="width: 16rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Notes</h5>
-                            </div>
-                        </div>
-                        <div class="card bg-light mx-auto" style="width: 16rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Voeux</h5>
-                            </div>
-                        </div>
-                        <div class="card bg-light mx-auto" style="width: 16rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Admissibilités</h5>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 {% endfor %}
             </div>

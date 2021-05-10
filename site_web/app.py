@@ -35,12 +35,13 @@ def candidates():
     arguments = request.args
     query = "none"
     result = None
+    tags = None
     count = 0
     if len(arguments) != 0:
-        result, query = BuildRequest(arguments)
+        result, tags, query = BuildRequest(arguments)
         count = len(result)
     return render_template("candidates.html", idForm = idForm, nameForm = nameForm, ineForm = ineForm,
-                           result = result,
+                           result = result, tags = tags,
                            query = query, count = count)
 
 
@@ -74,19 +75,65 @@ def BuildRequest(args):
         req = f"WHERE INE = '{ine}'"
         query = "INE"
 
-    content = []
-    if req != "":
-        content = buildCoordinates(req)
+    res = None
+    tags = None
 
-    return content, query
+    if req != "":
+        coordinates = buildCoordinates(req)
+        scolarship = buildScolarship(req)
+
+        res = list(zip(coordinates, scolarship))
+        tags = ["Coordonnées", "Scolarité"]
+
+    return res, tags, query
 
 
 def buildCoordinates(req):
-    identite = "SELECT candidat_id, INE, Civ, Nom, Prenom, Date_Naissance, Ville_Naissance FROM Candidat " + req
+    # req permet de dire sur quoi on fait la recherche. INE, id ou nom prenom
+    identite = "SELECT candidat_id, INE, Civ, Nom, Prenom, Autres_Prenoms, Date_Naissance, Ville_Naissance, Adresse1, Code_Postal, Commune, Pays.nationalite, Email, Telephone, Portable FROM Candidat JOIN Pays ON Pays.code_pays = Candidat.Pays_id " + req + " ORDER BY nom"
     c = GetDB().cursor()
     c.execute(identite)
-    content = [(t[0], t[1], t[2] + " " + t[3] + " " + t[4], "Né le " + t[5] + " à " + t[6]) for t in
-               c.fetchall()]
+    content = []
+    for t in c.fetchall():
+        id = "ID : " + str(t[0])
+        INE = "INE : " + str(t[1])
+        nom = str(t[2]) + ". " + str(t[3]) + " " + str(t[4])
+        if t[5] is not None:
+            nom += " " + t[5]
+        naissance = "Né le " + str(t[6]) + " à " + str(t[7])
+        adresse = "Adresse : " + str(t[8]) + ", " + str(t[9]) + " " + str(t[10]) + ", " + str(t[11])
+        mail = "Email : " + str(t[12])
+        telephone = "Téléphone fixe : "
+        if t[13] is None:
+            telephone += "Aucun"
+        else:
+            telephone += str(t[13])
+        portable = "Téléphone portable : "
+        if t[14] is None:
+            portable += "Aucun"
+        else:
+            portable += str(t[14])
+
+        content.append((id, INE, nom, naissance, adresse, mail, telephone, portable))
+    return content
+
+
+def buildScolarship(req):
+    scolar = "SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.CP, E.Ville, Epreuve1, LV, Ville_ecrit, B.serie, Bac_Mention, Sujet_TIPE, Candidat.Boursier FROM Candidat JOIN Etablissement E on Candidat.Etablissement_id = E.code_etablissement JOIN Bac B on B.bac_id = Candidat.Bac_id " + req + " ORDER BY Nom"
+    c = GetDB().cursor()
+    c.execute(scolar)
+    content = []
+    for t in c.fetchall():
+        filliere = "Filliere : " + str(t[2])
+        classe = "Classe : " + str(t[1])
+        puissance = "Année : " + str(t[3])
+        etablissement = "Etablissement : " + str(t[4]) + ", " + str(t[5]) + ", " + str(t[6])
+        epreuve = "Epreuve : " + t[7] + " - " + t[8] + " à " + t[9]
+        bac = "Baccalauréat : " + t[10] + " - Mention : " + t[11]
+        tipe = "Sujet TIPE : " + t[12]
+        boursier = "Boursier : " + t[13]
+
+        content.append((filliere, classe, puissance, etablissement, epreuve, bac, tipe, boursier))
     return content
 
 
