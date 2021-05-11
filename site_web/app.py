@@ -81,16 +81,16 @@ def BuildRequest(args):
     if req != "":
         coordinates = buildCoordinates(req)
         scolarship = buildScolarship(req)
-
-        res = list(zip(coordinates, scolarship))
-        tags = ["Coordonnées", "Scolarité"]
+        wishes = buildWishes(req)
+        res = list(zip(coordinates, scolarship, wishes))
+        tags = ["Coordonnées", "Scolarité", "Vœux"]
 
     return res, tags, query
 
 
 def buildCoordinates(req):
     # req permet de dire sur quoi on fait la recherche. INE, id ou nom prenom
-    identite = "SELECT candidat_id, INE, Civ, Nom, Prenom, Autres_Prenoms, Date_Naissance, Ville_Naissance, Adresse1, Code_Postal, Commune, Pays.nationalite, Email, Telephone, Portable FROM Candidat JOIN Pays ON Pays.code_pays = Candidat.Pays_id " + req + " ORDER BY nom"
+    identite = "SELECT candidat_id, INE, Civ, Nom, Prenom, Autres_Prenoms, Date_Naissance, Ville_Naissance, Adresse1, Code_Postal, Commune, Pays.pays, Email, Telephone, Portable FROM Candidat JOIN Pays ON Pays.code_pays = Candidat.Pays_id " + req + " ORDER BY nom"
     c = GetDB().cursor()
     c.execute(identite)
     content = []
@@ -134,6 +134,23 @@ def buildScolarship(req):
         boursier = "Boursier : " + t[13]
 
         content.append((filliere, classe, puissance, etablissement, epreuve, bac, tipe, boursier))
+    return content
+
+
+def buildWishes(req):
+    # puisqu'une personne a fait plusieurs voeux, il faut prendre en compte ce cas
+    # on en peut pas simplement faire un join avec la table des voeux, c'est surtout
+    # important dans le cas où on peut avoir plusieurs personnes pour un même nom - prénom
+    ids = "SELECT candidat_id, nom FROM Candidat " + req + " ORDER BY nom"
+    c = GetDB().cursor()
+    d = GetDB().cursor()
+    c.execute(ids)
+    content = []
+    for id in c.fetchall():
+        wishesReq = f"SELECT E.nom, Voeux.ordre FROM Voeux JOIN Ecole E on Voeux.ecole_id = E.ecole_id WHERE Voeux.candidat_id = '{id[0]}' ORDER BY Voeux.ordre"
+        d.execute(wishesReq)
+        content.append([t[0] for t in d.fetchall()])
+
     return content
 
 

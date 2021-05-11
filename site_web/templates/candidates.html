@@ -129,11 +129,24 @@
                             <div class="card bg-light mx-auto" style="width: 50rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ tags[loop.index0] }}</h5>
-                                    <ul>
-                                        {% for line in element %}
-                                            <li type="circle">{{ line }}</li>
-                                        {% endfor %}
-                                    </ul>
+                                    {# permet de faire la distinction entre l'affichage des voeux et les autres informations #}
+                                    {% if tags[loop.index0] == 'Vœux' %}
+                                        {% if element %}
+                                            <ol>
+                                                {% for line in element %}
+                                                    <li>{{ line }}</li>
+                                                {% endfor %}
+                                            </ol>
+                                        {% else %}
+                                            <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
+                                        {% endif %}
+                                    {% else %}
+                                        <ul>
+                                            {% for line in element %}
+                                                <li type="circle">{{ line }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}
