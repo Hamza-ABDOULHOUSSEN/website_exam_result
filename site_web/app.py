@@ -128,10 +128,15 @@ def buildScolarship(req):
         classe = "Classe : " + str(t[1])
         puissance = "Année : " + str(t[3])
         etablissement = "Etablissement : " + str(t[4]) + ", " + str(t[5]) + ", " + str(t[6])
-        epreuve = "Epreuve : " + t[7] + " - " + t[8] + " à " + t[9]
-        bac = "Baccalauréat : " + t[10] + " - Mention : " + t[11]
-        tipe = "Sujet TIPE : " + t[12]
-        boursier = "Boursier : " + t[13]
+        epreuve = "Epreuve : " + str(t[7]) + " - " + str(t[8]) + " à " + str(t[9])
+        bac = "Baccalauréat : " + str(t[10]) + " - Mention : "
+        if t[11] != "":
+            bac += str(t[11])
+        else:
+            bac += "Aucune"
+
+        tipe = "Sujet TIPE : " + str(t[12])
+        boursier = "Boursier : " + str(t[13])
 
         content.append((filliere, classe, puissance, etablissement, epreuve, bac, tipe, boursier))
     return content
