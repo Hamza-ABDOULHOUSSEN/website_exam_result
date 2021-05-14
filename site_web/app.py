@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, g
-from wtforms import Form, StringField, SelectField, IntegerField, validators
+from wtforms import Form, StringField, IntegerField
 from wtforms.validators import input_required
 import sqlite3
 
@@ -58,6 +58,7 @@ def about():
 def BuildRequest(args):
     query = ""
     req = ""
+
     if "id" in args and len(args) == 1:
         # on a fait une demande de candidat avec un ID
         ID = args["id"]
@@ -89,37 +90,62 @@ def BuildRequest(args):
 
 
 def buildCoordinates(req):
-    # req permet de dire sur quoi on fait la recherche. INE, id ou nom prenom
-    identite = "SELECT candidat_id, INE, Civ, Nom, Prenom, Autres_Prenoms, Date_Naissance, Ville_Naissance, Adresse1, Code_Postal, Commune, Pays.pays, Email, Telephone, Portable FROM Candidat JOIN Pays ON Pays.code_pays = Candidat.Pays_id " + req + " ORDER BY nom"
+    # req permet de dire sur quoi on fait la recherche. INE, ID ou nom prenom
+    identite = f"SELECT C.candidat_id, C.INE, C.Civ, C.Nom, C.Prenom, C.Autres_Prenoms, C.Date_Naissance, C.Ville_Naissance, Pays_naissance.pays, C.Francais, Pays_autre.pays, " \
+               f"C.Adresse1, C.Code_Postal, C.Commune, PAddr.pays, C.Email, C.Telephone, C.Portable, P1.profession, P2.profession " \
+               f"FROM Candidat AS C " \
+               f"JOIN Pays PAddr ON PAddr.code_pays = C.Pays_id " \
+               f"JOIN Pays Pays_naissance ON Pays_naissance.code_pays = C.Pays_Naissance_id " \
+               f"JOIN Pays Pays_autre ON Pays_autre.code_pays  = C.Autre_Nationalite_id " \
+               f"JOIN Profession P1 on P1.code_profession = C.Profession_pere_code " \
+               f"JOIN Profession P2 on P2.code_profession = C.Profession_mere_code " \
+               f"{req} " \
+               f"ORDER BY Nom"
+
     c = GetDB().cursor()
     c.execute(identite)
     content = []
     for t in c.fetchall():
-        id = "ID : " + str(t[0])
-        INE = "INE : " + str(t[1])
-        nom = str(t[2]) + ". " + str(t[3]) + " " + str(t[4])
+        ID = f"ID : {str(t[0])}"
+        INE = f"INE : {str(t[1])}"
+        nom = f"{str(t[2])}. {str(t[3])} {str(t[4])}"
         if t[5] is not None:
-            nom += " " + t[5]
-        naissance = "Né le " + str(t[6]) + " à " + str(t[7])
-        adresse = "Adresse : " + str(t[8]) + ", " + str(t[9]) + " " + str(t[10]) + ", " + str(t[11])
-        mail = "Email : " + str(t[12])
+            nom += " " + str(t[5])
+        naissance = f"Né le {str(t[6])} à {str(t[7])}, {str(t[8])}"
+        francais = f"Français : {str(t[9])}"
+        autre_nationalite = f"Autre nationalité : "
+        if t[10] is None:
+            autre_nationalite += "Aucune"
+        else:
+            autre_nationalite += str(t[10])
+        adresse = f"Adresse n°1 : {str(t[11])}, {str(t[12])}, {str(t[13])}, {str(t[14])}"
+        mail = f"Email : {str(t[15])}"
         telephone = "Téléphone fixe : "
-        if t[13] is None:
+        if t[16] is None:
             telephone += "Aucun"
         else:
-            telephone += str(t[13])
+            telephone += str(t[16])
         portable = "Téléphone portable : "
-        if t[14] is None:
+        if t[17] is None:
             portable += "Aucun"
         else:
-            portable += str(t[14])
+            portable += str(t[17])
+        CSP_pere = f"Catégorie socio-professionnelle du père : {str(t[18])}"
+        CSP_mere = f"Catégorie socio-professionnelle de la mère : {str(t[19])}"
 
-        content.append((id, INE, nom, naissance, adresse, mail, telephone, portable))
+        content.append((ID, INE, nom, naissance, francais, autre_nationalite, adresse, mail, telephone, portable,
+                        CSP_pere, CSP_mere))
     return content
 
 
 def buildScolarship(req):
-    scolar = "SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.CP, E.Ville, Epreuve1, LV, Ville_ecrit, B.serie, Bac_Mention, Sujet_TIPE, Candidat.Boursier FROM Candidat JOIN Etablissement E on Candidat.Etablissement_id = E.code_etablissement JOIN Bac B on B.bac_id = Candidat.Bac_id " + req + " ORDER BY Nom"
+    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.CP, E.Ville, Epreuve1, LV, Ville_ecrit, B.serie, Bac_Mention, Sujet_TIPE, Boursier " \
+             f"FROM Candidat " \
+             f"JOIN Etablissement E on Candidat.Etablissement_id = E.code_etablissement " \
+             f"JOIN Bac B on B.bac_id = Candidat.Bac_id " \
+             f"{req} " \
+             f"ORDER BY Nom"
+
     c = GetDB().cursor()
     c.execute(scolar)
     content = []
@@ -127,7 +153,11 @@ def buildScolarship(req):
         filliere = "Filliere : " + str(t[2])
         classe = "Classe : " + str(t[1])
         puissance = "Année : " + str(t[3])
-        etablissement = "Etablissement : " + str(t[4]) + ", " + str(t[5]) + ", " + str(t[6])
+        etablissement = "Etablissement : " + str(t[4])
+        if t[5] is not None:
+            etablissement += ", " + str(t[5])
+        if t[6] is not None:
+            etablissement += ", " + str(t[6])
         epreuve = "Epreuve : " + str(t[7]) + " - " + str(t[8]) + " à " + str(t[9])
         bac = "Baccalauréat : " + str(t[10]) + " - Mention : "
         if t[11] != "":
@@ -135,10 +165,10 @@ def buildScolarship(req):
         else:
             bac += "Aucune"
 
-        tipe = "Sujet TIPE : " + str(t[12])
+        TIPE = "Sujet TIPE : " + str(t[12])
         boursier = "Boursier : " + str(t[13])
 
-        content.append((filliere, classe, puissance, etablissement, epreuve, bac, tipe, boursier))
+        content.append((filliere, classe, puissance, etablissement, epreuve, bac, TIPE, boursier))
     return content
 
 
@@ -151,8 +181,13 @@ def buildWishes(req):
     d = GetDB().cursor()
     c.execute(ids)
     content = []
-    for id in c.fetchall():
-        wishesReq = f"SELECT E.nom, Voeux.ordre FROM Voeux JOIN Ecole E on Voeux.ecole_id = E.ecole_id WHERE Voeux.candidat_id = '{id[0]}' ORDER BY Voeux.ordre"
+    for ID in c.fetchall():
+        wishesReq = f"SELECT E.nom, Voeux.ordre " \
+                    f"FROM Voeux " \
+                    f"JOIN Ecole E ON Voeux.ecole_id = E.ecole_id " \
+                    f"WHERE Voeux.candidat_id = '{ID[0]}' " \
+                    f"ORDER BY Voeux.ordre"
+
         d.execute(wishesReq)
         content.append([t[0] for t in d.fetchall()])
 
@@ -167,7 +202,7 @@ def GetDB():
 
 
 @app.teardown_appcontext
-def CloseConnection(exception):
+def CloseConnection():
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
