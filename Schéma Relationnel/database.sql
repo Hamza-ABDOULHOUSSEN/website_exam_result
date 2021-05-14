@@ -1,11 +1,11 @@
 CREATE TABLE "Candidat" (
 	"candidat_id"	INT,
-	"INE"	TEXT NOT NULL,
+	"INE"	TEXT,
 	"Civ"	TEXT NOT NULL,
 	"Nom"	TEXT NOT NULL,
 	"Prenom"	TEXT NOT NULL,
 	"Autres_Prenoms"	TEXT,
-	"Date_Naissance"	TEXT NOT NULL,
+	"Date_Naissance"	TEXT,
 	"Ville_Naissance"	TEXT,
 	"Pays_Naissance_id"	INT,
 	"Francais"	TEXT,
@@ -48,15 +48,15 @@ CREATE TABLE "Bac" (
 	"bac_id"	INT,
 	"annee"	INT,
 	"mois"	INT,
-	"serie"	TEXT,
-	FOREIGN KEY("serie") REFERENCES "Code_Serie_Bac"("serie"),
+	"code_serie"	INT,
+	FOREIGN KEY("code_serie") REFERENCES "Code_Serie_Bac"("code_serie"),
 	PRIMARY KEY("bac_id")
 );
 
 CREATE TABLE "Code_Serie_Bac" (
-	"serie"	TEXT,
 	"code_serie"	INT,
-	PRIMARY KEY("serie")
+	"serie"	TEXT,
+	PRIMARY KEY("code_serie")
 );
 
 CREATE TABLE "Code_Concours" (
@@ -107,4 +107,100 @@ CREATE TABLE "EtatReponse" (
 	"code"	INT,
 	"reponse"	TEXT,
 	PRIMARY KEY("code")
+);
+
+CREATE TABLE "Ecrit_Note_ATS" (
+  candidat_id INT,
+  Math	FLOAT,
+  Phy	FLOAT,
+  Fr	FLOAT,
+  Ang	FLOAT,
+  SI	FLOAT,
+  total_ecrit	FLOAT,
+  rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Ecrit_Note_MP" (
+  candidat_id INT,
+  Spe_Info_SI TEXT,
+  Math1	FLOAT,
+  Math2	FLOAT,
+  Phy1	FLOAT,
+  Phy2	FLOAT,
+  Chimie	FLOAT,
+  Fr	FLOAT,
+  LV1	FLOAT,
+  IPT	FLOAT,
+  Spe	FLOAT,
+  total_ecrit	FLOAT,
+  rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Ecrit_Note_PC" (
+  candidat_id INT,
+  Math1	FLOAT,
+  Math2	FLOAT,
+  Phy1	FLOAT,
+  Phy2	FLOAT,
+  Chimie	FLOAT,
+  Fr	FLOAT,
+  LV1	FLOAT,
+  IPT	FLOAT,
+  total_ecrit	FLOAT,
+  rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Ecrit_Note_PSI" (
+  candidat_id INT,
+  Math1	FLOAT,
+  Math2	FLOAT,
+  Phy1	FLOAT,
+  Phy2	FLOAT,
+  Chimie	FLOAT,
+  Fr	FLOAT,
+  LV1	FLOAT,
+  IPT	FLOAT,
+  SI	FLOAT,
+  total_ecrit	FLOAT,
+  rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Ecrit_Note_PT" (
+  candidat_id INT,
+  Math1	FLOAT,
+  Math2	FLOAT,
+  Phy1	FLOAT,
+  Phy2	FLOAT,
+  Info_Model	FLOAT,
+  SI	FLOAT,
+  Fr	FLOAT,
+  LV1	FLOAT,
+  total_ecrit	FLOAT,
+  rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Ecrit_Note_TSI" (
+  candidat_id INT,
+  Math1	FLOAT,
+  Math2	FLOAT,
+  Phy1	FLOAT,
+  Phy2	FLOAT,
+  Fr	FLOAT,
+  LV1	FLOAT,
+  SI	FLOAT,
+  Info	FLOAT,
+  total_ecrit	FLOAT,
+  rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
 );

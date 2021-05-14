@@ -92,7 +92,6 @@ TABLE Classement_Note_MP {
   LV1 float
   IPT float
   Spe float
-  bonification int
   total_ecrit float
   rang_ecrit int
   
@@ -119,7 +118,6 @@ TABLE Classement_Note_PSI {
   LV1 float
   IPT float
   SI float
-  bonification int
   total_ecrit float
   rang_ecrit int
   
@@ -144,7 +142,6 @@ TABLE Classement_Note_PC {
   Fr float
   LV1 float
   IPT float
-  bonification int
   total_ecrit float
   rang_ecrit int
   
@@ -169,7 +166,6 @@ TABLE Classement_Note_PT {
   SI float
   Fr float
   LV1 float
-  bonification int
   total_ecrit float
   rang_ecrit int
   
@@ -194,7 +190,6 @@ TABLE Classement_Note_TSI {
   LV1 float
   SI float
   Info float
-  bonification int
   total_ecrit float
   rang_ecrit int
   
@@ -219,7 +214,6 @@ TABLE Classement_Note_ATS {
   Fr float
   Ang float
   SI float
-  bonification int
   moyenne_ecrit float
   total_ecrit float
   rang_ecrit int
