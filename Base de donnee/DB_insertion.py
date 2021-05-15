@@ -1,7 +1,8 @@
 import sqlite3
 import pandas as pd
-import os
 import sys
+import math
+
 sys.path.append('../python')
 from main import *
 
@@ -210,17 +211,61 @@ for i in range(taille['listeEtatsReponsesAppel.xlsx']):
     c.execute(req_etat_rep, (int(file['listeEtatsReponsesAppel.xlsx']['Ata _cod'][i]), file['listeEtatsReponsesAppel.xlsx']['Ata _lib'][i]) )
 
 # TABLE Note_Ecrit
-req_ecrit_ATS = "insert into Ecrit_Note_ATS (candidat_id, Math, Phy, Fr, Ang, SI, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?)"
+req_ecrit_ATS = "insert into Ecrit_Note_ATS (candidat_id, Math, Phy, Fr, Ang, SI, total_ecrit, moyenne_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?)"
 req_ecrit_MP = "insert into Ecrit_Note_MP (candidat_id, Math1, Math2, Phy1, Phy2, Chimie, Fr, LV1, IPT, Spe, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?,?)"
 req_ecrit_PC = "insert into Ecrit_Note_PC (candidat_id, Math1, Math2, Phy1, Phy2, Chimie, Fr, LV1, IPT, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?)"
 req_ecrit_PSI = "insert into Ecrit_Note_PSI (candidat_id, Math1, Math2, Phy1, Phy2, Chimie, Fr, LV1, IPT, SI, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?,?)"
 req_ecrit_PT = "insert into Ecrit_Note_PT (candidat_id, Math1, Math2, Phy1, Phy2, Info_Model, SI, Fr, LV1, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?)"
 req_ecrit_TSI = "insert into Ecrit_Note_TSI (candidat_id, Math1, Math2, Phy1, Phy2, Fr, LV1, SI, Info, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?)"
-fichiers_Classes_xlsx = ['Classes_MP_CMT_spe_XXXX.xlsx', 'Classes_PC_CMT_spe_XXXX.xlsx', 'Classes_PSI_CMT_spe_XXXX.xlsx', 'Classes_PT_CMT_spe_XXXX.xlsx', 'Classes_TSI_CMT_spe_XXXX.xlsx']
 
+# TABLE Note_Ecrit_MP
 tab = file['Classes_MP_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_MP_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_MP, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['599 (Informatique ou Sciences industrielles)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
+
+# TABLE Note_Ecrit_PC
+tab = file['Classes_PC_CMT_spe_XXXX.xlsx']
+for i in range(taille['Classes_PC_CMT_spe_XXXX.xlsx']):
+    c.execute(req_ecrit_PC, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
+
+# TABLE Note_Ecrit_PSI
+tab = file['Classes_PSI_CMT_spe_XXXX.xlsx']
+for i in range(taille['Classes_PSI_CMT_spe_XXXX.xlsx']):
+    c.execute(req_ecrit_PSI, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['606 (Sciences industrielles)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
+
+# TABLE Note_Ecrit_PT
+tab = file['Classes_PT_CMT_spe_XXXX.xlsx']
+for i in range(taille['Classes_PT_CMT_spe_XXXX.xlsx']):
+    c.execute(req_ecrit_PT, (int(tab['login'][i]), tab['700 (Mathématiques B)'][i], tab['701 (Mathématiques C)'][i], tab['702 (Physique A)'][i], tab['703 (Physique B)'][i], tab['704 (Informatique modélisation)'][i], tab['705 (Sciences industrielles A)'][i], float(tab['706 (Français B)'][i]), tab['707 (Langue A)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
+
+# TABLE Note_Ecrit_TSI
+tab = file['Classes_TSI_CMT_spe_XXXX.xlsx']
+for i in range(taille['Classes_TSI_CMT_spe_XXXX.xlsx']):
+    c.execute(req_ecrit_TSI, (int(tab['login'][i]), tab['800 (Mathématiques 1)'][i], tab['801 (Mathématiques 2)'][i], tab['802 (Physique 1)'][i], tab['803 (Physique 2)'][i], tab['804 (Français)'][i], tab['805 (Langue)'][i], tab['806 (Sciences industrielles)'][i], tab['807 (Informatique)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
+
+def note(x):
+    if not(0<=x and x<=20):
+        return None
+    else:
+        return x
+def moyenne_ats(i):
+    tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
+    if note(tab['Mathématiques'][i])==None or note(tab['Sc. Physiques'][i])==None or note(tab['Français'][i])==None or note(tab['Anglais'][i])==None or note(tab['Sciences Industrielles'][i])==None:
+        return None
+    else:
+        return tab['Moyenne'][i]
+
+def total_ats(i):
+    tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
+    if note(tab['Mathématiques'][i])==None or note(tab['Sc. Physiques'][i])==None or note(tab['Français'][i])==None or note(tab['Anglais'][i])==None or note(tab['Sciences Industrielles'][i])==None:
+        return None
+    else:
+        return tab['Total'][i]
+
+# TABLE Note_Ecrit_ATS
+tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
+for i in range(1,taille['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']):
+    c.execute(req_ecrit_ATS, (int(tab["Numéro d'inscription"][i]), note(tab['Mathématiques'][i]), note(tab['Sc. Physiques'][i]), note(tab['Français'][i]), note(tab['Anglais'][i]), note(tab['Sciences Industrielles'][i]), total_ats(i), moyenne_ats(i), int(tab['Rang'][i])) )
 
 conn.commit()
 conn.close()

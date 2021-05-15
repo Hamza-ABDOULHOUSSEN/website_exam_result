@@ -117,6 +117,7 @@ CREATE TABLE "Ecrit_Note_ATS" (
   Ang	FLOAT,
   SI	FLOAT,
   total_ecrit	FLOAT,
+  moyenne_ecrit	FLOAT,
   rang_ecrit	INT,
   FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
   PRIMARY KEY("candidat_id")
