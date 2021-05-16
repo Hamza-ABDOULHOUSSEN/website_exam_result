@@ -45,15 +45,21 @@ TABLE Candidat {
   
 }
 
-TABLE Pays {
-  code_pays int [pk]
-  pays text
-  nationalite text
+TABLE Bac {
+  bac_id int [pk]
+  annee int
+  mois int
+  code_serie text
 }
 
-Ref: Candidat.Pays_id > Pays.pays_id
-Ref: Candidat.Pays_Naissance_id > Pays.pays_id
-Ref: Candidat.Autre_Nationalite_id > Pays.pays_id
+Ref: Candidat.Bac_id > Bac.bac_id
+
+TABLE Code_Serie_Bac {
+  code_serie text [pk]
+  serie text
+}
+
+Ref: Bac.code_serie > Code_Serie_Bac.code_serie
 
 TABLE Code_Concours {
   Filliere text [pk]
@@ -61,181 +67,33 @@ TABLE Code_Concours {
 }
 
 Ref: Candidat.Filliere > Code_Concours.Filliere
- 
-TABLE Bac {
-  bac_id int [pk]
-  annee int
-  mois int
-  serie text
-}
-
-Ref: Candidat.Bac_id > Bac.bac_id
 
 TABLE Profession {
   code_profession int [pk]
   profession text
 }
 
-Ref: Candidat.Profession_pere_code > Profession.code
-Ref: Candidat.Profession_mere_code > Profession.code
+Ref: Candidat.Profession_pere_code > Profession.code_profession
+Ref: Candidat.Profession_mere_code > Profession.code_profession
 
-TABLE Classement_Note_MP {
+
+TABLE Pays {
+  code_pays int [pk]
+  pays text
+  nationalite text
+}
+
+Ref: Candidat.Pays_id > Pays.code_pays
+Ref: Candidat.Pays_Naissance_id > Pays.code_pays
+Ref: Candidat.Autre_Nationalite_id > Pays.code_pays
+
+TABLE MP_Spe_Info_SI {
   candidat_id int [pk]
   Spe_Info_SI text
-  
-  Math1 float
-  Math2 float
-  Phy1 float
-  Phy2 float
-  Chimie float
-  Fr float
-  LV1 float
-  IPT float
-  Spe float
-  total_ecrit float
-  rang_ecrit int
-  
-  Math_oral float
-  Phy_oral float
-  Fr_oral float
-  Ang_oral float
-  total_oral float
-  
-  Moyenne_generale float
-  total float
-  rang int
 }
 
-TABLE Classement_Note_PSI {
-  candidat_id int [pk]
-  
-  Math1 float
-  Math2 float
-  Phy1 float
-  Phy2 float
-  Chimie float
-  Fr float
-  LV1 float
-  IPT float
-  SI float
-  total_ecrit float
-  rang_ecrit int
-  
-  Math_oral float
-  Phy_oral float
-  Fr_oral float
-  Ang_oral float
-  total_oral float
-  
-  Moyenne_generale float
-  total float
-  rang int
-}
+Ref: MP_Spe_Info_SI.candidat_id - Candidat.candidat_id
 
-TABLE Classement_Note_PC {
-  candidat_id int [pk]
-  Math1 float
-  Math2 float
-  Phy1 float
-  Phy2 float
-  Chimie float
-  Fr float
-  LV1 float
-  IPT float
-  total_ecrit float
-  rang_ecrit int
-  
-  Math_oral float
-  Phy_oral float
-  Fr_oral float
-  Ang_oral float
-  total_oral float
-  
-  Moyenne_generale float
-  total float
-  rang int
-}
-
-TABLE Classement_Note_PT {
-  candidat_id int [pk]
-  Math1 float
-  Math2 float
-  Phy1 float
-  Phy2 float
-  "Info/Model" float
-  SI float
-  Fr float
-  LV1 float
-  total_ecrit float
-  rang_ecrit int
-  
-  Math_oral float
-  Phy_oral float
-  Fr_oral float
-  Ang_oral float
-  total_oral float
-  
-  Moyenne_generale float
-  total float
-  rang int
-}
-
-TABLE Classement_Note_TSI {
-  candidat_id int [pk]
-  Math1 float
-  Math2 float
-  Phy1 float
-  Phy2 float
-  Fr float
-  LV1 float
-  SI float
-  Info float
-  total_ecrit float
-  rang_ecrit int
-  
-  Math1_oral float
-  Math2_oral float
-  Phy1_oral float
-  Phy2_oral float
-  LV_oral float
-  TP_Phy_oral float
-  S2I_oral float
-  total_oral float
-  
-  Moyenne_generale float
-  total float
-  rang int
-}
-
-TABLE Classement_Note_ATS {
-  candidat_id int [pk]
-  Math float
-  Phy float
-  Fr float
-  Ang float
-  SI float
-  moyenne_ecrit float
-  total_ecrit float
-  rang_ecrit int
-  
-  Math_oral float
-  Phy_oral float
-  Genie_elec_oral float
-  Genie_meca_oral float
-  LV_oral float
-  Epreuve_ATS_oral float
-  moyenne_oral float
-  total_oral float
-  rang_oral int
-  
-}
-
-Ref: Classement_Note_MP.candidat_id > Candidat.candidat_id
-Ref: Classement_Note_PSI.candidat_id > Candidat.candidat_id
-Ref: Classement_Note_PC.candidat_id > Candidat.candidat_id
-Ref: Classement_Note_PT.candidat_id > Candidat.candidat_id
-Ref: Classement_Note_TSI.candidat_id > Candidat.candidat_id
-Ref: Classement_Note_ATS.candidat_id > Candidat.candidat_id
 
 TABLE Etablissement {
   code_etablissement text [pk]
@@ -247,11 +105,6 @@ TABLE Etablissement {
 }
 
 Ref: Candidat.Etablissement_id > Etablissement.code_etablissement
- 
-TABLE Ecole {
-  ecole_id int [pk] 
-  nom text
-}
 
 TABLE Voeux {
   candidat_id int [pk] 
@@ -259,11 +112,180 @@ TABLE Voeux {
   ordre int [pk]
 }
 
-Ref: Candidat.candidat_id > Voeux.candidat_id
+Ref: Voeux.candidat_id > Candidat.candidat_id
 Ref: Voeux.ecole_id > Ecole.ecole_id
 
+TABLE Ecole {
+  ecole_id int [pk] 
+  nom text
+}
+
+TABLE EtatReponse {
+  code int [pk]
+  reponse text
+}
+
+TABLE Ecrit_Note_ATS {
+  candidat_id int [pk]
+  Math float
+  Phy float
+  Fr float
+  Ang float
+  SI float
+  total_ecrit float
+  moyenne_ecrit float
+  rang_ecrit int
+}
+
+Ref: Ecrit_Note_ATS.candidat_id - Candidat.candidat_id
+
+TABLE Ecrit_Note_MP {
+  candidat_id int [pk]
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Chimie float
+  Fr float
+  LV1 float
+  IPT float
+  Spe float
+  total_ecrit float
+  rang_ecrit int
+}
+
+Ref: Ecrit_Note_MP.candidat_id - Candidat.candidat_id
+
+TABLE Ecrit_Note_PC {
+  candidat_id int [pk]
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Chimie float
+  Fr float
+  LV1 float
+  IPT float
+  total_ecrit float
+  rang_ecrit int
+}
+
+Ref: Ecrit_Note_PC.candidat_id - Candidat.candidat_id
+
+TABLE Ecrit_Note_PSI {
+  candidat_id int [pk]
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Chimie float
+  Fr float
+  LV1 float
+  IPT float
+  SI float
+  total_ecrit float
+  rang_ecrit int
+}
+
+Ref: Ecrit_Note_PSI.candidat_id - Candidat.candidat_id
 
 
+TABLE Ecrit_Note_PT {
+  candidat_id int [pk]
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  "Info/Model" float
+  SI float
+  Fr float
+  LV1 float
+  total_ecrit float
+  rang_ecrit int
+}
+
+Ref: Ecrit_Note_PT.candidat_id - Candidat.candidat_id
+
+TABLE Ecrit_Note_TSI {
+  candidat_id int [pk]
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  Fr float
+  LV1 float
+  SI float
+  Info float
+  total_ecrit float
+  rang_ecrit int
+}
+
+Ref: Ecrit_Note_TSI.candidat_id - Candidat.candidat_id
+
+
+TABLE Oral_Note_A {
+  candidat_id int [pk]
+  Math float
+  Phy_SI float
+  Fr_Entr float
+  Ang float
+}
+
+Ref: Oral_Note_A.candidat_id - Candidat.candidat_id
+
+TABLE Oral_Note_TSI_A {
+  candidat_id int
+  Math1 float
+  Math2 float
+  Phy1 float
+  Phy2 float
+  LV float
+  TP_Phy float
+  S2I float
+}
+
+Ref: Oral_Note_TSI_A.candidat_id - Candidat.candidat_id
+
+TABLE Oral_Note_B {
+  candidat_id int
+  Math float
+  QCM_Phy_Info float
+  Entr float
+  QCM_Ang float
+}
+
+Ref: Oral_Note_B.candidat_id - Candidat.candidat_id
+
+TABLE Oral_Note_ATS {
+  candidat_id int
+  Math float
+  Phy float
+  Genie_Elec float
+  Genie_Meca float
+  LV float
+  Total float
+  Moyenne float
+  Rang int
+}
+
+Ref: Oral_Note_ATS.candidat_id - Candidat.candidat_id
+
+TABLE Oral_Note_Opt {
+  candidat_id int
+  QCM_Phy_Info float
+  QCM_Ang float
+}
+
+Ref: Oral_Note_Opt.candidat_id - Candidat.candidat_id
+
+TABLE Oral_Resultat {
+  candidat_id int [pk]
+  total float
+  moyenne float
+  rang int
+}
+
+Ref: Oral_Resultat.candidat_id - Candidat.candidat_id
 
 TABLE Admission {
   candidat_id int [pk]
@@ -278,7 +300,3 @@ TABLE Admis {
 Ref: Admission.candidat_id > Candidat.candidat_id
 Ref: Admis.candidat_id > Candidat.candidat_id
 
-TABLE EtatReponse {
-  code int [pk]
-  reponse text
-}

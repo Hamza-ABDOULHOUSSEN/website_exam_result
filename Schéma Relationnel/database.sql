@@ -40,7 +40,6 @@ CREATE TABLE "Candidat" (
 	FOREIGN KEY("Autre_Nationalite_id") REFERENCES "Pays"("code_pays"),
 	FOREIGN KEY("Pays_id") REFERENCES "Pays"("code_pays"),
 	FOREIGN KEY("Etablissement_id") REFERENCES "Etablissement"("code_etablissement"),
-	FOREIGN KEY("candidat_id") REFERENCES "Voeux"("candidat_id"),
 	PRIMARY KEY("candidat_id")
 );
 
@@ -78,6 +77,13 @@ CREATE TABLE "Pays" (
 	PRIMARY KEY("code_pays")
 );
 
+CREATE TABLE "MP_Spe_Info_SI" (
+	candidat_id	INT,
+	Spe_Info_SI	TEXT,
+	FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+	PRIMARY KEY(candidat_id)
+);
+
 CREATE TABLE "Etablissement" (
 	"code_etablissement"	TEXT,
 	"etablissement"	TEXT,
@@ -93,13 +99,14 @@ CREATE TABLE "Voeux" (
 	"candidat_id"	INT,
 	"ecole_id"	INT,
 	"ordre"	INT,
+	FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+	FOREIGN KEY("ecole_id") REFERENCES "Ecole"("ecole_id"),
 	PRIMARY KEY("candidat_id","ecole_id","ordre")
 );
 
 CREATE TABLE "Ecole" (
 	"ecole_id"	INT,
 	"nom"	TEXT,
-	FOREIGN KEY("ecole_id") REFERENCES "Voeux"("ecole_id"),
 	PRIMARY KEY("ecole_id")
 );
 
@@ -125,7 +132,6 @@ CREATE TABLE "Ecrit_Note_ATS" (
 
 CREATE TABLE "Ecrit_Note_MP" (
   candidat_id INT,
-  Spe_Info_SI TEXT,
   Math1	FLOAT,
   Math2	FLOAT,
   Phy1	FLOAT,
@@ -202,6 +208,61 @@ CREATE TABLE "Ecrit_Note_TSI" (
   Info	FLOAT,
   total_ecrit	FLOAT,
   rang_ecrit	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Oral_Note_A" (
+  candidat_id INT,
+  Math	FLOAT,
+  Phy_SI	FLOAT,
+  Fr_Entr	FLOAT,
+  Ang	FLOAT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Oral_Note_TSI_A" (
+  candidat_id INT,
+  Math1	FLOAT,
+  Math2	FLOAT,
+  Phy1	FLOAT,
+  Phy2	FLOAT,
+  LV	FLOAT,
+  TP_Phy	FLOAT,
+  S2I	FLOAT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Oral_Note_B" (
+  candidat_id INT,
+  Math	FLOAT,
+  QCM_Phy_Info	FLOAT,
+  Entr	FLOAT,
+  QCM_Ang	FLOAT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Oral_Note_ATS" (
+  candidat_id INT,
+  Math	FLOAT,
+  Phy	FLOAT,
+  Genie_Elec	FLOAT,
+  Genie_Meca	FLOAT,
+  LV	FLOAT,
+  Total FLOAT,
+  Moyenne FLOAT,
+  Rang	INT,
+  FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
+  PRIMARY KEY("candidat_id")
+);
+
+CREATE TABLE "Oral_Note_Opt" (
+  candidat_id INT,
+  QCM_Phy_Info	FLOAT,
+  QCM_Ang	FLOAT,
   FOREIGN KEY("candidat_id") REFERENCES "Candidat"("candidat_id"),
   PRIMARY KEY("candidat_id")
 );

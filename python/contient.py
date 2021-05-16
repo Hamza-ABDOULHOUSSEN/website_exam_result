@@ -6,6 +6,9 @@ from main import *
 liste_non_inclu = []
 
 def contient(grand,petit):
+    global liste_non_inclu
+    liste_non_inclu = []
+
     (file,col) = grand
     (filebis,colbis) = petit
 
@@ -36,10 +39,11 @@ bigcol = 'CODE_CANDIDAT'
 big = (bigfile,bigcol)
 
 ### verifications Inscription contient tous les candidats
-liste_non_inclu = []
-col = 'Can _cod'
-for file in fichiers_admis:
-    print(file)
-    print( contient(big, (file,col)) )
+#liste_non_inclu = []
+
+#col = 'Can _cod'
+#for file in ['ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PC.xlsx']: #fichier_admis
+#    print(file)
+#    print( contient(big, (file,col)) )
 
 ## certains candidats ne sont pas dans Inscription

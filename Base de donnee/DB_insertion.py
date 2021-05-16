@@ -25,6 +25,8 @@ for name in All:         # All = listes des fichiers
 # Candidat
 req = "insert into Candidat (candidat_id,INE, Civ, Nom, Prenom, Autres_Prenoms, Date_Naissance, Ville_Naissance, Pays_Naissance_id, Francais, Autre_Nationalite_id, Adresse1, Adresse2, Code_Postal, Commune, Pays_id, Email, Telephone, Portable, Filliere, Classe, Puissance, Etablissement_id, Epreuve1, LV, Ville_ecrit, Bac_id, Bac_Mention, Bac_dep, Sujet_TIPE, Profession_pere_code, Profession_mere_code, Boursier) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
 req_ajout_ats = "insert into Candidat (candidat_id, Civ, Nom, Prenom, Adresse1, Adresse2, Code_Postal, Commune, Pays_id, Email, Telephone, Portable, Filliere) values (?,?,?,?,?,?,?,?,?,?,?,?,'ATS')"
+# MP_Spe_Info_Si
+req_spe_info_si = "insert into MP_Spe_Info_SI (candidat_id, Spe_Info_SI) values (?,?)"
 # Bac
 req_bac = "insert into Bac (bac_id, annee, mois, code_serie) values (?,?,?,?)"
 req_code_serie_bac = "insert into Code_Serie_Bac (code_serie, serie) values (?,?)"
@@ -46,7 +48,6 @@ req_ecole = "insert into Ecole (ecole_id,nom) values (?,?)"
 req_voeux = "insert into Voeux (candidat_id,ecole_id,ordre) values (?,?,?)"
 # EtatReponse
 req_etat_rep = "insert into EtatReponse (code,reponse) values (?,?)"
-
 
 def civ(n):
     if n == 1:
@@ -84,7 +85,7 @@ def mention(x):
     else:
         return x
 
-# TABLE BAC et CODE_SERIE_BAC
+### TABLE BAC et CODE_SERIE_BAC
 Dic_Bac = {}
 Dic_Bac_Serie = []
 Bac_id = -1
@@ -109,7 +110,7 @@ def bac(annee,mois,serie,codeserie):
 
         return Bac_id
 
-# TABLE CODE_CONCOURS
+### TABLE CODE_CONCOURS
 Dic_Filliere = []
 def filliere(filliere,code):
     if not(filliere in Dic_Filliere):
@@ -118,7 +119,7 @@ def filliere(filliere,code):
         c.execute(req_code_concours, (filliere,code) )
     return filliere
 
-# TABLE PROFESSION
+### TABLE PROFESSION
 Dic_Prof = []
 def prof(code,profession):
     code = int(code)
@@ -127,7 +128,7 @@ def prof(code,profession):
         c.execute(req_profession, (code,profession) )
     return code
 
-# TABLE PAYS
+### TABLE PAYS
 Dic_pays = {}
 Dic_nation = []
 
@@ -151,7 +152,7 @@ def natio(code,natio):
             c.execute(req_natio, (code,natio))
     return code
 
-# TABLE ETABLISSEMENT
+### TABLE ETABLISSEMENT
 pays_code_incr = -1
 def ajout_pays(pays):
     global pays_code_incr
@@ -173,19 +174,22 @@ def etab(code_etablissement, etablissement):
         c.execute(req_etab_ins, (code_etablissement,etablissement))
     return code_etablissement
 
-# TABLE CANDIDAT
+### TABLE CANDIDAT
 # Parcours de Inscription.xlsx
 for i in range(taille['Inscription.xlsx']):
     c.execute(req, (int(file['Inscription.xlsx']['CODE_CANDIDAT'][i]) , ine(file['Inscription.xlsx']['NUMERO_INE'][i]) ,  civ(file['Inscription.xlsx']['CIVILITE'][i]) , file['Inscription.xlsx']['NOM'][i] , file['Inscription.xlsx']['PRENOM'][i] , file['Inscription.xlsx']['AUTRES_PRENOMS'][i] , file['Inscription.xlsx']['DATE_NAISSANCE'][i] , file['Inscription.xlsx']['VILLE_NAISSANCE'][i] , pays(file['Inscription.xlsx']['CODE_PAYS_NAISSANCE'][i],file['Inscription.xlsx']['PAYS_NAISSANCE'][i]) ,  francais(file['Inscription.xlsx']['FRANCAIS'][i]) , natio(file['Inscription.xlsx']['CODE_PAYS_NATIONALITE'][i],file['Inscription.xlsx']['AUTRE_NATIONALITE'][i]) , file['Inscription.xlsx']['ADRESSE1'][i] , file['Inscription.xlsx']['ADRESSE2'][i] , int(file['Inscription.xlsx']['CP'][i]) , file['Inscription.xlsx']['VILLE'][i] , pays(file['Inscription.xlsx']['CODE_PAYS'][i],file['Inscription.xlsx']['LIBELLE_PAYS'][i]) , file['Inscription.xlsx']['EMAIL'][i] , file['Inscription.xlsx']['TELEPHONE'][i] , file['Inscription.xlsx']['TEL_PORTABLE'][i] , filliere(file['Inscription.xlsx']['VOIE'][i],file['Inscription.xlsx']['CODE_CONCOURS'][i]) , file['Inscription.xlsx']['CLASSE'][i] , file['Inscription.xlsx']['PUISSANCE'][i] , etab(file['Inscription.xlsx']['CODE_ETABLISSEMENT'][i],file['Inscription.xlsx']['ETABLISSEMENT'][i]) , file['Inscription.xlsx']['EPREUVE1'][i] , file['Inscription.xlsx']['OPTION1'][i] , file['Inscription.xlsx']['LIBELLE_VILLE_ECRIT'][i] , bac(file['Inscription.xlsx']['ANNEE_BAC'][i] , file['Inscription.xlsx']['MOIS_BAC'][i] , file['Inscription.xlsx']['SERIE'][i], file['Inscription.xlsx']['CODE_SERIE'][i]), mention(file['Inscription.xlsx']['MENTION'][i]) , bacdep(file['Inscription.xlsx']['CAN_DEP_BAC'][i]) , file['Inscription.xlsx']['SUJET_TIPE'][i] , prof(file['Inscription.xlsx']['COD_CSP_PERE'][i],file['Inscription.xlsx']['LIB_CSP_PERE'][i]) , prof(file['Inscription.xlsx']['COD_CSP_MERE'][i],file['Inscription.xlsx']['LIB_CSP_MERE'][i]) , boursier(file['Inscription.xlsx']['QUALITE'][i])) )
 
-# TABLE CANDIDAT
+    if file['Inscription.xlsx']['VOIE'][i] == 'MP':
+        c.execute(req_spe_info_si, (int(file['Inscription.xlsx']['CODE_CANDIDAT'][i]), file['Inscription.xlsx']['OPTION2'][i]) )
+
+### TABLE CANDIDAT
 # INSERTION CANDIDAT ATS
 tab = file['ADMISSIBLE_ATS.xlsx']
 for i in range(taille['ADMISSIBLE_ATS.xlsx']):
     c.execute(req_ajout_ats, (int(tab['Can _cod'][i]), civ(tab['Civ _lib'][i]), tab['Nom'][i], tab['Prenom'][i], tab['Can _ad 1'][i], tab['Can _ad 2'][i], int(tab['Can _cod _pos'][i]), tab['Can _com'][i], ajout_pays(tab['Can _pay _adr'][i]), tab['Can _mel'][i], tab['Can _tel'][i], tab['Can _por'][i]) )
 
 
-# TABLE ETABLISSEMENT
+### TABLE ETABLISSEMENT
 # Parcours de listeEtablissements.xlsx
 for i in range(taille['listeEtablissements.xlsx']):
     code_etablissement = file['listeEtablissements.xlsx']['Rne'][i]
@@ -197,20 +201,22 @@ for i in range(taille['listeEtablissements.xlsx']):
         c.execute(req_etab_new, (code_etablissement, etablissement, file['listeEtablissements.xlsx']['Type _etab'][i], file['listeEtablissements.xlsx']['Ville _etab'][i], int(file['listeEtablissements.xlsx']['Code _postal _etab'][i]), ajout_pays(file['listeEtablissements.xlsx']['Pays _atab'][i])) )
 
 
-# TABLE Ecole
+### TABLE Ecole
 for i in range(taille['listeEcoles.xlsx']):
     c.execute(req_ecole, (int(file['listeEcoles.xlsx']['Ecole'][i]), file['listeEcoles.xlsx']['Nom _ecole'][i]) )
 
-# TABLE Voeux
+### TABLE Voeux
 for fichier in fichiers_Voeux:
     for i in range(taille[fichier]):
         c.execute(req_voeux, (int(file[fichier]['Can _cod'][i]), int(file[fichier]['Eco _cod'][i]), int(file[fichier]['Voe _ord'][i])) )
 
-# TABLE EtatReponse
+### TABLE EtatReponse
 for i in range(taille['listeEtatsReponsesAppel.xlsx']):
     c.execute(req_etat_rep, (int(file['listeEtatsReponsesAppel.xlsx']['Ata _cod'][i]), file['listeEtatsReponsesAppel.xlsx']['Ata _lib'][i]) )
 
-# TABLE Note_Ecrit
+
+### TABLE Note_Ecrit
+##requetes
 req_ecrit_ATS = "insert into Ecrit_Note_ATS (candidat_id, Math, Phy, Fr, Ang, SI, total_ecrit, moyenne_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?)"
 req_ecrit_MP = "insert into Ecrit_Note_MP (candidat_id, Math1, Math2, Phy1, Phy2, Chimie, Fr, LV1, IPT, Spe, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?,?)"
 req_ecrit_PC = "insert into Ecrit_Note_PC (candidat_id, Math1, Math2, Phy1, Phy2, Chimie, Fr, LV1, IPT, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?)"
@@ -218,27 +224,91 @@ req_ecrit_PSI = "insert into Ecrit_Note_PSI (candidat_id, Math1, Math2, Phy1, Ph
 req_ecrit_PT = "insert into Ecrit_Note_PT (candidat_id, Math1, Math2, Phy1, Phy2, Info_Model, SI, Fr, LV1, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?)"
 req_ecrit_TSI = "insert into Ecrit_Note_TSI (candidat_id, Math1, Math2, Phy1, Phy2, Fr, LV1, SI, Info, total_ecrit, rang_ecrit) values (?,?,?,?,?,?,?,?,?,?,?)"
 
-# TABLE Note_Ecrit_MP
+### TABLE Note_Oral
+##requetes
+req_oral_A = "insert into Oral_Note_A (candidat_id, Math, Phy_SI, Fr_Entr, Ang) values (?,?,?,?,?)"
+req_oral_TSI_A = "insert into Oral_Note_TSI_A (candidat_id, Math1, Math2, Phy1, Phy2, LV, TP_Phy, S2I) values (?,?,?,?,?,?,?,?)"
+
+req_oral_B = "insert into Oral_Note_B (candidat_id, Math, QCM_Phy_Info, Entr, QCM_Ang) values (?,?,?,?,?)"
+
+req_oral_ATS = "insert into Oral_Note_ATS (candidat_id, Math, Phy, Genie_Elec, Genie_Meca, LV, Total, Moyenne, Rang) values (?,?,?,?,?,?,?,?,?)"
+
+req_oral_opt = "insert into Oral_Note_Opt (candidat_id, QCM_Phy_Info, QCM_Ang) values (?,?,?)"
+
+
+
+
+### TABLE Note_Ecrit_MP & TABLE Note_Oral_MP_A & TABLE Note_Oral_MP_B
+### TABLE Note_Oral_Opt
+
 tab = file['Classes_MP_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_MP_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_MP, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['599 (Informatique ou Sciences industrielles)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
 
-# TABLE Note_Ecrit_PC
+    if tab['type_admissible'][i] == 'A':
+        if not math.isnan(tab['5 (Physique ou Sciences industrielles)'][i]):
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['8 (Mathématiques)'][i],tab['5 (Physique ou Sciences industrielles)'][i], tab['6 (Entretien)'][i], tab['7 (Anglais)'][i]) )
+        else:
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['12 (Mathématiques)'][i],tab['9 (Physique)'][i], tab['10 (Français)'][i], tab['11 (Anglais)'][i]) )
+        
+        if not math.isnan(tab['1 (QCM info/physique)'][i]):
+            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+
+    else:
+        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+
+### TABLE Note_Ecrit_PC
 tab = file['Classes_PC_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_PC_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_PC, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
 
-# TABLE Note_Ecrit_PSI
+    if tab['type_admissible'][i] == 'A':
+        if not math.isnan(tab['5 (Physique ou Sciences industrielles)'][i]):
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['8 (Mathématiques)'][i],tab['5 (Physique ou Sciences industrielles)'][i], tab['6 (Entretien)'][i], tab['7 (Anglais)'][i]) )
+        else:
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['12 (Mathématiques)'][i],tab['9 (Physique)'][i], tab['10 (Français)'][i], tab['11 (Anglais)'][i]) )
+        
+        if not math.isnan(tab['1 (QCM info/physique)'][i]):
+            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+
+    else:
+        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+
+### TABLE Note_Ecrit_PSI
 tab = file['Classes_PSI_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_PSI_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_PSI, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['606 (Sciences industrielles)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
 
-# TABLE Note_Ecrit_PT
+    if tab['type_admissible'][i] == 'A':
+        if not math.isnan(tab['5 (Physique ou Sciences industrielles)'][i]):
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['8 (Mathématiques)'][i],tab['5 (Physique ou Sciences industrielles)'][i], tab['6 (Entretien)'][i], tab['7 (Anglais)'][i]) )
+        else:
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['12 (Mathématiques)'][i],tab['9 (Physique)'][i], tab['10 (Français)'][i], tab['11 (Anglais)'][i]) )
+        
+        if not math.isnan(tab['1 (QCM info/physique)'][i]):
+            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+
+    else:
+        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+
+### TABLE Note_Ecrit_PT
 tab = file['Classes_PT_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_PT_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_PT, (int(tab['login'][i]), tab['700 (Mathématiques B)'][i], tab['701 (Mathématiques C)'][i], tab['702 (Physique A)'][i], tab['703 (Physique B)'][i], tab['704 (Informatique modélisation)'][i], tab['705 (Sciences industrielles A)'][i], float(tab['706 (Français B)'][i]), tab['707 (Langue A)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
 
-# TABLE Note_Ecrit_TSI
+    if tab['type_admissible'][i] == 'A':
+        if not math.isnan(tab['5 (Physique ou Sciences industrielles)'][i]):
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['8 (Mathématiques)'][i],tab['5 (Physique ou Sciences industrielles)'][i], tab['6 (Entretien)'][i], tab['7 (Anglais)'][i]) )
+        else:
+            c.execute(req_oral_A, (int(tab['login'][i]), tab['12 (Mathématiques)'][i],tab['9 (Physique)'][i], tab['10 (Français)'][i], tab['11 (Anglais)'][i]) )
+        
+        if not math.isnan(tab['1 (QCM info/physique)'][i]):
+            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+
+    else:
+        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+
+### TABLE Note_Ecrit_TSI
 tab = file['Classes_TSI_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_TSI_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_TSI, (int(tab['login'][i]), tab['800 (Mathématiques 1)'][i], tab['801 (Mathématiques 2)'][i], tab['802 (Physique 1)'][i], tab['803 (Physique 2)'][i], tab['804 (Français)'][i], tab['805 (Langue)'][i], tab['806 (Sciences industrielles)'][i], tab['807 (Informatique)'][i], tab['total_ecrit'][i], int(tab['rang_admissible'][i])) )
@@ -248,6 +318,7 @@ def note(x):
         return None
     else:
         return x
+
 def moyenne_ats(i):
     tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
     if note(tab['Mathématiques'][i])==None or note(tab['Sc. Physiques'][i])==None or note(tab['Français'][i])==None or note(tab['Anglais'][i])==None or note(tab['Sciences Industrielles'][i])==None:
@@ -262,10 +333,15 @@ def total_ats(i):
     else:
         return tab['Total'][i]
 
-# TABLE Note_Ecrit_ATS
+### TABLE Note_Ecrit_ATS
 tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
 for i in range(1,taille['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']):
     c.execute(req_ecrit_ATS, (int(tab["Numéro d'inscription"][i]), note(tab['Mathématiques'][i]), note(tab['Sc. Physiques'][i]), note(tab['Français'][i]), note(tab['Anglais'][i]), note(tab['Sciences Industrielles'][i]), total_ats(i), moyenne_ats(i), int(tab['Rang'][i])) )
 
+### TABLE Note_Oral_ATS
+tab = file['ResultatOral_DD_MM_YYYY_ATS.xlsx']
+for i in range(1,taille['ResultatOral_DD_MM_YYYY_ATS.xlsx']):
+    c.execute(req_oral_ATS, (tab["Numéro d'inscription"][i], tab['Mathématiques'][i], tab['Sciences Physiques'][i], tab['Génie électrique'][i], tab['Génie mécanique'][i], tab['Langue au choix (oral commun)'][i], tab['Total'][i], tab['Moyenne'][i], tab['Rang'][i]) )
+    
 conn.commit()
 conn.close()
