@@ -32,20 +32,21 @@
 </nav>
 
 <script type="text/javascript">
-    const url = window.location.href.split("/");
-    const page = url[url.length - 1]
+    const path = window.location.pathname.substring(1);
 
-    switch (page) {
+    switch (path) {
         case "candidats":
         case "resultats":
         case "statistiques":
         case "about":
-            document.getElementById(page).classList.add("active");
+            document.getElementById(path).classList.add("active");
+            break;
+
+        case "":
+            document.getElementById("accueil").classList.add("active");
             break;
 
         default:
-            if (window.location.href.endsWith("/")) {
-                document.getElementById("accueil").classList.add("active");
-            }
+            break;
     }
 </script>
