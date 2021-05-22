@@ -83,9 +83,9 @@ def BuildRequest(args):
         coordinates = buildCoordinates(req)
         scolarship = buildScolarship(req)
         wishes = buildWishes(req)
-        res = list(zip(coordinates, scolarship, wishes))
-        tags = ["Coordonnées", "Scolarité", "Vœux"]
-
+        notes = buildNotes(req)
+        res = list(zip(coordinates, scolarship, wishes, notes))
+        tags = ["Coordonnées", "Scolarité", "Vœux", "Notes"]
     return res, tags, query
 
 
@@ -139,15 +139,15 @@ def buildCoordinates(req):
 
 
 def buildScolarship(req):
-    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.CP, E.Ville, Epreuve1, LV, Ville_ecrit, B.serie, Bac_Mention, Sujet_TIPE, Boursier " \
+    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.CP, E.Ville, Epreuve1, LV, Ville_ecrit, Bac_Mention, Sujet_TIPE, Boursier " \
              f"FROM Candidat " \
              f"JOIN Etablissement E on Candidat.Etablissement_id = E.code_etablissement " \
-             f"JOIN Bac B on B.bac_id = Candidat.Bac_id " \
              f"{req} " \
              f"ORDER BY Nom"
-
+    print(scolar)
     c = GetDB().cursor()
     c.execute(scolar)
+    print(c.fetchall())
     content = []
     for t in c.fetchall():
         filliere = "Filliere : " + str(t[2])
@@ -194,6 +194,31 @@ def buildWishes(req):
     return content
 
 
+def buildNotes(req):
+    note = "SELECT candidat_id, Nom, Filliere FROM Candidat " + req + " ORDER BY Nom"
+    c = GetDB().cursor()
+    d = GetDB().cursor()
+    notes = []
+    c.execute(note)
+    for t in c.fetchall():
+        if t[2] == "ATS":
+            d.execute(f"SELECT * FROM Ecrit_Note_ATS WHERE candidat_id = '{t[0]}'")
+        elif t[2] == "MP":
+            d.execute(f"SELECT * FROM Ecrit_Note_MP WHERE candidat_id = '{t[0]}'")
+        elif t[2] == "PC":
+            d.execute(f"SELECT * FROM Ecrit_Note_PC WHERE candidat_id = '{t[0]}'")
+        elif t[2] == "PSI":
+            d.execute(f"SELECT * FROM Ecrit_Note_PSI WHERE candidat_id = '{t[0]}'")
+        elif t[2] == "PT":
+            d.execute(f"SELECT * FROM Ecrit_Note_PT WHERE candidat_id = '{t[0]}'")
+        elif t[2] == "TSI":
+            d.execute(f"SELECT * FROM Ecrit_Note_TSI WHERE candidat_id = '{t[0]}'")
+
+        notes.append(d.fetchall())
+
+    return notes
+
+
 def GetDB():
     db = getattr(g, '_database', None)
     if db is None:
@@ -202,7 +227,7 @@ def GetDB():
 
 
 @app.teardown_appcontext
-def CloseConnection():
+def CloseConnection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
