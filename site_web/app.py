@@ -231,3 +231,7 @@ def CloseConnection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
+
+if __name__ == '__main__':
+    app.run()
