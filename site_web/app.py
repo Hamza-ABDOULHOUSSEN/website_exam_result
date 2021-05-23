@@ -55,6 +55,11 @@ def about():
     return render_template("about.html")
 
 
+@app.errorhandler(404)
+def errorPage(e):
+    return render_template("404.html"), 404
+
+
 def BuildRequest(args):
     query = ""
     req = ""
