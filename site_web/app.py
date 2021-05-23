@@ -144,19 +144,19 @@ def buildCoordinates(req):
 
 
 def buildScolarship(req):
-    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.CP, E.Ville, Epreuve1, LV, Ville_ecrit, Bac_Mention, Sujet_TIPE, Boursier " \
+    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.Ville, E.CP, Epreuve1, LV, Ville_ecrit, Code_Serie_Bac.serie, Bac_Mention, Sujet_TIPE, Boursier "\
              f"FROM Candidat " \
-             f"JOIN Etablissement E on Candidat.Etablissement_id = E.code_etablissement " \
-             f"{req} " \
+             f"JOIN Etablissement E ON Candidat.Etablissement_id = E.code_etablissement " \
+             f"JOIN Bac B ON Candidat.Bac_id = B.bac_id " \
+             f"JOIN Code_Serie_Bac ON B.code_serie = Code_Serie_Bac.code_serie" \
+             f" {req} " \
              f"ORDER BY Nom"
-    print(scolar)
     c = GetDB().cursor()
     c.execute(scolar)
-    print(c.fetchall())
     content = []
     for t in c.fetchall():
-        filliere = "Filliere : " + str(t[2])
         classe = "Classe : " + str(t[1])
+        filliere = "Filliere : " + str(t[2])
         puissance = "Année : " + str(t[3])
         etablissement = "Etablissement : " + str(t[4])
         if t[5] is not None:
