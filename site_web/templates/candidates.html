@@ -101,32 +101,40 @@
                             <h4>Résultat n°{{ loop.index }}</h4>
                         </div>
                     {% endif %}
-                    <div class="row">
-                        {% for element in res %}
-                            <div class="card bg-light mx-auto" style="width: 50rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ tags[loop.index0] }}</h5>
-                                    {# permet de faire la distinction entre l'affichage des voeux et les autres informations #}
-                                    {% if tags[loop.index0] == 'Vœux' %}
-                                        {% if element %}
-                                            <ol>
-                                                {% for line in element %}
-                                                    <li>{{ line }}</li>
-                                                {% endfor %}
-                                            </ol>
+                    <div>
+                        <div id="card_{{ loop.index }}" class="row">
+                            {% for element in res %}
+                                <div class="card bg-light mx-auto" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ tags[loop.index0] }}</h5>
+                                        <hr class="my-4">
+                                        {# permet de faire la distinction entre l'affichage des voeux et les autres informations #}
+                                        {% if tags[loop.index0] == 'Vœux' %}
+                                            {% if element %}
+                                                <ol>
+                                                    {% for line in element %}
+                                                        <li>{{ line }}</li>
+                                                    {% endfor %}
+                                                </ol>
+                                            {% else %}
+                                                <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
+                                            {% endif %}
                                         {% else %}
-                                            <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
+                                            <ul>
+                                                {% for line in element %}
+                                                    <li type="circle">{{ line }}</li>
+                                                {% endfor %}
+                                            </ul>
                                         {% endif %}
-                                    {% else %}
-                                        <ul>
-                                            {% for line in element %}
-                                                <li type="circle">{{ line }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div class="text-center">
+                            <input class="btn btn-outline-secondary" type="button"
+                                   value="Télécharger candidat n°{{ loop.index }}"
+                                   onclick="download('card_{{ loop.index }}')">
+                        </div>
                     </div>
                 {% endfor %}
             </div>
@@ -143,5 +151,29 @@
 <!-- Core theme JS-->
 <script src="{{ url_for('static',filename='js/bootstrap.js') }}"></script>
 <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
+
+<script type="text/javascript">
+    // code emprunté sur :  https://jsfiddle.net/ourcodeworld/rce6nn3z/2/
+    function dl(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
+    function download(id) {
+        var text = document.getElementById(id).innerHTML;
+        var fileName = id + ".html"
+
+        dl(fileName, text)
+    }
+</script>
+
 </body>
 </html>
