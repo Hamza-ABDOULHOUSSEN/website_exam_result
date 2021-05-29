@@ -88,9 +88,9 @@ def BuildRequest(args):
         coordinates = buildCoordinates(req)
         scolarship = buildScolarship(req)
         wishes = buildWishes(req)
-        notes = buildNotes(req)
+        notes = buildNotesEcrit(req)
         res = list(zip(coordinates, scolarship, wishes, notes))
-        tags = ["Coordonnées", "Scolarité", "Vœux", "Notes"]
+        tags = ["Coordonnées", "Scolarité", "Vœux", "Notes écrit"]
     return res, tags, query
 
 
@@ -144,7 +144,7 @@ def buildCoordinates(req):
 
 
 def buildScolarship(req):
-    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.Ville, E.CP, Epreuve1, LV, Ville_ecrit, Code_Serie_Bac.serie, Bac_Mention, Sujet_TIPE, Boursier "\
+    scolar = f"SELECT Nom, Classe, Filliere, Puissance, E.etablissement, E.Ville, E.CP, Epreuve1, LV, Ville_ecrit, Code_Serie_Bac.serie, Bac_Mention, Sujet_TIPE, Boursier " \
              f"FROM Candidat " \
              f"JOIN Etablissement E ON Candidat.Etablissement_id = E.code_etablissement " \
              f"JOIN Bac B ON Candidat.Bac_id = B.bac_id " \
@@ -199,28 +199,109 @@ def buildWishes(req):
     return content
 
 
-def buildNotes(req):
+def buildNotesEcrit(req):
     note = "SELECT candidat_id, Nom, Filliere FROM Candidat " + req + " ORDER BY Nom"
     c = GetDB().cursor()
     d = GetDB().cursor()
     notes = []
     c.execute(note)
+    added = False
     for t in c.fetchall():
         if t[2] == "ATS":
             d.execute(f"SELECT * FROM Ecrit_Note_ATS WHERE candidat_id = '{t[0]}'")
+            for note_individu in d.fetchall():
+                added = True
+                notes.append((
+                    ("Math", note_individu[0]),
+                    ("Physique", note_individu[1]),
+                    ("Français", note_individu[2]),
+                    ("Anglais", note_individu[3]),
+                    ("SI", note_individu[4]),
+                    ("Total", note_individu[5]),
+                ))
         elif t[2] == "MP":
             d.execute(f"SELECT * FROM Ecrit_Note_MP WHERE candidat_id = '{t[0]}'")
+            for note_individu in d.fetchall():
+                added = True
+                notes.append((
+                    ("Math 1", note_individu[1]),
+                    ("Math 2", note_individu[2]),
+                    ("Physique 1", note_individu[3]),
+                    ("Physique 1", note_individu[4]),
+                    ("Chimie", note_individu[5]),
+                    ("Français", note_individu[6]),
+                    ("LV1", note_individu[7]),
+                    ("IPT", note_individu[8]),
+                    ("Spe", note_individu[9]),
+                    ("Total", note_individu[10]),
+                    ("Rang", note_individu[11]),
+                ))
         elif t[2] == "PC":
             d.execute(f"SELECT * FROM Ecrit_Note_PC WHERE candidat_id = '{t[0]}'")
+            for note_individu in d.fetchall():
+                added = True
+                notes.append((
+                    ("Math 1", note_individu[1]),
+                    ("Math 2", note_individu[2]),
+                    ("Physique 1", note_individu[3]),
+                    ("Physique 1", note_individu[4]),
+                    ("Chimie", note_individu[5]),
+                    ("Français", note_individu[6]),
+                    ("LV1", note_individu[7]),
+                    ("IPT", note_individu[8]),
+                    ("Total", note_individu[9]),
+                    ("Rang", note_individu[10]),
+                ))
         elif t[2] == "PSI":
             d.execute(f"SELECT * FROM Ecrit_Note_PSI WHERE candidat_id = '{t[0]}'")
+            for note_individu in d.fetchall():
+                added = True
+                notes.append((
+                    ("Math 1", note_individu[1]),
+                    ("Math 2", note_individu[2]),
+                    ("Physique 1", note_individu[3]),
+                    ("Physique 1", note_individu[4]),
+                    ("Chimie", note_individu[5]),
+                    ("Français", note_individu[6]),
+                    ("LV1", note_individu[7]),
+                    ("IPT", note_individu[8]),
+                    ("SI", note_individu[9]),
+                    ("Total", note_individu[10]),
+                    ("Rang", note_individu[11]),
+                ))
         elif t[2] == "PT":
             d.execute(f"SELECT * FROM Ecrit_Note_PT WHERE candidat_id = '{t[0]}'")
+            for note_individu in d.fetchall():
+                added = True
+                notes.append((
+                    ("Math 1", note_individu[1]),
+                    ("Math 2", note_individu[2]),
+                    ("Physique 1", note_individu[3]),
+                    ("Physique 1", note_individu[4]),
+                    ("Informatique et modélisation", note_individu[5]),
+                    ("SI", note_individu[6]),
+                    ("Français", note_individu[7]),
+                    ("LV1", note_individu[8]),
+                    ("Total", note_individu[9]),
+                    ("Rang", note_individu[10]),
+                ))
         elif t[2] == "TSI":
             d.execute(f"SELECT * FROM Ecrit_Note_TSI WHERE candidat_id = '{t[0]}'")
-
-        notes.append(d.fetchall())
-
+            for note_individu in d.fetchall():
+                added = True
+                notes.append((
+                    ("Math 1", note_individu[1]),
+                    ("Math 2", note_individu[2]),
+                    ("Physique 1", note_individu[3]),
+                    ("Physique 1", note_individu[4]),
+                    ("Français", note_individu[5]),
+                    ("LV1", note_individu[6]),
+                    ("SI", note_individu[7]),
+                    ("Total", note_individu[8]),
+                    ("Rang", note_individu[9]),
+                ))
+        if not added:
+            notes.append(())
     return notes
 
 

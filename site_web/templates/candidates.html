@@ -119,6 +119,27 @@
                                             {% else %}
                                                 <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
                                             {% endif %}
+                                        {% elif tags[loop.index0] == "Notes écrit" %}
+                                            {% if element[0] %}
+                                                <table class="table table-sm">
+                                                    <thread>
+                                                        <th scope="col">Matière</th>
+                                                        <th scope="col">Note</th>
+                                                    </thread>
+                                                    <tbody>
+                                                    {% for line in element %}
+                                                        <tr>
+                                                            <td>{{ line[0] }}</td>
+                                                            <td>{{ line[1] }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+
+                                                    </tbody>
+                                                </table>
+                                            {% else %}
+                                                <p class="alert-danger p-1 mr-auto border">Aucune note pour une épreuve
+                                                    d'écrit.</p>
+                                            {% endif %}
                                         {% else %}
                                             <ul>
                                                 {% for line in element %}
