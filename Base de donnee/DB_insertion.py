@@ -253,8 +253,8 @@ req_ecrit_TSI = "insert into Ecrit_Note_TSI (candidat_id, Math1, Math2, Phy1, Ph
 
 ### TABLE Note_Oral
 ##requetes
-req_oral = "insert into Oral_Note (candidat_id, Math, Phy_SI, Entr, Ang) values (?,?,?,?,?)"
-req_oral_TSI = "insert into Oral_Note_TSI (candidat_id, Math1, Math2, Phy1, Phy2, LV, TP_Phy, S2I) values (?,?,?,?,?,?,?,?)"
+req_oral_A = "insert into Oral_Note_A (candidat_id, Math, Phy_SI, Entr, Ang) values (?,?,?,?,?)"
+req_oral_A_TSI = "insert into Oral_Note_A_TSI (candidat_id, Math1, Math2, Phy1, Phy2, LV, TP_Phy, S2I) values (?,?,?,?,?,?,?,?)"
 
 req_oral_B = "insert into Oral_Note_B (candidat_id, Math, QCM_Phy_Info, Entr, QCM_Ang) values (?,?,?,?,?)"
 
@@ -296,20 +296,21 @@ def centre(centre,jury):
 
 
 ### TABLE Note_Oral_A
-# Les MP et PC passe
+# Les MP et PC passent Physique
 for fichier in ['CMT_Oraux_YYYY_MP.xlsx', 'CMT_Oraux_YYYY_PC.xlsx']:
     tab = file[fichier]
     for i in range(taille[fichier]):
         if (0<=tab['Maths'][i] and tab['Maths'][i]<=20):
-            c.execute(req_oral, (int(tab["Numéro d'inscription"][i]), tab['Maths'][i],tab['Phys.'][i], tab['Entretien'][i], tab['Anglais'][i]) )
+            c.execute(req_oral_A, (int(tab["Numéro d'inscription"][i]), tab['Maths'][i],tab['Phys.'][i], tab['Entretien'][i], tab['Anglais'][i]) )
         if type(tab['Centre'][i]) != float and file[fichier]['Centre'][i] != ' ':
             c.execute(req_centre_jury, (int(tab["Numéro d'inscription"][i]), centre(tab['Centre'][i],tab['Jury'][i])) )
-        
+
+# Les PSI et PT passent SI    
 for fichier in ['CMT_Oraux_YYYY_PSI.xlsx', 'CMT_Oraux_YYYY_PT.xlsx']:
     tab = file[fichier]
     for i in range(taille[fichier]):
         if (0<=tab['Maths'][i] and tab['Maths'][i]<=20):
-            c.execute(req_oral, (int(tab["Numéro d'inscription"][i]), tab['Maths'][i],tab['S.I.'][i], tab['Entretien'][i], tab['Anglais'][i]) )
+            c.execute(req_oral_A, (int(tab["Numéro d'inscription"][i]), tab['Maths'][i],tab['S.I.'][i], tab['Entretien'][i], tab['Anglais'][i]) )
         if type(tab['Centre'][i]) != float and file[fichier]['Centre'][i] != ' ':
             c.execute(req_centre_jury, (int(tab["Numéro d'inscription"][i]), centre(tab['Centre'][i],tab['Jury'][i])) )
         
@@ -368,8 +369,10 @@ tab = file['Classes_TSI_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_TSI_CMT_spe_XXXX.xlsx']):
     c.execute(req_ecrit_TSI, (int(tab['login'][i]), tab['800 (Mathématiques 1)'][i], tab['801 (Mathématiques 2)'][i], tab['802 (Physique 1)'][i], tab['803 (Physique 2)'][i], tab['804 (Français)'][i], tab['805 (Langue)'][i], tab['806 (Sciences industrielles)'][i], tab['807 (Informatique)'][i], tab['total_ecrit'][i]) )
     c.execute(req_rang_ecrit, (int(tab['login'][i]), int(tab['rang_admissible'][i])) )
-    c.execute(req_oral_TSI, (int(tab['login'][i]), tab['13 (Mathématiques 1)'][i], tab['14 (Mathématiques 2)'][i], tab['15 (Physique-chimie 1)'][i], tab['16 (Physique-chimie 2)'][i], tab['17 (Langue vivante)'][i], tab['18 (TP Physique-chimie)'][i], tab['19 (S2I)'][i]) )
-
+    if tab['type_admissible'][i] == 'A':
+        c.execute(req_oral_A_TSI, (int(tab['login'][i]), tab['13 (Mathématiques 1)'][i], tab['14 (Mathématiques 2)'][i], tab['15 (Physique-chimie 1)'][i], tab['16 (Physique-chimie 2)'][i], tab['17 (Langue vivante)'][i], tab['18 (TP Physique-chimie)'][i], tab['19 (S2I)'][i]) )
+    else:
+        c.execute(req_oral_B, (int(tab['login'][i]), tab['4 (Mathématiques)'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
 
 def note(x):
     if not(0<=x and x<=20):

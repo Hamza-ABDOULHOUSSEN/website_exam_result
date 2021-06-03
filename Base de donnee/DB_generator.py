@@ -10,7 +10,6 @@ with open("../Schéma Relationnel/database.sql") as file:
     for line in content:
         if line.endswith(";"):
             command += line.strip()
-            print(command)
             c.execute(command)
             command = ""
         else:

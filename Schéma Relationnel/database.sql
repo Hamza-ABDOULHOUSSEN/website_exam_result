@@ -214,7 +214,7 @@ CREATE TABLE "rang_ecrit" (
   PRIMARY KEY("candidat_id")
 );
 
-CREATE TABLE "Oral_Note" (
+CREATE TABLE "Oral_Note_A" (
   candidat_id INT,
   Math	FLOAT,
   Phy_SI	FLOAT,
@@ -224,7 +224,7 @@ CREATE TABLE "Oral_Note" (
   PRIMARY KEY("candidat_id")
 );
 
-CREATE TABLE "Oral_Note_TSI" (
+CREATE TABLE "Oral_Note_A_TSI" (
   candidat_id INT,
   Math1	FLOAT,
   Math2	FLOAT,

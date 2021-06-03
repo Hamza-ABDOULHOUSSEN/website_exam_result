@@ -225,7 +225,7 @@ TABLE rang_ecrit {
 Ref: rang_ecrit.candidat_id - Candidat.candidat_id
 
 
-TABLE Oral_Note {
+TABLE Oral_Note_A {
   candidat_id int [pk]
   Math float
   Phy_SI float
@@ -233,9 +233,9 @@ TABLE Oral_Note {
   Ang float
 }
 
-Ref: Oral_Note.candidat_id - Candidat.candidat_id
+Ref: Oral_Note_A.candidat_id - Candidat.candidat_id
 
-TABLE Oral_Note_TSI {
+TABLE Oral_Note_A_TSI {
   candidat_id int
   Math1 float
   Math2 float
@@ -246,7 +246,7 @@ TABLE Oral_Note_TSI {
   S2I float
 }
 
-Ref: Oral_Note_TSI.candidat_id - Candidat.candidat_id
+Ref: Oral_Note_A_TSI.candidat_id - Candidat.candidat_id
 
 TABLE Oral_Note_B {
   candidat_id int
