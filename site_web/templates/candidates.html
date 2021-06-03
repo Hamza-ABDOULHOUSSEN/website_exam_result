@@ -119,7 +119,7 @@
                                             {% else %}
                                                 <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
                                             {% endif %}
-                                        {% elif tags[loop.index0] == "Notes écrit" %}
+                                        {% elif tags[loop.index0] == "Notes écrit" or tags[loop.index0] == "Notes des oraux" %}
                                             {% if element[0] %}
                                                 <table class="table table-sm">
                                                     <thread>
