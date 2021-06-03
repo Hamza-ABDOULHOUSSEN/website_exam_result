@@ -119,13 +119,15 @@
                                             {% else %}
                                                 <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
                                             {% endif %}
-                                        {% elif tags[loop.index0] == "Notes écrit" or tags[loop.index0] == "Notes des oraux" %}
+                                        {% elif tags[loop.index0] == "Notes écrit" or tags[loop.index0] == "Notes des oraux" or tags[loop.index0] == "Résultat et admissibilité" %}
                                             {% if element[0] %}
                                                 <table class="table table-sm">
-                                                    <thread>
-                                                        <th scope="col">Matière</th>
-                                                        <th scope="col">Note</th>
-                                                    </thread>
+                                                    {% if tags[loop.index0] != "Résultat et admissibilité" %}
+                                                        <thread>
+                                                            <th scope="col">Matière</th>
+                                                            <th scope="col">Note</th>
+                                                        </thread>
+                                                    {% endif %}
                                                     <tbody>
                                                     {% for line in element %}
                                                         <tr>
@@ -137,8 +139,17 @@
                                                     </tbody>
                                                 </table>
                                             {% else %}
-                                                <p class="alert-danger p-1 mr-auto border">Aucune note pour une épreuve
-                                                    d'écrit.</p>
+                                                <p class="alert-danger p-1 mr-auto border">Aucune note</p>
+                                            {% endif %}
+                                        {% elif tags[loop.index0] == "Jury et centre d'examen" %}
+                                            {% if element %}
+                                                <ol>
+                                                    {% for line in element %}
+                                                        <li>{{ line }}</li>
+                                                    {% endfor %}
+                                                </ol>
+                                            {% else %}
+                                                <p class="alert-danger p-1 mr-auto border">Aucun jury</p>
                                             {% endif %}
                                         {% else %}
                                             <ul>

@@ -35,8 +35,10 @@ def BuildRequest(args):
         jury = buildJury(req)
         notes_ecrit = buildNotesEcrit(req)
         notes_oral = buildNotesOral(req)
-        res = list(zip(coordinates, scolarship, wishes, jury, notes_ecrit, notes_oral))
-        tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit", "Notes des oraux"]
+        etat_admis = buildEtatAdmis(req)
+        res = list(zip(coordinates, scolarship, wishes, jury, notes_ecrit, notes_oral, etat_admis))
+        tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit", "Notes des oraux",
+                "Résultat et admissibilité"]
     return res, tags, query
 
 
@@ -150,19 +152,32 @@ def buildJury(req):
     req = req.replace("Nom", "Candidat.Nom")
     req = req.replace("Prenom", "Candidat.Prenom")
     req = req.replace("INE", "Candidat.INE")
-    juryReq = f"SELECT Nom, J.Jury, C.Centre FROM Candidat " \
-              f"JOIN Centre_Jury CJ on Candidat.candidat_id = CJ.candidat_id " \
-              f"JOIN Jury J on CJ.jury_id = J.jury_id " \
-              f"JOIN Centre C on J.centre_id = C.centre_id " \
-              f"{req} " \
-              f"ORDER BY Nom"
-    c = GetDB().cursor()
-    c.execute(juryReq)
+    candidatReq = f"SELECT Nom, candidat_id " \
+                  f"FROM Candidat " \
+                  f"{req} " \
+                  f"ORDER BY Nom"
     jury_centre = []
-    for t in c.fetchall():
-        jury = f"Jury : {t[1]}"
-        centre = f"Centre : {t[2]}"
-        jury_centre.append((jury, centre))
+
+    candidat = GetDB().cursor()
+    jury = GetDB().cursor()
+    candidat.execute(candidatReq)
+    for personne in candidat.fetchall():
+        added = False
+        juryReq = f"SELECT Jury, Centre " \
+                  f"FROM Centre_Jury " \
+                  f"JOIN Candidat C on Centre_Jury.candidat_id = C.candidat_id " \
+                  f"JOIN Jury J on Centre_Jury.jury_id = J.jury_id " \
+                  f"JOIN Centre C2 on J.centre_id = C2.centre_id " \
+                  f"WHERE C.candidat_id = '{personne[1]}'"
+        jury.execute(juryReq)
+        for j in jury.fetchall():
+            added = True
+            jury_centre.append((
+                ("Jury : " + str(j[0])),
+                ("Centre d'examen", str(j[1]))
+            ))
+        if not added:
+            jury_centre.append(())
 
     return jury_centre
 
@@ -341,6 +356,74 @@ def buildNotesOral(req):
             notes.append(note_candidat)
 
     return notes
+
+
+def buildEtatAdmis(req):
+    admisReq = f"SELECT candidat_id, Nom, Statut_admission " \
+               f"FROM Candidat " \
+               f"{req} " \
+               f"ORDER BY Nom"
+    admisDB = GetDB().cursor()
+    rangDB = GetDB().cursor()
+
+    # plusieurs curseurs sont nécéssaires car tous les
+    # candidats ne sont pas présents dans toutes les tables
+    admisDB.execute(admisReq)
+    statuts = []
+    for candidat in admisDB.fetchall():
+        rangEcritReq = f"SELECT rang_ecrit FROM rang_ecrit WHERE candidat_id = '{candidat[0]}'"
+        rangOralReq = f"SELECT rang_oral FROM rang_oral WHERE candidat_id = '{candidat[0]}'"
+        rangTotalReq = f"SELECT * FROM resultat WHERE candidat_id = '{candidat[0]}'"
+        type_admissible = candidat[2]
+        rangEcrit = ""
+        rangOral = ""
+        rangTotal = ""
+        noteTotale = ""
+        moyenneTotale = ""
+
+        rangDB.execute(rangEcritReq)
+        for rang in rangDB.fetchall():
+            rangEcrit = rang[0]
+
+        rangDB.execute(rangOralReq)
+        for rang in rangDB.fetchall():
+            rangOral = rang[0]
+
+        rangDB.execute(rangTotalReq)
+        for resume in rangDB.fetchall():
+            rangTotal = resume[1]
+            noteTotale = resume[2]
+            moyenneTotale = resume[3]
+
+        result = []
+        if not type_admissible:
+            type_admissible = "NON ADMIS"
+
+        result.append(("Type admissible", str(type_admissible)))
+
+        if not rangEcrit:
+            rangEcrit = "Aucun"
+        result.append(("Rang écrit", rangEcrit))
+
+        if not rangOral:
+            rangOral = "Aucun"
+        result.append(("Rang oral", rangOral))
+
+        if not rangTotal:
+            rangTotal = "Aucun"
+        result.append(("Rang total", rangTotal))
+
+        if not noteTotale:
+            noteTotale = "Aucun"
+        result.append(("Note totale", noteTotale))
+
+        if not moyenneTotale:
+            moyenneTotale = "Aucun"
+        result.append(("Moyenne totale", moyenneTotale))
+
+        statuts.append(result)
+
+    return statuts
 
 
 def GetDB():
