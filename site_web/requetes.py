@@ -309,7 +309,7 @@ def buildNotesOral(req):
                     ("Langue vivante", note[5])
                 ))
         elif candidat[2] == "TSI":
-            noteReq = f"SELECT * FROM Oral_Note_TSI WHERE candidat_id = '{candidat[0]}'"
+            noteReq = f"SELECT * FROM Oral_Note_A_TSI WHERE candidat_id = '{candidat[0]}'"
             noteDB.execute(noteReq)
             for note in noteDB.fetchall():
                 notes.append((
@@ -323,7 +323,7 @@ def buildNotesOral(req):
                 ))
         else:
             note_candidat = []
-            noteReq = f"SELECT * FROM Oral_Note WHERE candidat_id = '{candidat[0]}'"
+            noteReq = f"SELECT * FROM Oral_Note_A WHERE candidat_id = '{candidat[0]}'"
             noteDB.execute(noteReq)
 
             if candidat[1] in ["MP", "PC"]:
