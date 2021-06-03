@@ -88,9 +88,10 @@ def BuildRequest(args):
         coordinates = buildCoordinates(req)
         scolarship = buildScolarship(req)
         wishes = buildWishes(req)
-        notes = buildNotesEcrit(req)
-        res = list(zip(coordinates, scolarship, wishes, notes))
-        tags = ["Coordonnées", "Scolarité", "Vœux", "Notes écrit"]
+        jury = buildJury(req)
+        notes_ecrit = buildNotesEcrit(req)
+        res = list(zip(coordinates, scolarship, wishes, jury, notes_ecrit))
+        tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit"]
     return res, tags, query
 
 
@@ -199,12 +200,34 @@ def buildWishes(req):
     return content
 
 
+def buildJury(req):
+    req = req.replace("candidat_id", "Candidat.candidat_id")
+    req = req.replace("Nom", "Candidat.Nom")
+    req = req.replace("Prenom", "Candidat.Prenom")
+    req = req.replace("INE", "Candidat.INE")
+    juryReq = f"SELECT Nom, J.Jury, C.Centre FROM Candidat " \
+              f"JOIN Centre_Jury CJ on Candidat.candidat_id = CJ.candidat_id " \
+              f"JOIN Jury J on CJ.jury_id = J.jury_id " \
+              f"JOIN Centre C on J.centre_id = C.centre_id " \
+              f"{req} " \
+              f"ORDER BY Nom"
+    c = GetDB().cursor()
+    c.execute(juryReq)
+    jury_centre = []
+    for t in c.fetchall():
+        jury = f"Jury : {t[1]}"
+        centre = f"Centre : {t[2]}"
+        jury_centre.append((jury, centre))
+
+    return jury_centre
+
+
 def buildNotesEcrit(req):
-    note = "SELECT candidat_id, Nom, Filliere FROM Candidat " + req + " ORDER BY Nom"
+    noteReq = "SELECT candidat_id, Nom, Filliere FROM Candidat " + req + " ORDER BY Nom"
     c = GetDB().cursor()
     d = GetDB().cursor()
     notes = []
-    c.execute(note)
+    c.execute(noteReq)
     added = False
     for t in c.fetchall():
         if t[2] == "ATS":
@@ -233,13 +256,11 @@ def buildNotesEcrit(req):
                     ("LV1", note_individu[7]),
                     ("IPT", note_individu[8]),
                     ("Spe", note_individu[9]),
-                    ("Total", note_individu[10]),
-                    ("Rang", note_individu[11]),
+                    ("Total", note_individu[10])
                 ))
         elif t[2] == "PC":
             d.execute(f"SELECT * FROM Ecrit_Note_PC WHERE candidat_id = '{t[0]}'")
             for note_individu in d.fetchall():
-                added = True
                 notes.append((
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
@@ -249,9 +270,9 @@ def buildNotesEcrit(req):
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
                     ("IPT", note_individu[8]),
-                    ("Total", note_individu[9]),
-                    ("Rang", note_individu[10]),
+                    ("Total", note_individu[9])
                 ))
+                added = True
         elif t[2] == "PSI":
             d.execute(f"SELECT * FROM Ecrit_Note_PSI WHERE candidat_id = '{t[0]}'")
             for note_individu in d.fetchall():
@@ -266,8 +287,7 @@ def buildNotesEcrit(req):
                     ("LV1", note_individu[7]),
                     ("IPT", note_individu[8]),
                     ("SI", note_individu[9]),
-                    ("Total", note_individu[10]),
-                    ("Rang", note_individu[11]),
+                    ("Total", note_individu[10])
                 ))
         elif t[2] == "PT":
             d.execute(f"SELECT * FROM Ecrit_Note_PT WHERE candidat_id = '{t[0]}'")
@@ -282,8 +302,7 @@ def buildNotesEcrit(req):
                     ("SI", note_individu[6]),
                     ("Français", note_individu[7]),
                     ("LV1", note_individu[8]),
-                    ("Total", note_individu[9]),
-                    ("Rang", note_individu[10]),
+                    ("Total", note_individu[9])
                 ))
         elif t[2] == "TSI":
             d.execute(f"SELECT * FROM Ecrit_Note_TSI WHERE candidat_id = '{t[0]}'")
@@ -297,8 +316,7 @@ def buildNotesEcrit(req):
                     ("Français", note_individu[5]),
                     ("LV1", note_individu[6]),
                     ("SI", note_individu[7]),
-                    ("Total", note_individu[8]),
-                    ("Rang", note_individu[9]),
+                    ("Total", note_individu[8])
                 ))
         if not added:
             notes.append(())
