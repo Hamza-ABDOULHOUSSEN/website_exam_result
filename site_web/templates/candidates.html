@@ -143,11 +143,11 @@
                                             {% endif %}
                                         {% elif tags[loop.index0] == "Jury et centre d'examen" %}
                                             {% if element %}
-                                                <ol>
+                                                <ul>
                                                     {% for line in element %}
                                                         <li>{{ line }}</li>
                                                     {% endfor %}
-                                                </ol>
+                                                </ul>
                                             {% else %}
                                                 <p class="alert-danger p-1 mr-auto border">Aucun jury</p>
                                             {% endif %}

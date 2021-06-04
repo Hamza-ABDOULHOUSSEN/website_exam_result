@@ -173,8 +173,8 @@ def buildJury(req):
         for j in jury.fetchall():
             added = True
             jury_centre.append((
-                ("Jury : " + str(j[0])),
-                ("Centre d'examen", str(j[1]))
+                "Jury : " + str(j[0]),
+                "Centre d'examen : " + str(j[1])
             ))
         if not added:
             jury_centre.append(())
