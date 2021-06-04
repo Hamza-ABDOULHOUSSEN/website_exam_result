@@ -38,6 +38,7 @@ TABLE Candidat {
   Bac_dep text
   
   Sujet_TIPE text
+  Statut_admission text
   
   Profession_pere_code int
   Profession_mere_code int
@@ -134,7 +135,6 @@ TABLE Ecrit_Note_ATS {
   SI float
   total_ecrit float
   moyenne_ecrit float
-  rang_ecrit int
 }
 
 Ref: Ecrit_Note_ATS.candidat_id - Candidat.candidat_id
@@ -151,7 +151,6 @@ TABLE Ecrit_Note_MP {
   IPT float
   Spe float
   total_ecrit float
-  rang_ecrit int
 }
 
 Ref: Ecrit_Note_MP.candidat_id - Candidat.candidat_id
@@ -167,7 +166,6 @@ TABLE Ecrit_Note_PC {
   LV1 float
   IPT float
   total_ecrit float
-  rang_ecrit int
 }
 
 Ref: Ecrit_Note_PC.candidat_id - Candidat.candidat_id
@@ -184,7 +182,6 @@ TABLE Ecrit_Note_PSI {
   IPT float
   SI float
   total_ecrit float
-  rang_ecrit int
 }
 
 Ref: Ecrit_Note_PSI.candidat_id - Candidat.candidat_id
@@ -201,7 +198,6 @@ TABLE Ecrit_Note_PT {
   Fr float
   LV1 float
   total_ecrit float
-  rang_ecrit int
 }
 
 Ref: Ecrit_Note_PT.candidat_id - Candidat.candidat_id
@@ -217,23 +213,29 @@ TABLE Ecrit_Note_TSI {
   SI float
   Info float
   total_ecrit float
-  rang_ecrit int
 }
 
 Ref: Ecrit_Note_TSI.candidat_id - Candidat.candidat_id
+
+TABLE rang_ecrit {
+  candidat_id int [pk]
+  rang_ecrit int
+}
+
+Ref: rang_ecrit.candidat_id - Candidat.candidat_id
 
 
 TABLE Oral_Note_A {
   candidat_id int [pk]
   Math float
   Phy_SI float
-  Fr_Entr float
+  Entr float
   Ang float
 }
 
 Ref: Oral_Note_A.candidat_id - Candidat.candidat_id
 
-TABLE Oral_Note_TSI_A {
+TABLE Oral_Note_A_TSI {
   candidat_id int
   Math1 float
   Math2 float
@@ -244,7 +246,7 @@ TABLE Oral_Note_TSI_A {
   S2I float
 }
 
-Ref: Oral_Note_TSI_A.candidat_id - Candidat.candidat_id
+Ref: Oral_Note_A_TSI.candidat_id - Candidat.candidat_id
 
 TABLE Oral_Note_B {
   candidat_id int
@@ -263,9 +265,6 @@ TABLE Oral_Note_ATS {
   Genie_Elec float
   Genie_Meca float
   LV float
-  Total float
-  Moyenne float
-  Rang int
 }
 
 Ref: Oral_Note_ATS.candidat_id - Candidat.candidat_id
@@ -278,25 +277,48 @@ TABLE Oral_Note_Opt {
 
 Ref: Oral_Note_Opt.candidat_id - Candidat.candidat_id
 
-TABLE Oral_Resultat {
+TABLE rang_oral {
   candidat_id int [pk]
+  rang_oral int
+  total_oral float
+}
+
+Ref: rang_oral.candidat_id - Candidat.candidat_id
+
+TABLE resultat {
+  candidat_id int [pk]
+  rang int
   total float
   moyenne float
-  rang int
 }
 
-Ref: Oral_Resultat.candidat_id - Candidat.candidat_id
+Ref: resultat.candidat_id - Candidat.candidat_id
 
-TABLE Admission {
+TABLE Centre_Jury {
   candidat_id int [pk]
-  rang int
+  jury_id int
 }
 
-TABLE Admis {
+Ref: Centre_Jury.candidat_id - Candidat.candidat_id
+
+TABLE Jury {
+  jury_id int [pk]
+  Jury text
+  centre_id int
+}
+
+TABLE Centre {
+  centre_id int [pk]
+  Centre text
+}
+
+Ref:  Centre_Jury.jury_id > Jury.jury_id
+Ref: Jury.centre_id > Centre.centre_id
+
+TABLE type_admissible {
   candidat_id int [pk]
-  rang int
+  type_admissible text
 }
 
-Ref: Admission.candidat_id > Candidat.candidat_id
-Ref: Admis.candidat_id > Candidat.candidat_id
+Ref: type_admissible.candidat_id - Candidat.candidat_id
 

@@ -23,6 +23,12 @@ fichiers_Voeux = ['listeVoeux_ATS.xlsx', 'listeVoeux_MP.xlsx', 'listeVoeux_PC.xl
 fichiers_admis_only = ['ADMIS_ATS.xlsx', 'ADMIS_MP-SPE.xlsx', 'ADMIS_MP.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PC.xlsx', 'ADMIS_PSI-SPE.xlsx', 'ADMIS_PSI.xlsx', 'ADMIS_PT-SPE.xlsx', 'ADMIS_PT.xlsx', 'ADMIS_TSI-SPE.xlsx', 'ADMIS_TSI.xlsx']
 fichiers_admissible_only = ['ADMISSIBLE_ATS.xlsx', 'ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_MP.xlsx', 'ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMISSIBLE_PSI-SPE.xlsx', 'ADMISSIBLE_PSI.xlsx', 'ADMISSIBLE_PT-SPE.xlsx', 'ADMISSIBLE_PT.xlsx', 'ADMISSIBLE_TSI-SPE.xlsx', 'ADMISSIBLE_TSI.xlsx']
 
+fichiers_admis_normal = ['ADMIS_ATS.xlsx', 'ADMIS_MP.xlsx', 'ADMIS_PC.xlsx', 'ADMIS_PSI.xlsx', 'ADMIS_PT.xlsx', 'ADMIS_TSI.xlsx']
+fichiers_admis_spe = ['ADMIS_MP-SPE.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PSI-SPE.xlsx', 'ADMIS_PT-SPE.xlsx', 'ADMIS_TSI-SPE.xlsx']
+fichiers_admissible_normal = ['ADMISSIBLE_ATS.xlsx', 'ADMISSIBLE_MP.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMISSIBLE_PSI.xlsx', 'ADMISSIBLE_PT.xlsx', 'ADMISSIBLE_TSI.xlsx']
+fichiers_admissible_spe = ['ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PSI-SPE.xlsx', 'ADMISSIBLE_PT-SPE.xlsx', 'ADMISSIBLE_TSI-SPE.xlsx']
+
+
 def lecture(file):
     if file[-3:] == "csv":
         return pd.read_csv(dirPath+file, sep =';')
