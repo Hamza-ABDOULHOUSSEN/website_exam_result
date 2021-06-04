@@ -28,7 +28,9 @@ def candidates():
 
 @app.route('/resultats', methods = ["GET"])
 def results():
-    return render_template("results.html")
+    totalCount, admissibleCount, admisCount = buildGlobalResults()
+    return render_template("results.html", totalCount = totalCount, admissibleCount = admissibleCount,
+                           admisCount = admisCount)
 
 
 @app.route('/about', methods = ["GET"])

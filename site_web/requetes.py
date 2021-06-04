@@ -415,6 +415,68 @@ def buildEtatAdmis(req):
     return statuts
 
 
+def buildGlobalResults():
+    filieres = ["ATS", "MP", "PC", "PSI", "PT", "TSI"]
+    count = buildTotalCount(filieres)
+    admissible, admis = buildAdmissibiliteCount(filieres, count)
+    return count, admissible, admis
+
+
+def buildTotalCount(filieres):
+    count_filiere = []
+    DB = GetDB().cursor()
+    for filiere in filieres:  # boucle pour récupérer le nombre de candidat par filière
+        count_filiere.append((
+            filiere,
+            DB.execute(f"SELECT COUNT(*) FROM Candidat WHERE Filliere = '{filiere}'").fetchall()[0][0]
+        ))
+    count_filiere.append(("Total", DB.execute("SELECT COUNT(*) FROM Candidat").fetchall()[0][0]))
+
+    return count_filiere
+
+
+def buildAdmissibiliteCount(filieres, counts):
+    countsAdmissible = []
+    countsAdmis = []
+    DB = GetDB().cursor()
+    for i in range(len(filieres)):
+        countAdmissible = int(DB.execute(f"SELECT COUNT(*) "
+                                         f"FROM Candidat "
+                                         f"WHERE (Statut_admission = 'ADMISSIBLE' "
+                                         f"OR Statut_admission = 'ADMIS') "
+                                         f"AND (Filliere = '{filieres[i]}')"
+                                         ).fetchall()[0][0])
+        pourcentageAdmissible = int(10000 * countAdmissible / int(counts[i][1])) / 100
+        countsAdmissible.append((filieres[i], str(countAdmissible), str(pourcentageAdmissible)))
+
+        countAdmis = int(DB.execute(f"SELECT COUNT(*) "
+                                    f"FROM Candidat "
+                                    f"WHERE Statut_admission = 'ADMIS' "
+                                    f"AND Filliere = '{filieres[i]}'"
+                                    ).fetchall()[0][0])
+        pourcentageAdmis = int(10000 * countAdmis / int(counts[i][1])) / 100
+        countsAdmis.append((filieres[i], str(countAdmis), str(pourcentageAdmis)))
+
+    countTotalAdmissible = DB.execute(f"SELECT COUNT(*) "
+                                      f"FROM Candidat "
+                                      f"WHERE Statut_admission = 'ADMISSIBLE' "
+                                      f"OR Statut_admission = 'ADMIS'"
+                                      ).fetchall()[0][0]
+
+    countTotalAdmis = DB.execute(f"SELECT COUNT(*) "
+                                 f"FROM Candidat "
+                                 f"WHERE Statut_admission = 'ADMIS'"
+                                 ).fetchall()[0][0]
+
+    countsAdmissible.append(
+        ("Total", countTotalAdmissible, str(int(10000 * countTotalAdmissible / counts[-1][1]) / 100)))
+
+    countsAdmis.append(
+        ("Total", countTotalAdmis, str(int(10000 * countTotalAdmis / counts[-1][1]) / 100)))
+
+    return countsAdmissible, countsAdmis
+
+
 def GetDB():
     db = getattr(g, '_database', None)
     if db is None:
