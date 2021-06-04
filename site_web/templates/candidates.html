@@ -39,102 +39,100 @@
         </form>
     </div>
 </section>
-<div class="page-section">
-    {% if query != "none" %}
-        <section class="page-section">
-            <div class="container bg-faded p-5 rounded mr-auto">
-                <div class="row">
-                    <h3 class="bg-faded rounded p-2 mr-auto text-uppercase border">
-                        {% if query == "all" %}
-                            INE : {{ request.args["INE"] }} - {{ request.args["FirstName"] }}
-                            {{ request.args["name"] }}
-                        {% endif %}
-                    </h3>
-                </div>
-                {% if count == 0 %}
-                    <p>Il n'y a aucun résultat.</p>
-                {% elif count > 1 %}
-                    <p>Il y a {{ count }} résultats.</p>
-                {% endif %}
-
-                {% for res in result %}
-                    {% if count != 1 %}
-                        <div class="rounded bg-light p-1 mr-auto text-uppercase border">
-                            <h4>Résultat n°{{ loop.index }}</h4>
-                        </div>
+{% if query != "none" %}
+    <section class="page-section">
+        <div class="container bg-faded p-5 rounded mr-auto">
+            <div class="row">
+                <h3 class="bg-faded rounded p-2 mr-auto text-uppercase border">
+                    {% if query == "all" %}
+                        INE : {{ request.args["INE"] }} - {{ request.args["FirstName"] }}
+                        {{ request.args["name"] }}
                     {% endif %}
-                    <div>
-                        <div id="card_{{ loop.index }}" class="row">
-                            {% for element in res %}
-                                <div class="card bg-light mx-auto" style="width: 50rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ tags[loop.index0] }}</h5>
-                                        <hr class="my-4">
-                                        {# permet de faire la distinction entre l'affichage des voeux et les autres informations #}
-                                        {% if tags[loop.index0] == 'Vœux' %}
-                                            {% if element %}
-                                                <ol>
-                                                    {% for line in element %}
-                                                        <li>{{ line }}</li>
-                                                    {% endfor %}
-                                                </ol>
-                                            {% else %}
-                                                <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
-                                            {% endif %}
-                                        {% elif tags[loop.index0] == "Notes écrit" or tags[loop.index0] == "Notes des oraux" or tags[loop.index0] == "Résultat et admissibilité" %}
-                                            {% if element[0] %}
-                                                <table class="table table-sm">
-                                                    {% if tags[loop.index0] != "Résultat et admissibilité" %}
-                                                        <thread>
-                                                            <th scope="col">Matière</th>
-                                                            <th scope="col">Note</th>
-                                                        </thread>
-                                                    {% endif %}
-                                                    <tbody>
-                                                    {% for line in element %}
-                                                        <tr>
-                                                            <td>{{ line[0] }}</td>
-                                                            <td>{{ line[1] }}</td>
-                                                        </tr>
-                                                    {% endfor %}
+                </h3>
+            </div>
+            {% if count == 0 %}
+                <p>Il n'y a aucun résultat.</p>
+            {% elif count > 1 %}
+                <p>Il y a {{ count }} résultats.</p>
+            {% endif %}
 
-                                                    </tbody>
-                                                </table>
-                                            {% else %}
-                                                <p class="alert-danger p-1 mr-auto border">Aucune note</p>
-                                            {% endif %}
-                                        {% elif tags[loop.index0] == "Jury et centre d'examen" %}
-                                            {% if element %}
-                                                <ul>
-                                                    {% for line in element %}
-                                                        <li>{{ line }}</li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% else %}
-                                                <p class="alert-danger p-1 mr-auto border">Aucun jury</p>
-                                            {% endif %}
+            {% for res in result %}
+                {% if count != 1 %}
+                    <div class="rounded bg-light p-1 mr-auto text-uppercase border">
+                        <h4>Résultat n°{{ loop.index }}</h4>
+                    </div>
+                {% endif %}
+                <div>
+                    <div id="card_{{ loop.index }}" class="row">
+                        {% for element in res %}
+                            <div class="card bg-light mx-auto" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ tags[loop.index0] }}</h5>
+                                    <hr class="my-4">
+                                    {# permet de faire la distinction entre l'affichage des voeux et les autres informations #}
+                                    {% if tags[loop.index0] == 'Vœux' %}
+                                        {% if element %}
+                                            <ol>
+                                                {% for line in element %}
+                                                    <li>{{ line }}</li>
+                                                {% endfor %}
+                                            </ol>
                                         {% else %}
+                                            <p class="alert-danger p-1 mr-auto border">Aucun vœu</p>
+                                        {% endif %}
+                                    {% elif tags[loop.index0] == "Notes écrit" or tags[loop.index0] == "Notes des oraux" or tags[loop.index0] == "Résultat et admissibilité" %}
+                                        {% if element[0] %}
+                                            <table class="table table-sm">
+                                                {% if tags[loop.index0] != "Résultat et admissibilité" %}
+                                                    <thread>
+                                                        <th scope="col">Matière</th>
+                                                        <th scope="col">Note</th>
+                                                    </thread>
+                                                {% endif %}
+                                                <tbody>
+                                                {% for line in element %}
+                                                    <tr>
+                                                        <td>{{ line[0] }}</td>
+                                                        <td>{{ line[1] }}</td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        {% else %}
+                                            <p class="alert-danger p-1 mr-auto border">Aucune note</p>
+                                        {% endif %}
+                                    {% elif tags[loop.index0] == "Jury et centre d'examen" %}
+                                        {% if element %}
                                             <ul>
                                                 {% for line in element %}
-                                                    <li type="circle">{{ line }}</li>
+                                                    <li>{{ line }}</li>
                                                 {% endfor %}
                                             </ul>
+                                        {% else %}
+                                            <p class="alert-danger p-1 mr-auto border">Aucun jury</p>
                                         {% endif %}
-                                    </div>
+                                    {% else %}
+                                        <ul>
+                                            {% for line in element %}
+                                                <li type="circle">{{ line }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                 </div>
-                            {% endfor %}
-                        </div>
-                        <div class="text-center">
-                            <input class="btn btn-outline-secondary" type="button"
-                                   value="Télécharger candidat n°{{ loop.index }}"
-                                   onclick="download('card_{{ loop.index }}')">
-                        </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            </div>
-        </section>
-    {% endif %}
-</div>
+                    <div class="text-center">
+                        <input class="btn btn-outline-secondary" type="button"
+                               value="Télécharger candidat n°{{ loop.index }}"
+                               onclick="download('card_{{ loop.index }}')">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
 
 
 {% include 'footer.html' %}
