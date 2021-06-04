@@ -12,9 +12,7 @@ def index():
 
 @app.route('/candidats', methods = ["GET"])
 def candidates():
-    idForm = IdForm(request.form)
-    nameForm = NameForm(request.form)
-    ineForm = IneForm(request.form)
+    identityForm = IdentityForm(request.form)
     arguments = request.args
     query = "none"
     result = None
@@ -23,7 +21,7 @@ def candidates():
     if len(arguments) != 0:
         result, tags, query = BuildRequest(arguments)
         count = len(result)
-    return render_template("candidates.html", idForm = idForm, nameForm = nameForm, ineForm = ineForm,
+    return render_template("candidates.html", identityForm = identityForm,
                            result = result, tags = tags,
                            query = query, count = count)
 

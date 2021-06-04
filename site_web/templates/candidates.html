@@ -26,52 +26,17 @@
 
 {% include 'header.html' %}
 
-<section class="page-section">
-    <div class="container">
-        <div class="row bg-faded p-5 rounded mr-auto">
-            <article class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <div class="list-group" id="elementList" role="tablist">
-                    <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#id"
-                       role="tab">ID</a>
-                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#ine"
-                       role="tab">INE</a>
-                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#name" role="tab">Nom
-                        & Prénom</a>
-                </div>
-            </article>
-            <article class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="id">
-                        <h2>Recherche par ID</h2>
-                        <form action="/candidats" method="get">
-                            <dl>
-                                {{ render_field(idForm.id) }}
-                            </dl>
-                            <p><input class="btn btn-outline-secondary" id="id" type="submit" value="Recherche"></p>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="ine">
-                        <h2>Recherche par INE</h2>
-                        <form action="/candidats" method="get">
-                            <dl>
-                                {{ render_field(ineForm.INE) }}
-                            </dl>
-                            <p><input class="btn btn-outline-secondary" id="ine" type="submit" value="Recherche"></p>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="name">
-                        <h2>Recherche par nom - prénom</h2>
-                        <form action="/candidats" method="get">
-                            <dl>
-                                {{ render_field(nameForm.name) }}
-                                {{ render_field(nameForm.FirstName) }}
-                            </dl>
-                            <p><input class="btn btn-outline-secondary" id="name" type="submit" value="Recherche"></p>
-                        </form>
-                    </div>
-                </div>
-            </article>
-        </div>
+<section class="page-section container bg-faded p-5 rounded mr-auto">
+    <div class="row">
+        <h2>Recherche</h2>
+        <form action="/candidats" method="get">
+            <div class="row">
+                {{ render_field(identityForm.INE, class="form-control") }}
+                {{ render_field(identityForm.name, class="form-control") }}
+                {{ render_field(identityForm.FirstName, class="form-control") }}
+                <p><input class="btn btn-outline-secondary" type="submit" value="Rechercher"></p>
+            </div>
+        </form>
     </div>
 </section>
 <div class="page-section">
@@ -80,12 +45,9 @@
             <div class="container bg-faded p-5 rounded mr-auto">
                 <div class="row">
                     <h3 class="bg-faded rounded p-2 mr-auto text-uppercase border">
-                        {% if query == "name" %}
-                            Recherche par nom : {{ request.args["FirstName"] }} {{ request.args["name"] }}
-                        {% elif query == "id" %}
-                            Recherche avec un ID : {{ request.args["id"] }}
-                        {% elif query == "INE" %}
-                            Recherche avec un INE : {{ request.args["INE"] }}
+                        {% if query == "all" %}
+                            INE : {{ request.args["INE"] }} - {{ request.args["FirstName"] }}
+                            {{ request.args["name"] }}
                         {% endif %}
                     </h3>
                 </div>

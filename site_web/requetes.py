@@ -5,41 +5,30 @@ DATABASE = "CMT_database.db"
 
 
 def BuildRequest(args):
-    query = ""
-    req = ""
-
-    if "id" in args and len(args) == 1:
+    if "INE" in args and "name" in args and "FirstName" in args and len(args) == 3:
         # on a fait une demande de candidat avec un ID
-        ID = args["id"]
-        req = f"WHERE candidat_id = '{ID}'"
-        query = "id"
-
-    elif "name" in args and "FirstName" in args and len(args) == 2:
+        INE = args["INE"]
         name = args["name"]
         FirstName = args["FirstName"]
-        req = f"WHERE Nom = '{name}' AND Prenom = '{FirstName}'"
-        query = "name"
+        req = f"WHERE INE = '{INE}' " \
+              f"AND Nom = '{name}' " \
+              f"AND Prenom = '{FirstName}'"
 
-    elif "INE" in args and len(args) == 1:
-        ine = args["INE"]
-        req = f"WHERE INE = '{ine}'"
-        query = "INE"
+        res = None
+        tags = None
 
-    res = None
-    tags = None
-
-    if req != "":
-        coordinates = buildCoordinates(req)
-        scolarship = buildScolarship(req)
-        wishes = buildWishes(req)
-        jury = buildJury(req)
-        notes_ecrit = buildNotesEcrit(req)
-        notes_oral = buildNotesOral(req)
-        etat_admis = buildEtatAdmis(req)
-        res = list(zip(coordinates, scolarship, wishes, jury, notes_ecrit, notes_oral, etat_admis))
-        tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit", "Notes des oraux",
-                "Résultat et admissibilité"]
-    return res, tags, query
+        if req != "":
+            coordinates = buildCoordinates(req)
+            scolarship = buildScolarship(req)
+            wishes = buildWishes(req)
+            jury = buildJury(req)
+            notes_ecrit = buildNotesEcrit(req)
+            notes_oral = buildNotesOral(req)
+            etat_admis = buildEtatAdmis(req)
+            res = list(zip(coordinates, scolarship, wishes, jury, notes_ecrit, notes_oral, etat_admis))
+            tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit", "Notes des oraux",
+                    "Résultat et admissibilité"]
+        return res, tags, "all"
 
 
 def buildCoordinates(req):
