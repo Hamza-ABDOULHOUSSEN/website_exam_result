@@ -10,9 +10,9 @@ def BuildRequest(args):
         INE = args["INE"]
         name = args["name"]
         FirstName = args["FirstName"]
-        req = f"WHERE INE = '{INE}' " \
-              f"AND Nom = '{name}' " \
-              f"AND Prenom = '{FirstName}'"
+        req = f"WHERE lower(INE) = lower('{INE}') " \
+              f"AND lower(Nom) = lower('{name}') " \
+              f"AND lower(Prenom) = lower('{FirstName}')"
 
         res = None
         tags = None
