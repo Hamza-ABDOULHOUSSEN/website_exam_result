@@ -1,9 +1,10 @@
 import sqlite3
 import pandas as pd
-import sys
 import math
+import sys
 
-sys.path.append('../python')
+sys.path.append("python")
+
 from main import *
 
 DATABASE = "CMT_database.db"
@@ -223,7 +224,7 @@ tab = file['ADMISSIBLE_PT-SPE.xlsx']
 for i in range(taille['ADMISSIBLE_PT-SPE.xlsx']):
     c.execute(req_rang_ecrit, (int(tab['Can _cod'][i]), int(tab['rang'][i])) )
 
-for k in range(3):  # ajout du rang_ecrit des fichiers admissible normal MP, PC et PSI
+for k in range(4):  # ajout du rang_ecrit des fichiers admissible normal ATS, MP, PC et PSI
     tab=file[fichiers_admissible_normal[k]]
     for i in range(taille[fichiers_admissible_normal[k]]):
         if not math.isnan(tab['rang'][i]):
@@ -262,9 +263,6 @@ req_oral_ATS = "insert into Oral_Note_ATS (candidat_id, Math, Phy, Genie_Elec, G
 
 req_oral_opt = "insert into Oral_Note_Opt (candidat_id, QCM_Phy_Info, QCM_Ang) values (?,?,?)"
 
-### TABLE Note_Oral
-##requetes
-req_centre = "insert into Centre (candidat_id, Centre, Jury) values (?,?,?)"
 
 ### TABLE CENTRE
 Dic_centre = {}
