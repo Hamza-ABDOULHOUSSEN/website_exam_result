@@ -1,8 +1,6 @@
 import pandas as pd
+from main import dirPath, fichiers_admis_normal, fichiers_admis_spe, fichiers_admissible_normal, fichiers_admissible_spe
 
-dirPath = "../data/public/"
-fichiers_admis = ['ADMIS_MP-SPE.xlsx', 'ADMIS_MP.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PC.xlsx', 'ADMIS_PSI-SPE.xlsx', 'ADMIS_PSI.xlsx', 'ADMIS_PT-SPE.xlsx', 'ADMIS_PT.xlsx', 'ADMIS_TSI-SPE.xlsx', 'ADMIS_TSI.xlsx']
-fichiers_admissible = ['ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_MP.xlsx', 'ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMISSIBLE_PSI-SPE.xlsx', 'ADMISSIBLE_PSI.xlsx', 'ADMISSIBLE_PT-SPE.xlsx', 'ADMISSIBLE_PT.xlsx', 'ADMISSIBLE_TSI-SPE.xlsx', 'ADMISSIBLE_TSI.xlsx']
 
 def include(filespe, file):
 
@@ -21,15 +19,17 @@ def include(filespe, file):
     
     return "Tous les candidats de classes normales sont en classe spé"
 
-nadmis = len(fichiers_admis)
-nadmissible = len(fichiers_admissible)
+nadmis = len(fichiers_admis_spe)
+nadmissible = len(fichiers_admissible_spe)
 
 print("Fichier ADMIS")
-for i in range(0,nadmis,2):
-    print( include(dirPath+fichiers_admis[i], dirPath+fichiers_admis[i+1]) )
+for i in range(0,nadmis):
+    print( include(dirPath+fichiers_admis_spe[i], dirPath+fichiers_admis_normal[i+1]) ) #decalage car il y a les ATS en normal mais pas en spe
 
 print("")
 print("Fichier ADMISSIBLE")
-for i in range(0,nadmissible,2):
-    print( include(dirPath+fichiers_admissible[i], dirPath+fichiers_admissible[i+1]) )
+for i in range(0,nadmissible):
+    print( include(dirPath+fichiers_admissible_spe[i], dirPath+fichiers_admissible_normal[i+1]) )
+
+
     

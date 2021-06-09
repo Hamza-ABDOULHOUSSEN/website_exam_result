@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-dirPath = "../data/public/"
+dirPath = "data/public/"
 
 All1 = os.listdir(dirPath)
 # on retire les fichiers cachés
