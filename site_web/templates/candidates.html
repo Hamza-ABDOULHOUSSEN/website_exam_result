@@ -124,9 +124,15 @@
                         {% endfor %}
                     </div>
                     <div class="text-center">
-                        <input class="btn btn-outline-secondary" type="button"
-                               value="Télécharger candidat n°{{ loop.index }}"
-                               onclick="download('card_{{ loop.index }}')">
+                        {% if count == 1 %}
+                            <input class="btn btn-outline-secondary" type="button"
+                                   value="Télécharger rapport candidat"
+                                   onclick="download('card_{{ loop.index }}')">
+                        {% else %}
+                            <input class="btn btn-outline-secondary" type="button"
+                                   value="Télécharger rapport candidat n°{{ loop.index }}"
+                                   onclick="download('card_{{ loop.index }}')">
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -147,7 +153,7 @@
 <script type="text/javascript">
     // code emprunté sur :  https://jsfiddle.net/ourcodeworld/rce6nn3z/2/
     function dl(filename, text) {
-        var element = document.createElement('a');
+        let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         element.setAttribute('download', filename);
 
@@ -160,8 +166,8 @@
     }
 
     function download(id) {
-        var text = document.getElementById(id).innerHTML;
-        var fileName = id + ".html"
+        const text = document.getElementById(id).innerHTML;
+        const fileName = "Rapport.html"
 
         dl(fileName, text)
     }
