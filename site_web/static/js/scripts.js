@@ -23,7 +23,7 @@ function dl(filename, text) {
 
 function download(id) {
     const text = document.getElementById(id).innerHTML;
-    const fileName = "Rapport.html"
+    const fileName = "Rapport " + id + ".html"
 
     dl(fileName, text)
 }
