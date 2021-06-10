@@ -1,11 +1,12 @@
 import pandas as pd
+from main import *
 
-dirPath = "../data/public/"
-classes = ['Classes_MP_CMT_spe_XXXX.xlsx', 'Classes_PC_CMT_spe_XXXX.xlsx', 'Classes_PSI_CMT_spe_XXXX.xlsx', 'Classes_PT_CMT_spe_XXXX.xlsx', 'Classes_TSI_CMT_spe_XXXX.xlsx']
-fichiers_admissible = ['ADMISSIBLE_MP.xlsx', 'ADMISSIBLE_PC.xlsx', 'ADMISSIBLE_PSI.xlsx', 'ADMISSIBLE_PT.xlsx', 'ADMISSIBLE_TSI.xlsx']
-fichiers_admissible_spe = ['ADMISSIBLE_MP-SPE.xlsx', 'ADMISSIBLE_PC-SPE.xlsx', 'ADMISSIBLE_PSI-SPE.xlsx', 'ADMISSIBLE_PT-SPE.xlsx', 'ADMISSIBLE_TSI-SPE.xlsx']
-fichiers_admis = ['ADMIS_MP.xlsx', 'ADMIS_PC.xlsx', 'ADMIS_PSI.xlsx', 'ADMIS_PT.xlsx', 'ADMIS_TSI.xlsx']
-fichiers_admis_spe = ['ADMIS_MP-SPE.xlsx', 'ADMIS_PC-SPE.xlsx', 'ADMIS_PSI-SPE.xlsx', 'ADMIS_PT-SPE.xlsx', 'ADMIS_TSI-SPE.xlsx']
+
+classes = fichiers_Classes_xlsx
+fichiers_admissible = fichiers_admis_normal[1:] #On enleve les ATS
+fichiers_admissible_spe = fichiers_admissible_spe
+fichiers_admis = fichiers_admis_normal[1:] #On   enleve les ATS
+fichiers_admis_spe = fichiers_admis_spe
 
 
 

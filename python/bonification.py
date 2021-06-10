@@ -1,7 +1,7 @@
 import pandas as pd
+from main import fichiers_Classes_xlsx, dirPath
 
-dirPath = "../data/public/"
-classes = ['Classes_MP_CMT_spe_XXXX.xlsx', 'Classes_PC_CMT_spe_XXXX.xlsx', 'Classes_PSI_CMT_spe_XXXX.xlsx', 'Classes_PT_CMT_spe_XXXX.xlsx', 'Classes_TSI_CMT_spe_XXXX.xlsx']
+classes = fichiers_Classes_xlsx
 
 def bonif(file):
     ### lecture du fichier excel
