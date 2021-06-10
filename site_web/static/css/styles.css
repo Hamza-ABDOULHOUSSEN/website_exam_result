@@ -501,6 +501,11 @@ mark,
   color: #6c757d;
 }
 
+.examen{
+    color:#FA9999;
+    width:300px;
+}
+
 code {
   font-size: 87.5%;
   color: #e83e8c;
@@ -577,6 +582,14 @@ pre code {
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+}
+
+.exam{
+    display:block;
+}
+
+.espace{
+    margin:25px 25px 25px 25px;
 }
 
 .no-gutters {

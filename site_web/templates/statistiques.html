@@ -28,16 +28,49 @@
 
 <section class="page-section container bg-faded p-5 rounded mr-auto">
     <div class="row">
-        <h2>Sélection des filtres</h2>
+        <div class="exam">
+        <h2>Sélection de l'examen</h2>
 
         <br><br>
 
         <form action="/statistiques" method="get">
-            <select>
-                <option>Ecrit</option>
-                <option>Oral</option>
+            <select class="listeExam">
+                <optgroup label="Ecrits">
+                    <option>Mathématiques 1</option>
+                    <option>mathématiques 2</option>
+                    <option>Physique 1</option>
+                    <option>Physique 2</option>
+                    <option>Chimie</option>
+                    <option>Français</option>
+                    <option>LV1</option>
+                    <option>IPT</option>
+                    <option>SI</option>
+                    <option>Informatique modélisation</option>
+                    <option>Informatique</option>
+                </optgroup>
+                <optgroup label="Oraux">
+                    <option>Mathématiques </option>
+                    <option>Physique</option>
+                    <option>Anglais</option>
+                    <option>Entretien</option>
+                    <option>Sciences de l'Ingénieur</option>
+                    <option>Mathématiques 1</option>
+                    <option>mathématiques 2</option>
+                    <option>Physique 1</option>
+                    <option>Physique 2</option>
+                    <option>Langue vivante</option>
+                    <option>TP noté</option>
+                    <option>S2I</option>
+                    <option>QCM Physique Informatique</option>
+                    <option>QCM Anglais</option>
+                    <option>Génie Electrique</option>
+                    <option>Génie Mécanique</option>
+                </optgroup>
             </select>
         </form>
+        <p class="espace"></p>
+        <input class="btn btn-outline-secondary" type="submit" value="Rechercher">
+        </div>
     </div>
 </section>
 
