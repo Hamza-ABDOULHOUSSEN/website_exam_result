@@ -34,10 +34,10 @@ def lecture(file):
         return pd.read_csv(dirPath+file, sep =';')
 
     elif file == "Inscription.xlsx" or file[:7] == "Classes":
-        return pd.read_excel(dirPath+file, skiprows=1, engine='openpyxl')
+        return pd.read_excel(dirPath+file, skiprows=1)
 
     else:
-        return pd.read_excel(dirPath+file, engine ='openpyxl')
+        return pd.read_excel(dirPath+file)
 
 
 def read_all():
