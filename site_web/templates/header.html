@@ -18,10 +18,10 @@
                     <a class="nav-link text-uppercase text-expanded" href="/resultats">Résultats globaux</a>
                 </li>
 
-                <li id="statistiques" class="nav-item px-lg-4 dropdown">
-                    <a class="nav-link text-uppercase text-expanded dropdown-toggle"
-                       data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Statistiques</a>
-                    <ul>
+                <li id="statistiques" class="nav-item dropdown px-lg-4">
+                    <a class="nav-link dropdown-toggle text-uppercase text-expanded"
+                       data-bs-toggle="dropdown" role="button" aria-expanded="false">Statistiques</a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/statistiques/matiere">Statistiques par matière</a></li>
                         <li><a class="dropdown-item" href="/statistiques/voeux">Statistiques par vœux</a></li>
                     </ul>
@@ -43,6 +43,14 @@
         case "resultats":
         case "statistiques":
         case "about":
+            document.getElementById(path).classList.add("active");
+            break;
+
+        case "statistiques/matiere":
+            document.getElementById(path).classList.add("active");
+            break;
+
+        case "statistiques/matiere":
             document.getElementById(path).classList.add("active");
             break;
 
