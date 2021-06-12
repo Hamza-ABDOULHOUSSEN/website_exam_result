@@ -419,7 +419,8 @@ def buildGlobalResults():
     filieres = ["ATS", "MP", "PC", "PSI", "PT", "TSI"]
     count = buildTotalCount(filieres)
     admissible, admis = buildAdmissibiliteCount(filieres, count)
-    return count, admissible, admis
+    rangs = buildlastrang(filieres)
+    return count, admissible, admis, rangs
 
 
 def buildTotalCount(filieres):
@@ -475,6 +476,15 @@ def buildAdmissibiliteCount(filieres, counts):
         ("Total", countTotalAdmis, str(int(10000 * countTotalAdmis / counts[-1][1]) / 100)))
 
     return countsAdmissible, countsAdmis
+
+def buildlastrang(filieres):
+    rangs = []
+    DB = GetDB().cursor()
+    for i in range(len(filieres)):
+        rang = DB.execute(f"SELECT MAX(resultat.rang), MIN(resultat.total) FROM resultat JOIN Candidat ON Candidat.candidat_id = resultat.candidat_id WHERE Candidat.Statut_admission = 'ADMIS' AND Candidat.Filliere = '{filieres[i]}'"
+                            ).fetchall()[0]
+        rangs.append((filieres[i], rang[0], rang[1]))
+    return rangs
 
 
 def GetDB():
