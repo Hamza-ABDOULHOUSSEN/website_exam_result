@@ -32,9 +32,16 @@ def results():
     return render_template("results.html", totalCount = totalCount, admissibleCount = admissibleCount,
                            admisCount = admisCount)
 
+
 @app.route('/statistiques/matiere', methods = ["GET"])
-def stats():
-    return render_template("statistiques.html")
+def stats_matiere():
+    return render_template("statistiques_matiere.html")
+
+
+@app.route('/statistiques/voeux', methods = ["GET"])
+def stats_voeux():
+    return render_template("statistiques_voeux.html")
+
 
 @app.route('/about', methods = ["GET"])
 def about():
