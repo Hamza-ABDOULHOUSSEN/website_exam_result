@@ -18,9 +18,13 @@
                     <a class="nav-link text-uppercase text-expanded" href="/resultats">Résultats globaux</a>
                 </li>
 
-                <li id="statistiques" class="nav-item px-lg-4">
-                    <a class="nav-link text-uppercase text-expanded"
-                       href="/statistiques">Statistiques</a>
+                <li id="statistiques" class="nav-item px-lg-4 dropdown">
+                    <a class="nav-link text-uppercase text-expanded dropdown-toggle"
+                       data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Statistiques</a>
+                    <ul>
+                        <li><a class="dropdown-item" href="/statistiques/matiere">Statistiques par matière</a></li>
+                        <li><a class="dropdown-item" href="/statistiques/voeux">Statistiques par vœux</a></li>
+                    </ul>
                 </li>
 
                 <li id="about" class="nav-item px-lg-4">
