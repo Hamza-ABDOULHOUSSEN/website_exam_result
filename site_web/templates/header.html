@@ -41,17 +41,13 @@
     switch (path) {
         case "candidats":
         case "resultats":
-        case "statistiques":
         case "about":
             document.getElementById(path).classList.add("active");
             break;
 
         case "statistiques/matiere":
-            document.getElementById(path).classList.add("active");
-            break;
-
-        case "statistiques/matiere":
-            document.getElementById(path).classList.add("active");
+        case "statistiques/voeux":
+            document.getElementById("statistiques").classList.add("active");
             break;
 
         case "":
