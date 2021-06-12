@@ -1,4 +1,5 @@
 from flask import g
+import re
 import sqlite3
 
 DATABASE = "CMT_database.db"
@@ -7,9 +8,9 @@ DATABASE = "CMT_database.db"
 def BuildRequest(args):
     if "INE" in args and "name" in args and "FirstName" in args and len(args) == 3:
         # on a fait une demande de candidat avec un ID
-        INE = args["INE"]
-        name = args["name"]
-        FirstName = args["FirstName"]
+        INE = sanitize(args["INE"])
+        name = sanitize(args["name"])
+        FirstName = sanitize(args["FirstName"])
         req = f"WHERE LOWER(INE) = LOWER('{INE}') " \
               f"AND LOWER(Nom) = LOWER('{name}') " \
               f"AND LOWER(Prenom) = LOWER('{FirstName}')"
@@ -29,6 +30,15 @@ def BuildRequest(args):
             tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit", "Notes des oraux",
                     "Résultat et admissibilité"]
         return res, tags, "all"
+
+
+def sanitize(string):
+    pattern = "^[a-z0-9éèàùô]+$"
+    checker = re.compile(pattern, re.IGNORECASE)
+    if (checker.match(string)):
+        return string
+    else:
+        return "Wrong format"
 
 
 def buildCoordinates(req):
@@ -477,12 +487,14 @@ def buildAdmissibiliteCount(filieres, counts):
 
     return countsAdmissible, countsAdmis
 
+
 def buildlastrang(filieres):
     rangs = []
     DB = GetDB().cursor()
     for i in range(len(filieres)):
-        rang = DB.execute(f"SELECT MAX(resultat.rang), MIN(resultat.total) FROM resultat JOIN Candidat ON Candidat.candidat_id = resultat.candidat_id WHERE Candidat.Statut_admission = 'ADMIS' AND Candidat.Filliere = '{filieres[i]}'"
-                            ).fetchall()[0]
+        rang = DB.execute(
+            f"SELECT MAX(resultat.rang), MIN(resultat.total) FROM resultat JOIN Candidat ON Candidat.candidat_id = resultat.candidat_id WHERE Candidat.Statut_admission = 'ADMIS' AND Candidat.Filliere = '{filieres[i]}'"
+        ).fetchall()[0]
         rangs.append((filieres[i], rang[0], rang[1]))
     return rangs
 
