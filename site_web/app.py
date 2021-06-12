@@ -40,7 +40,8 @@ def stats_matiere():
 
 @app.route('/statistiques/voeux', methods = ["GET"])
 def stats_voeux():
-    return render_template("statistiques_voeux.html")
+    counts = buildVoeuxDemande()
+    return render_template("statistiques_voeux.html", counts = counts)
 
 
 @app.route('/about', methods = ["GET"])

@@ -25,6 +25,28 @@
 
 {% include 'header.html' %}
 
+<section class="page-section container bg-faded p-5 rounded mr-auto">
+    <div class="row">
+        <h1>Demande des candidats par école</h1>
+        <table class="table table-sm">
+            <thread>
+                <th scope="col">Ecole</th>
+                <th scope="col">Nombre de demande</th>
+                <th scope="col">Pourcentage de candidats</th>
+            </thread>
+            <tbody>
+            {% for line in counts %}
+                <tr>
+                    <td>{{ line[0] }}</td>
+                    <td>{{ line[1] }}</td>
+                    <td>{{ line[2] }} %</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
 {% include 'footer.html' %}
 
 <!-- Bootstrap core JS-->

@@ -477,6 +477,26 @@ def buildAdmissibiliteCount(filieres, counts):
     return countsAdmissible, countsAdmis
 
 
+def buildVoeuxDemande():
+    countCandidat = int(GetDB().cursor().execute("SELECT COUNT(*) FROM Candidat").fetchall()[0][0])
+    ecoleReq = "SELECT DISTINCT * FROM Ecole"
+    ecoleDB = GetDB().cursor().execute(ecoleReq)
+    voeuxDB = GetDB().cursor()
+    voeuxCount = []
+
+    for ecole in ecoleDB.fetchall():
+        voeuxReq = f"SELECT COUNT(*) FROM Voeux WHERE ecole_id = '{ecole[0]}'"
+        count = int(voeuxDB.execute(voeuxReq).fetchall()[0][0])
+        voeuxCount.append((ecole[1], count, int(10000 * count / countCandidat) / 100))
+
+    voeuxCount.sort(key = element, reverse = True)
+    return voeuxCount
+
+
+def element(elem):
+    return elem[1]
+
+
 def GetDB():
     db = getattr(g, '_database', None)
     if db is None:
