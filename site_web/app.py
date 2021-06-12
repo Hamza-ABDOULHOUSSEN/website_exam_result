@@ -32,7 +32,7 @@ def results():
     return render_template("results.html", totalCount = totalCount, admissibleCount = admissibleCount,
                            admisCount = admisCount)
 
-@app.route('/statistiques', methods = ["GET"])
+@app.route('/statistiques/matiere', methods = ["GET"])
 def stats():
     return render_template("statistiques.html")
 
