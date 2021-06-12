@@ -478,23 +478,42 @@ def buildAdmissibiliteCount(filieres, counts):
 
 
 def buildVoeuxDemande():
-    countCandidat = int(GetDB().cursor().execute("SELECT COUNT(*) FROM Candidat").fetchall()[0][0])
+    filieres = ["ATS", "MP", "PC", "PSI", "PT", "TSI"]
+
+    countCandidat = int(GetDB().cursor().execute("SELECT COUNT(Nom) FROM Candidat").fetchall()[0][0])
     ecoleReq = "SELECT DISTINCT * FROM Ecole"
-    ecoleDB = GetDB().cursor().execute(ecoleReq)
-    voeuxDB = GetDB().cursor()
+    ecoleDB = GetDB().execute(ecoleReq)
+    voeuxDB = GetDB()
     voeuxCount = []
 
     for ecole in ecoleDB.fetchall():
-        voeuxReq = f"SELECT COUNT(*) FROM Voeux WHERE ecole_id = '{ecole[0]}'"
-        count = int(voeuxDB.execute(voeuxReq).fetchall()[0][0])
-        voeuxCount.append((ecole[1], count, int(10000 * count / countCandidat) / 100))
+        voeuxTotalReq = f"SELECT COUNT(Voeux.candidat_id) FROM Voeux WHERE ecole_id = '{ecole[0]}'"
+        voeuxFiliereCount = []
 
-    voeuxCount.sort(key = element, reverse = True)
+        for f in filieres:
+            voeuxFiliereReq = f"SELECT COUNT(Voeux.candidat_id) " \
+                              f"FROM Voeux " \
+                              f"JOIN Ecole E on E.ecole_id = Voeux.ecole_id " \
+                              f"JOIN Candidat C on Voeux.candidat_id = C.candidat_id " \
+                              f"WHERE E.ecole_id = '{ecole[0]}' AND C.Filliere = '{f}'"
+            countFiliere = int(voeuxDB.execute(voeuxFiliereReq).fetchall()[0][0])
+            voeuxFiliereCount.append(countFiliere)
+        somme = sum(voeuxFiliereCount)
+        ecoleList = [ecole[1]] + voeuxFiliereCount + [somme] + [int(10000 * somme / countCandidat) / 100]
+        voeuxCount.append(ecoleList)
+
+    element8 = lambda x: x[7]
+    voeuxCount.sort(key = element8, reverse = True)
     return voeuxCount
 
 
-def element(elem):
-    return elem[1]
+def buildNomEcole():
+    ecoleReq = "SELECT nom FROM Ecole"
+    nom = [t[0] for t in GetDB().execute(ecoleReq).fetchall()]
+    nom.sort()
+    nom.insert(0, "Toutes les écoles")
+    ids = list(range(0, len(nom) + 1))
+    return list(zip(ids, nom))
 
 
 def GetDB():

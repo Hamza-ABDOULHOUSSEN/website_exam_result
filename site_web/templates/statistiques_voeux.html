@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="{{ url_for('static', filename="css/styles.css") }}"/>
+    {% from "_formhelpers.html" import render_field %}
 </head>
 <body>
 <h1 class="site-heading text-center text-white d-none d-lg-block">
@@ -28,18 +29,25 @@
 <section class="page-section container bg-faded p-5 rounded mr-auto">
     <div class="row">
         <h1>Demande des candidats par école</h1>
+        {{ render_field(ecoles.nomEcole, class="form-select") }}
         <table class="table table-sm">
             <thread>
                 <th scope="col">Ecole</th>
-                <th scope="col">Nombre de demande</th>
-                <th scope="col">Pourcentage de candidats</th>
+                <th scope="col">ATS</th>
+                <th scope="col">MP</th>
+                <th scope="col">PC</th>
+                <th scope="col">PSI</th>
+                <th scope="col">PT</th>
+                <th scope="col">TSI</th>
+                <th scope="col">Nombre total de demande</th>
+                <th scope="col">Pourcentage total de demande</th>
             </thread>
-            <tbody>
+            <tbody id="table_ecole">
             {% for line in counts %}
-                <tr>
-                    <td>{{ line[0] }}</td>
-                    <td>{{ line[1] }}</td>
-                    <td>{{ line[2] }} %</td>
+                <tr id="{{ line[0] }}">
+                    {% for element in line %}
+                        <td>{{ element }}</td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
             </tbody>
@@ -55,6 +63,28 @@
 <!-- Core theme JS-->
 <script src="{{ url_for('static',filename='js/bootstrap.js') }}"></script>
 <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
+<script type="text/javascript">
+    document.getElementsByTagName('select')[0].onchange = function () {
+        {#recherche du nom de l'école#}
+        const ecoleIndex = this.selectedIndex;
+        const nomEcole = this.children[ecoleIndex].innerHTML.trim();
 
+        {#affichage de l'école que l'on veut#}
+
+        let elements = document.getElementById("table_ecole");
+        for (let i = 0; i < elements.children.length; i++) {
+            if (nomEcole !== "Toutes les écoles") {
+                if (elements.children[i].id === nomEcole) {
+                    elements.children[i].hidden = false;
+                } else {
+                    elements.children[i].hidden = true;
+                }
+            } else {
+                    elements.children[i].hidden = false;
+            }
+        }
+        document.getElementById("table_ecole").innerHTML = elements.innerHTML;
+    }
+</script>
 </body>
 </html>

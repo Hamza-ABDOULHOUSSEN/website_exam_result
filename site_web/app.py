@@ -40,8 +40,12 @@ def stats_matiere():
 
 @app.route('/statistiques/voeux', methods = ["GET"])
 def stats_voeux():
+    ecoleNom = buildNomEcole()
+    ecoleForm = EcoleSelectorForm(request.form)
+    ecoleForm.nomEcole.choices = ecoleNom
+
     counts = buildVoeuxDemande()
-    return render_template("statistiques_voeux.html", counts = counts)
+    return render_template("statistiques_voeux.html", counts = counts, ecoles = ecoleForm)
 
 
 @app.route('/about', methods = ["GET"])
