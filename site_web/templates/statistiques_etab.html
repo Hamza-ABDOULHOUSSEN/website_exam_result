@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Concours Mines-Telecom</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename="assets/favicon.ico") }}"/>
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/styles.css") }}"/>
+    {% from "_formhelpers.html" import render_field %}
+</head>
+<body>
+<h1 class="site-heading text-center text-white d-none d-lg-block">
+    <span class="site-heading-upper text-primary mb-3">Consultation des données</span>
+    <span class="site-heading-lower">Concours Mines-Telecom</span>
+</h1>
+<!-- Navigation-->
+
+{% include 'header.html' %}
+
+<section class="page-section container bg-faded p-5 rounded mr-auto">
+    <h1>Recherche</h1>
+    <div class="row">
+        <form action="/statistiques/etablissement" method="get">
+            <div class="row">
+                {{ render_field(EtabForm.etab, class="form-control") }}
+                <p><input class="btn btn-outline-secondary" type="submit" value="Rechercher"></p>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% if AllInfo %}
+    <section class="page-section">
+        <div class="container bg-faded p-5 rounded mr-auto">
+            
+        {% if valid == 0 %}
+            <p class="alert-danger p-1 mr-auto border">Il n'y a aucun résultat.</p>
+
+        {% else %}
+            <div id='etablissement {{etab}}'>
+            <div class="row">
+                <h3 class="bg-faded rounded p-2 mr-auto text-uppercase border">
+                    Etablissement : {{ request.args["etab"] }}
+                </h3>
+            </div>
+            <table class="table table-sm">
+                <thread>
+                    <th scope="col"></th>
+                    <th scope="col">ATS</th>
+                    <th scope="col">MP</th>
+                    <th scope="col">PC</th>
+                    <th scope="col">PSI</th>
+                    <th scope="col">PT</th>
+                    <th scope="col">TSI</th>
+                    <th scope="col">3/2</th>
+                    <th scope="col">5/2</th>
+                </thread>
+                <tbody id="table_etab">
+                    {% for i in range(7) %}
+                        <tr id="{{ entete[i] }}">
+                            <td>{{ entete[i] }}</td>
+                        {% for j in range(8) %}
+                            <td>{{ AllInfo[j][i+1] }}</td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-outline-secondary" type="button"
+                    value="Télécharger rapport établissement"
+                    onclick="download('etablissement {{etab}}')">               
+            </div>
+        {% endif %}
+        </div>
+    </section>
+{% endif %}
+
+{% include 'footer.html' %}
+
+<!-- Core theme JS-->
+<script src="{{ url_for('static',filename='js/bootstrap.js') }}"></script>
+<script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
+
+</body>
+</html>
