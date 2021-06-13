@@ -26,4 +26,8 @@ class MatiereSelectorForm(Form):
 
 
 class EcoleSelectorForm(Form):
-    nomEcole = SelectField(id = "Rechercher une école", choices = None)
+    nomEcole = StringField(id = "Rechercher une école")
+
+
+class EtabForm(Form):
+    etab = StringField(id = 'Etablissement', validators = [input_required()])

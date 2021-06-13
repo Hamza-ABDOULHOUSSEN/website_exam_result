@@ -1,5 +1,7 @@
 from flask import g
 import sqlite3
+import json
+import os
 
 DATABASE = "CMT_database.db"
 
@@ -386,7 +388,7 @@ def buildEtatAdmis(req):
         if not type_admissible:
             type_admissible = "NON ADMIS"
 
-        result.append(("Type admissible", str(type_admissible)))
+        result.append(("Admissibilité", str(type_admissible)))
 
         if not rangEcrit:
             rangEcrit = "Aucun"
@@ -476,6 +478,7 @@ def buildAdmissibiliteCount(filieres, counts):
 
 
 def buildVoeuxDemande():
+    print("[+] Lancement de la génération de la page de voeux par école")
     filieres = ["ATS", "MP", "PC", "PSI", "PT", "TSI"]
 
     countCandidat = int(GetDB().cursor().execute("SELECT COUNT(Nom) FROM Candidat").fetchall()[0][0])
@@ -502,7 +505,25 @@ def buildVoeuxDemande():
 
     element8 = lambda x: x[7]
     voeuxCount.sort(key = element8, reverse = True)
+
+    print("[+] Génération terminée")
     return voeuxCount
+
+
+def saveVoeuxDemandeJSON():
+    if not os.path.exists("./counts.json"):
+        counts = {"counts": buildVoeuxDemande()}
+        with open("counts.json", 'w') as countFile:
+            countFile.write(json.dumps(counts, indent = 4))
+    else:
+        print("[+] Le fichier `counts.json` a déjà été généré")
+
+
+def loadVoeuxDemandeJSON():
+    counts = {}
+    with open("counts.json", 'r') as countFile:
+        counts = json.load(countFile)["counts"]
+    return counts
 
 
 def buildNomEcole():
@@ -650,6 +671,110 @@ def buildStatsEcrit():
         res += [[matieresNomOral[i], moy, nb]]
 
     return res
+
+
+def buildInfoEtab(args):
+    if "etab" in args:
+        etab = args["etab"]
+        DB = GetDB().cursor()
+
+        valid = DB.execute(
+                    f"SELECT COUNT(*) FROM Etablissement WHERE etablissement ='{etab}'"
+                ).fetchall()[0][0]
+
+        if valid == 0:
+            return valid, ["non vide"]
+        else: 
+            arg = ["ATS", "MP", "PC", "PSI", "PT", "TSI", "3/2", "5/2"]
+            AllInfo = []
+            for i in range(len(arg)):
+                if i<6:
+                    count = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}'"
+                    ).fetchall()[0][0]
+                    nb_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}' AND C.Statut_admission = 'ADMIS'"
+                    ).fetchall()[0][0]
+                    nb_admissible = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}' AND C.Statut_admission = 'ADMISSIBLE'"
+                    ).fetchall()[0][0]
+                    nb_non_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}' AND C.Statut_admission IS NULL"
+                    ).fetchall()[0][0]
+                    top,last,avg = DB.execute(
+                        f"SELECT MIN(R.rang),MAX(R.rang),AVG(R.rang) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement JOIN resultat AS R ON C.candidat_id = R.candidat_id WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}'"
+                    ).fetchall()[0]
+                else:
+                    count = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}'"
+                    ).fetchall()[0][0]
+                    nb_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}' AND C.Statut_admission = 'ADMIS'"
+                    ).fetchall()[0][0]
+                    nb_admissible = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}' AND C.Statut_admission = 'ADMISSIBLE'"
+                    ).fetchall()[0][0]
+                    nb_non_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}' AND C.Statut_admission IS NULL"
+                    ).fetchall()[0][0]
+                    top,last,avg = DB.execute(
+                        f"SELECT MIN(R.rang),MAX(R.rang),AVG(R.rang) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement JOIN resultat AS R ON C.candidat_id = R.candidat_id WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}'"
+                    ).fetchall()[0]
+
+                if top == None:
+                    top = "Pas de candidat"
+                if last == None:
+                    last = "Pas de candidat"
+                if avg == None:
+                    avg = "Pas de candidat"
+                else:
+                    avg = round(avg,2)
+                AllInfo.append((arg[i], count, nb_admis, nb_admissible, nb_non_admis, top, last, avg))
+            return valid, AllInfo
+    else:
+        return None,None
+
+        
+def buildProvenance():
+    provenanceDB = GetDB().cursor()
+
+    etrangerCountReq = "SELECT COUNT(candidat_id) " \
+                       "FROM Candidat " \
+                       "JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                       "WHERE pays != 'Maroc'"
+    etrangerCount = int(provenanceDB.execute(etrangerCountReq).fetchall()[0][0])
+
+    francaisCountReq = "SELECT COUNT(candidat_id) " \
+                       "FROM Candidat " \
+                       "JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                       "WHERE pays == 'Maroc'"
+    francaisCount = int(provenanceDB.execute(francaisCountReq).fetchall()[0][0])
+    franceRepartition = [("Tous les départements", francaisCount, 100)]
+    for i in range(1, 100):
+        dep = str(i)
+        if i < 10:
+            provenanceFranceReq = f"SELECT COUNT(candidat_id) " \
+                                  f"FROM Candidat " \
+                                  f"JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                                  f"WHERE P.pays = 'Maroc'" \
+                                  f"  AND Code_Postal LIKE '{dep}%'" \
+                                  f"  AND Code_Postal <= 9999"
+        else:
+            provenanceFranceReq = f"SELECT COUNT(candidat_id) " \
+                                  f"FROM Candidat " \
+                                  f"JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                                  f"WHERE P.pays = 'Maroc'" \
+                                  f"  AND Code_Postal LIKE '{dep}%'" \
+                                  f"  AND Code_Postal > 9999"
+
+        # ici on aurait normalement la France mais la plupart des participants
+        # de la base de données anonymisée étaient marocain
+        depCount = int(provenanceDB.execute(provenanceFranceReq).fetchall()[0][0])
+        franceRepartition.append((dep, depCount, int(10000 * depCount / francaisCount) / 100))
+        element2 = lambda x: x[1]
+        franceRepartition.sort(key = element2, reverse = True)
+
+    return etrangerCount, franceRepartition
 
 
 def GetDB():

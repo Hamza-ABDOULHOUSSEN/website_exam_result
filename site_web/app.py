@@ -3,6 +3,8 @@ from requetes import *
 from formulaire import *
 
 app = Flask(__name__)
+with app.app_context():
+    saveVoeuxDemandeJSON()
 
 
 @app.route('/', methods = ["GET"])
@@ -46,12 +48,25 @@ def stats_matiere():
 
 @app.route('/statistiques/voeux', methods = ["GET"])
 def stats_voeux():
-    ecoleNom = buildNomEcole()
     ecoleForm = EcoleSelectorForm(request.form)
-    ecoleForm.nomEcole.choices = ecoleNom
 
-    counts = buildVoeuxDemande()
+    counts = loadVoeuxDemandeJSON()
     return render_template("statistiques_voeux.html", counts = counts, ecoles = ecoleForm)
+
+
+@app.route('/statistiques/etablissement', methods = ["GET"])
+def stats_etablissement():
+    etabForm = EtabForm(request.form)
+    arguments = request.args
+    valid, AllInfo = buildInfoEtab(arguments)
+    return render_template("statistiques_etab.html", EtabForm = etabForm, AllInfo = AllInfo, valid= valid, entete = ["Nombre de candidats", "Nombre d'admis", "Nombre d'admissibles", "Nombre de non admissibles", "Rang max", "Rang min", "Rang moyen"])
+
+
+@app.route('/statistiques/provenance', methods = ["GET"])
+def stats_provenance():
+    etrangerCount, repartitionFrance = buildProvenance()
+    return render_template('statistiques_provenance.html', etrangerCount = etrangerCount,
+                           repartitionFrance = repartitionFrance)
 
 
 @app.route('/about', methods = ["GET"])

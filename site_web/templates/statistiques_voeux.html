@@ -27,9 +27,10 @@
 {% include 'header.html' %}
 
 <section class="page-section container bg-faded p-5 rounded mr-auto">
-    <div class="row">
-        <h1>Demande des candidats par école</h1>
-        {{ render_field(ecoles.nomEcole, class="form-select") }}
+    <h1>Rechercher une école particulière</h1>
+    {{ render_field(ecoles.nomEcole, class="form-control") }}
+    <div class="row" id="Demande par filière">
+        <h3>Demande des candidats par école</h3>
         <table class="table table-sm">
             <thread>
                 <th scope="col">Ecole</th>
@@ -53,6 +54,12 @@
             </tbody>
         </table>
     </div>
+
+    <div class="text-center">
+        <input class="btn btn-outline-secondary" type="button"
+               value="Télécharger les voeux par école"
+               onclick="download('Demande par filière')">
+    </div>
 </section>
 
 {% include 'footer.html' %}
@@ -64,23 +71,22 @@
 <script src="{{ url_for('static',filename='js/bootstrap.js') }}"></script>
 <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
 <script type="text/javascript">
-    document.getElementsByTagName('select')[0].onchange = function () {
+    document.getElementsByTagName('input')[0].oninput = function () {
         {#recherche du nom de l'école#}
-        const ecoleIndex = this.selectedIndex;
-        const nomEcole = this.children[ecoleIndex].innerHTML.trim();
+        const nomEcole = this.value.toLowerCase();
 
         {#affichage de l'école que l'on veut#}
 
         let elements = document.getElementById("table_ecole");
         for (let i = 0; i < elements.children.length; i++) {
-            if (nomEcole !== "Toutes les écoles") {
-                if (elements.children[i].id === nomEcole) {
+            if (nomEcole !== "") {
+                if (elements.children[i].id.toLowerCase().startsWith(nomEcole)) {
                     elements.children[i].hidden = false;
                 } else {
                     elements.children[i].hidden = true;
                 }
             } else {
-                    elements.children[i].hidden = false;
+                elements.children[i].hidden = false;
             }
         }
         document.getElementById("table_ecole").innerHTML = elements.innerHTML;
