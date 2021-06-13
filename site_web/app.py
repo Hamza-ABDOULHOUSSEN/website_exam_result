@@ -50,6 +50,13 @@ def stats_voeux():
     return render_template("statistiques_voeux.html", counts = counts, ecoles = ecoleForm)
 
 
+@app.route('/statistiques/provenance', methods = ["GET"])
+def stats_provenance():
+    etrangerCount, repartitionFrance = buildProvenance()
+    return render_template('statistiques_provenance.html', etrangerCount = etrangerCount,
+                           repartitionFrance = repartitionFrance)
+
+
 @app.route('/about', methods = ["GET"])
 def about():
     return render_template("about.html")

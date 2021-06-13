@@ -537,6 +537,48 @@ def buildNomEcole():
     return list(zip(ids, nom))
 
 
+def buildProvenance():
+    provenanceDB = GetDB().cursor()
+
+    etrangerCountReq = "SELECT COUNT(candidat_id) " \
+                       "FROM Candidat " \
+                       "JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                       "WHERE pays != 'Maroc'"
+    etrangerCount = int(provenanceDB.execute(etrangerCountReq).fetchall()[0][0])
+
+    francaisCountReq = "SELECT COUNT(candidat_id) " \
+                       "FROM Candidat " \
+                       "JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                       "WHERE pays == 'Maroc'"
+    francaisCount = int(provenanceDB.execute(francaisCountReq).fetchall()[0][0])
+    franceRepartition = [("Tous les départements", francaisCount, 100)]
+    for i in range(1, 100):
+        dep = str(i)
+        if i < 10:
+            provenanceFranceReq = f"SELECT COUNT(candidat_id) " \
+                                  f"FROM Candidat " \
+                                  f"JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                                  f"WHERE P.pays = 'Maroc'" \
+                                  f"  AND Code_Postal LIKE '{dep}%'" \
+                                  f"  AND Code_Postal <= 9999"
+        else:
+            provenanceFranceReq = f"SELECT COUNT(candidat_id) " \
+                                  f"FROM Candidat " \
+                                  f"JOIN Pays P on Candidat.Pays_id = P.code_pays " \
+                                  f"WHERE P.pays = 'Maroc'" \
+                                  f"  AND Code_Postal LIKE '{dep}%'" \
+                                  f"  AND Code_Postal > 9999"
+
+        # ici on aurait normalement la France mais la plupart des participants
+        # de la base de données anonymisée étaient marocain
+        depCount = int(provenanceDB.execute(provenanceFranceReq).fetchall()[0][0])
+        franceRepartition.append((dep, depCount, int(10000 * depCount / francaisCount) / 100))
+        element2 = lambda x: x[1]
+        franceRepartition.sort(key = element2, reverse = True)
+
+    return etrangerCount, franceRepartition
+
+
 def GetDB():
     db = getattr(g, '_database', None)
     if db is None:
