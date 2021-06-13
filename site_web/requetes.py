@@ -201,7 +201,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Chimie", note_individu[5]),
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
@@ -216,7 +216,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Chimie", note_individu[5]),
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
@@ -232,7 +232,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Chimie", note_individu[5]),
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
@@ -248,7 +248,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Informatique et modélisation", note_individu[5]),
                     ("SI", note_individu[6]),
                     ("Français", note_individu[7]),
@@ -263,7 +263,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Français", note_individu[5]),
                     ("LV1", note_individu[6]),
                     ("SI", note_individu[7]),
@@ -390,7 +390,7 @@ def buildEtatAdmis(req):
         if not type_admissible:
             type_admissible = "NON ADMIS"
 
-        result.append(("Type admissible", str(type_admissible)))
+        result.append(("Admissibilité", str(type_admissible)))
 
         if not rangEcrit:
             rangEcrit = "Aucun"
