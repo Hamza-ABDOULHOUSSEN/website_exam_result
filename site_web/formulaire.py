@@ -22,4 +22,4 @@ class IdentityForm(Form):
 
 
 class EcoleSelectorForm(Form):
-    nomEcole = SelectField(id = "Rechercher une école", choices = None)
+    nomEcole = StringField(id = "Rechercher une école")
