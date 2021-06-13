@@ -52,6 +52,12 @@
             </tbody>
         </table>
     </div>
+
+    <div class="text-center">
+        <input class="btn btn-outline-secondary" type="button"
+               value="Télécharger les statistiques des matières choisies"
+               onclick="download('Statistiques sur les matières')">
+    </div>
 </section>
 
 {% include 'footer.html' %}
@@ -74,10 +80,27 @@
         let elements = document.getElementById("table_matiere");
         for (let i = 0; i < elements.children.length; i++) {
             if (nomMatiere !== "Toutes les matières") {
-                if (elements.children[i].id === nomMatiere) {
-                    elements.children[i].hidden = false;
-                } else {
-                    elements.children[i].hidden = true;
+                if(nomMatiere !== "Tous les écrits" || nomMatiere !== "Tous les oraux"){
+                    if (elements.children[i].id === nomMatiere) {
+                        elements.children[i].hidden = false;
+                    } else {
+                        elements.children[i].hidden = true;
+                    }
+                }else {
+                    const elmtActuel = elements.children[i].tagName
+                    if(nomMatiere === "Tous les écrits"){
+                        if (elmtActuel.substring(0,5) == "Ecrit") {
+                            elements.children[i].hidden = false;
+                        } else {
+                            elements.children[i].hidden = true;
+                        }
+                    }else {
+                        if (elmtActuel.substring(0,4) == "Oral") {
+                            elements.children[i].hidden = false;
+                        } else {
+                            elements.children[i].hidden = true;
+                        }
+                    }
                 }
             }else {
                     elements.children[i].hidden = false;
