@@ -80,26 +80,23 @@
         let elements = document.getElementById("table_matiere");
         for (let i = 0; i < elements.children.length; i++) {
             if (nomMatiere !== "Toutes les matières") {
-                if(nomMatiere !== "Tous les écrits" || nomMatiere !== "Tous les oraux"){
+                if(nomMatiere !== "Tous les écrits" & nomMatiere !== "Tous les oraux"){
                     if (elements.children[i].id === nomMatiere) {
                         elements.children[i].hidden = false;
                     } else {
                         elements.children[i].hidden = true;
                     }
+                }else if(nomMatiere === "Tous les écrits"){
+                    if (elements.children[i].id.substring(0,5) === "Ecrit") {
+                        elements.children[i].hidden = false;
+                    } else {
+                        elements.children[i].hidden = true;
+                    }
                 }else {
-                    const elmtActuel = elements.children[i].tagName
-                    if(nomMatiere === "Tous les écrits"){
-                        if (elmtActuel.substring(0,5) == "Ecrit") {
-                            elements.children[i].hidden = false;
-                        } else {
-                            elements.children[i].hidden = true;
-                        }
-                    }else {
-                        if (elmtActuel.substring(0,4) == "Oral") {
-                            elements.children[i].hidden = false;
-                        } else {
-                            elements.children[i].hidden = true;
-                        }
+                    if (elements.children[i].id.substring(0,4) === "Oral") {
+                        elements.children[i].hidden = false;
+                    } else {
+                        elements.children[i].hidden = true;
                     }
                 }
             }else {
