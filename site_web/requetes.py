@@ -641,34 +641,44 @@ def buildStatsEcrit():
 
     c = GetDB().cursor()
     d = GetDB().cursor()
+    e = GetDB().cursor()
+    f = GetDB().cursor()
 
     for i in range(len(filieresEcrit)):
         moy = 0;
         nb = 0;
 
-        for f in filieresEcrit[i]:
-            c.execute("SELECT sum(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + f)
-            d.execute("SELECT count(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + f)
+        for filiere in filieresEcrit[i]:
+            c.execute("SELECT sum(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + filiere)
+            d.execute("SELECT count(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + filiere)
+            e.execute("SELECT min(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + filiere)
+            f.execute("SELECT max(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + filiere)
             moy += c.fetchall()[0][0]
             nb += d.fetchall()[0][0]
+            min = e.fetchall()[0][0]
+            max = f.fetchall()[0][0]
 
         moy = round(moy / nb, 2)
 
-        res += [[matieresNom[i+3], moy, nb]]
+        res += [[matieresNom[i+3], moy, min, max, nb]]
 
     for i in range(len(filieresOral)):
         moy = 0;
         nb = 0;
 
-        for f in filieresOral[i]:
-            c.execute("SELECT sum(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + f)
-            d.execute("SELECT count(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + f)
+        for filiere in filieresOral[i]:
+            c.execute("SELECT sum(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + filiere)
+            d.execute("SELECT count(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + filiere)
+            e.execute("SELECT min(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + filiere)
+            f.execute("SELECT max(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + filiere)
             moy += c.fetchall()[0][0]
             nb += d.fetchall()[0][0]
+            min = e.fetchall()[0][0]
+            max = f.fetchall()[0][0]
 
         moy = round(moy / nb, 2)
 
-        res += [[matieresNomOral[i], moy, nb]]
+        res += [[matieresNomOral[i], moy, min, max, nb]]
 
     return res
 
