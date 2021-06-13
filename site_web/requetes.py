@@ -1,5 +1,7 @@
 from flask import g
 import sqlite3
+import json
+import os
 
 DATABASE = "CMT_database.db"
 
@@ -478,6 +480,7 @@ def buildAdmissibiliteCount(filieres, counts):
 
 
 def buildVoeuxDemande():
+    print("[+] Lancement de la génération de la page de voeux par école")
     filieres = ["ATS", "MP", "PC", "PSI", "PT", "TSI"]
 
     countCandidat = int(GetDB().cursor().execute("SELECT COUNT(Nom) FROM Candidat").fetchall()[0][0])
@@ -504,7 +507,25 @@ def buildVoeuxDemande():
 
     element8 = lambda x: x[7]
     voeuxCount.sort(key = element8, reverse = True)
+
+    print("[+] Génération terminée")
     return voeuxCount
+
+
+def saveVoeuxDemandeJSON():
+    if not os.path.exists("./counts.json"):
+        counts = {"counts": buildVoeuxDemande()}
+        with open("counts.json", 'w') as countFile:
+            countFile.write(json.dumps(counts, indent = 4))
+    else:
+        print("[+] Le fichier `counts.json` a déjà été généré")
+
+
+def loadVoeuxDemandeJSON():
+    counts = {}
+    with open("counts.json", 'r') as countFile:
+        counts = json.load(countFile)["counts"]
+    return counts
 
 
 def buildNomEcole():

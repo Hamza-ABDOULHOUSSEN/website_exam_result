@@ -3,6 +3,8 @@ from requetes import *
 from formulaire import *
 
 app = Flask(__name__)
+with app.app_context():
+    saveVoeuxDemandeJSON()
 
 
 @app.route('/', methods = ["GET"])
@@ -44,7 +46,7 @@ def stats_voeux():
     ecoleForm = EcoleSelectorForm(request.form)
     ecoleForm.nomEcole.choices = ecoleNom
 
-    counts = buildVoeuxDemande()
+    counts = loadVoeuxDemandeJSON()
     return render_template("statistiques_voeux.html", counts = counts, ecoles = ecoleForm)
 
 
