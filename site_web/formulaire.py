@@ -23,3 +23,7 @@ class IdentityForm(Form):
 
 class EcoleSelectorForm(Form):
     nomEcole = StringField(id = "Rechercher une école")
+
+
+class EtabForm(Form):
+    etab = StringField(id = 'Etablissement', validators = [input_required()])

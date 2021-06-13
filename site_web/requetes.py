@@ -537,6 +537,68 @@ def buildNomEcole():
     return list(zip(ids, nom))
 
 
+def buildInfoEtab(args):
+    if "etab" in args:
+        etab = args["etab"]
+        DB = GetDB().cursor()
+
+        valid = DB.execute(
+                    f"SELECT COUNT(*) FROM Etablissement WHERE etablissement ='{etab}'"
+                ).fetchall()[0][0]
+
+        if valid == 0:
+            return valid, ["non vide"]
+        else: 
+            arg = ["ATS", "MP", "PC", "PSI", "PT", "TSI", "3/2", "5/2"]
+            AllInfo = []
+            for i in range(len(arg)):
+                if i<6:
+                    count = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}'"
+                    ).fetchall()[0][0]
+                    nb_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}' AND C.Statut_admission = 'ADMIS'"
+                    ).fetchall()[0][0]
+                    nb_admissible = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}' AND C.Statut_admission = 'ADMISSIBLE'"
+                    ).fetchall()[0][0]
+                    nb_non_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}' AND C.Statut_admission IS NULL"
+                    ).fetchall()[0][0]
+                    top,last,avg = DB.execute(
+                        f"SELECT MIN(R.rang),MAX(R.rang),AVG(R.rang) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement JOIN resultat AS R ON C.candidat_id = R.candidat_id WHERE E.etablissement ='{etab}' AND C.Filliere = '{arg[i]}'"
+                    ).fetchall()[0]
+                else:
+                    count = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}'"
+                    ).fetchall()[0][0]
+                    nb_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}' AND C.Statut_admission = 'ADMIS'"
+                    ).fetchall()[0][0]
+                    nb_admissible = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}' AND C.Statut_admission = 'ADMISSIBLE'"
+                    ).fetchall()[0][0]
+                    nb_non_admis = DB.execute(
+                        f"SELECT COUNT(*) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}' AND C.Statut_admission IS NULL"
+                    ).fetchall()[0][0]
+                    top,last,avg = DB.execute(
+                        f"SELECT MIN(R.rang),MAX(R.rang),AVG(R.rang) FROM Candidat AS C JOIN Etablissement AS E ON C.Etablissement_id = E.code_etablissement JOIN resultat AS R ON C.candidat_id = R.candidat_id WHERE E.etablissement ='{etab}' AND C.Puissance = '{arg[i]}'"
+                    ).fetchall()[0]
+
+                if top == None:
+                    top = "Pas de candidat"
+                if last == None:
+                    last = "Pas de candidat"
+                if avg == None:
+                    avg = "Pas de candidat"
+                else:
+                    avg = round(avg,2)
+                AllInfo.append((arg[i], count, nb_admis, nb_admissible, nb_non_admis, top, last, avg))
+            return valid, AllInfo
+    else:
+        return None,None
+
+        
 def buildProvenance():
     provenanceDB = GetDB().cursor()
 

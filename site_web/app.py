@@ -48,6 +48,14 @@ def stats_voeux():
     return render_template("statistiques_voeux.html", counts = counts, ecoles = ecoleForm)
 
 
+@app.route('/statistiques/etablissement', methods = ["GET"])
+def stats_etablissement():
+    etabForm = EtabForm(request.form)
+    arguments = request.args
+    valid, AllInfo = buildInfoEtab(arguments)
+    return render_template("statistiques_etab.html", EtabForm = etabForm, AllInfo = AllInfo, valid= valid, entete = ["Nombre de candidats", "Nombre d'admis", "Nombre d'admissibles", "Nombre de non admissibles", "Rang max", "Rang min", "Rang moyen"])
+
+
 @app.route('/statistiques/provenance', methods = ["GET"])
 def stats_provenance():
     etrangerCount, repartitionFrance = buildProvenance()
