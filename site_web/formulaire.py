@@ -21,5 +21,9 @@ class IdentityForm(Form):
     FirstName = StringField(id = 'Prénom du candidat', validators = [input_required()])
 
 
+class MatiereSelectorForm(Form):
+    nomMatiere = SelectField(id = "Rechercher une matière", choices = None)
+
+
 class EcoleSelectorForm(Form):
     nomEcole = SelectField(id = "Rechercher une école", choices = None)

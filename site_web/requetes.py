@@ -199,7 +199,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Chimie", note_individu[5]),
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
@@ -214,7 +214,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Chimie", note_individu[5]),
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
@@ -230,7 +230,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Chimie", note_individu[5]),
                     ("Français", note_individu[6]),
                     ("LV1", note_individu[7]),
@@ -246,7 +246,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Informatique et modélisation", note_individu[5]),
                     ("SI", note_individu[6]),
                     ("Français", note_individu[7]),
@@ -261,7 +261,7 @@ def buildNotesEcrit(req):
                     ("Math 1", note_individu[1]),
                     ("Math 2", note_individu[2]),
                     ("Physique 1", note_individu[3]),
-                    ("Physique 1", note_individu[4]),
+                    ("Physique 2", note_individu[4]),
                     ("Français", note_individu[5]),
                     ("LV1", note_individu[6]),
                     ("SI", note_individu[7]),
@@ -270,7 +270,6 @@ def buildNotesEcrit(req):
         if not added:
             notes.append(())
     return notes
-
 
 def buildNotesOral(req):
     # req = req.replace("candidat_id", "C.candidat_id")
@@ -345,7 +344,6 @@ def buildNotesOral(req):
             notes.append(note_candidat)
 
     return notes
-
 
 def buildEtatAdmis(req):
     admisReq = f"SELECT candidat_id, Nom, Statut_admission " \
@@ -514,6 +512,144 @@ def buildNomEcole():
     nom.insert(0, "Toutes les écoles")
     ids = list(range(0, len(nom) + 1))
     return list(zip(ids, nom))
+
+
+def buildNomMatiereEcrit():
+    matieres = ["Mathématiques 1", "Mathématiques 2", "Physique 1", "Physique 2",
+                "Chimie", "Français", "LV1", "IPT", "SI",
+                "Informatique et modélisation", "Informatique", "Mathématiques",
+                "Physique", "Anglais", "Spe"]
+
+    res = ["Toutes les matières", "Tous les écrits", "Tous les oraux"]
+
+    for m in matieres:
+        res += ["Ecrit - " + m]
+
+    return res
+
+def buildNomMatiereOral():
+    matieres = ["Mathématiques", "Physique_SI", "Entretien", "Anglais", "QCM Physique Informatique",
+                "QCM Anglais", "Mathématiques 1", "Mathématiques 2", "Physique 1", "Physique 2",
+                "LV", "TP Physique", "S2I", "Physique", "Génie Electrique", "Génie Mécanique"]
+
+    res = []
+
+    for m in matieres:
+        res += ["Oral - " + m]
+
+    return res
+
+
+def buildNomMatiere():
+    return buildNomMatiereEcrit() + buildNomMatiereOral()
+
+
+def buildStatsEcrit():
+    filieresEcrit = [["PSI", "PC", "PT", "TSI", "MP"],
+                     ["PSI", "PC", "PT", "TSI", "MP"],
+                     ["PSI", "PC", "PT", "TSI", "MP"],
+                     ["PSI", "PC", "PT", "TSI", "MP"],
+                     ["PSI", "PC", "MP"],
+                     ["PSI", "PC", "PT", "TSI", "MP", "ATS"],
+                     ["PSI", "PC", "PT", "TSI", "MP"],
+                     ["PSI", "PC", "MP"],
+                     ["PSI", "PT", "TSI", "ATS"],
+                     ["PT"],
+                     ["TSI"],
+                     ["ATS"],
+                     ["ATS"],
+                     ["ATS"],
+                     ["MP"]]
+
+    matieresNom = buildNomMatiereEcrit()
+
+    matieresAbrev = ["Math1",
+                     "Math2",
+                     "Phy1",
+                     "Phy2",
+                     "Chimie",
+                     "Fr",
+                     "LV1",
+                     "IPT",
+                     "SI",
+                     "Info_Model",
+                     "Info",
+                     "Math",
+                     "Phy",
+                     "Ang",
+                     "Spe"]
+
+    filieresOral = [["A", "B", "ATS"],
+                     ["A"],
+                     ["A","B"],
+                     ["A"],
+                     ["B","Opt"],
+                     ["B","Opt"],
+                     ["A_TSI"],
+                     ["A_TSI"],
+                     ["A_TSI"],
+                     ["A_TSI"],
+                     ["A_TSI","ATS"],
+                     ["A_TSI"],
+                     ["A_TSI"],
+                     ["ATS"],
+                     ["ATS"],
+                     ["ATS"]]
+
+    matieresNomOral = buildNomMatiereOral()
+
+    matieresAbrevOral = ["Math",
+                         "Phy_SI",
+                         "Entr",
+                         "Ang",
+                         "QCM_Phy_Info",
+                         "QCM_Ang",
+                         "Math1",
+                         "Math2",
+                         "Phy1",
+                         "Phy2",
+                         "LV",
+                         "TP_Phy",
+                         "S2I",
+                         "Phy",
+                         "Genie_Elec",
+                         "Genie_Meca"]
+
+
+    res = []
+
+    c = GetDB().cursor()
+    d = GetDB().cursor()
+
+    for i in range(len(filieresEcrit)):
+        moy = 0;
+        nb = 0;
+
+        for f in filieresEcrit[i]:
+            c.execute("SELECT sum(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + f)
+            d.execute("SELECT count(" + matieresAbrev[i] + ") FROM Ecrit_Note_" + f)
+            moy += c.fetchall()[0][0]
+            nb += d.fetchall()[0][0]
+
+        moy = round(moy / nb, 2)
+
+        res += [[matieresNom[i+3], moy, nb]]
+
+    for i in range(len(filieresOral)):
+        moy = 0;
+        nb = 0;
+
+        for f in filieresOral[i]:
+            c.execute("SELECT sum(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + f)
+            d.execute("SELECT count(" + matieresAbrevOral[i] + ") FROM Oral_Note_" + f)
+            moy += c.fetchall()[0][0]
+            nb += d.fetchall()[0][0]
+
+        moy = round(moy / nb, 2)
+
+        res += [[matieresNomOral[i], moy, nb]]
+
+    return res
 
 
 def GetDB():

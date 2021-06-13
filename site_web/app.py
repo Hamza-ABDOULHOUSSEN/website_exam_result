@@ -35,7 +35,13 @@ def results():
 
 @app.route('/statistiques/matiere', methods = ["GET"])
 def stats_matiere():
-    return render_template("statistiques_matiere.html")
+    matieresNom = buildNomMatiere()
+    matiereForm = MatiereSelectorForm(request.form)
+    matiereForm.nomMatiere.choices = matieresNom
+
+    stats = buildStatsEcrit()
+
+    return render_template("statistiques_matiere.html", matieres = matiereForm, stats = stats)
 
 
 @app.route('/statistiques/voeux', methods = ["GET"])

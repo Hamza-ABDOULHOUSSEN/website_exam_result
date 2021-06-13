@@ -28,49 +28,27 @@
 
 <section class="page-section container bg-faded p-5 rounded mr-auto">
     <div class="row">
-        <div class="exam">
-        <h2>Sélection de l'examen</h2>
+        <h1>Statistiques sur les examens</h1>
 
-        <br><br>
+        {{ render_field(matieres.nomMatiere, class="form-select") }}
 
-        <form action="/statistiques" method="get">
-            <select class="listeExam">
-                <optgroup label="Ecrits">
-                    <option>Mathématiques 1</option>
-                    <option>mathématiques 2</option>
-                    <option>Physique 1</option>
-                    <option>Physique 2</option>
-                    <option>Chimie</option>
-                    <option>Français</option>
-                    <option>LV1</option>
-                    <option>IPT</option>
-                    <option>SI</option>
-                    <option>Informatique modélisation</option>
-                    <option>Informatique</option>
-                </optgroup>
-                <optgroup label="Oraux">
-                    <option>Mathématiques </option>
-                    <option>Physique</option>
-                    <option>Anglais</option>
-                    <option>Entretien</option>
-                    <option>Sciences de l'Ingénieur</option>
-                    <option>Mathématiques 1</option>
-                    <option>mathématiques 2</option>
-                    <option>Physique 1</option>
-                    <option>Physique 2</option>
-                    <option>Langue vivante</option>
-                    <option>TP noté</option>
-                    <option>S2I</option>
-                    <option>QCM Physique Informatique</option>
-                    <option>QCM Anglais</option>
-                    <option>Génie Electrique</option>
-                    <option>Génie Mécanique</option>
-                </optgroup>
-            </select>
-        </form>
-        <p class="espace"></p>
-        <input class="btn btn-outline-secondary" type="submit" value="Rechercher">
-        </div>
+
+        <table class="table table-sm">
+            <thread>
+                <th scope="col">Matière</th>
+                <th scope="col">Moyenne</th>
+                <th scope="col">Nombre d'élèves</th>
+            </thread>
+            <tbody id="table_matiere">
+            {% for line in stats %}
+                <tr id="{{ line[0] }}">
+                    {% for element in line %}
+                        <td>{{ element }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </section>
 
@@ -82,6 +60,30 @@
 <!-- Core theme JS-->
 <script src="{{ url_for('static',filename='js/bootstrap.js') }}"></script>
 <script src="{{ url_for('static',filename='js/scripts.js') }}"></script>
+
+<script type="text/javascript">
+    document.getElementsByTagName('select')[0].onchange = function () {
+        {#recherche de la matière#}
+        const matiereIndex = this.selectedIndex;
+        const nomMatiere = this.children[matiereIndex].innerHTML.trim();
+
+        {#affichage des informations de la matière que l'on veut#}
+
+        let elements = document.getElementById("table_matiere");
+        for (let i = 0; i < elements.children.length; i++) {
+            if (nomMatiere !== "Toutes les matières") {
+                if (elements.children[i].id === nomMatiere) {
+                    elements.children[i].hidden = false;
+                } else {
+                    elements.children[i].hidden = true;
+                }
+            }else {
+                    elements.children[i].hidden = false;
+            }
+        }
+        document.getElementById("table_matiere").innerHTML = elements.innerHTML;
+    }
+</script>
 
 </body>
 </html>
