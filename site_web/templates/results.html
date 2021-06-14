@@ -95,6 +95,28 @@
                     </table>
                 </div>
             </div>
+            <div class="card bg-light mx-auto" style="width: 50rem;">
+                <div class="card-body">
+                    <h1>Rang du dernier admis par filière</h1>
+                    <table class="table table-sm">
+                        <thread>
+                            <th scope="col">Filière</th>
+                            <th scope="col">Rang</th>
+                            <th scope="col">Total des points</th>
+                        </thread>
+                        <tbody>
+                        {% for line in lastrangs %}
+                            <tr>
+                                <td>{{ line[0] }}</td>
+                                <td>{{ line[1] }}</td>
+                                <td>{{ line[2] }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="text-center">
             <input class="btn btn-outline-secondary" type="button"

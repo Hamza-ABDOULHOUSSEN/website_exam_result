@@ -1,4 +1,5 @@
 from flask import g
+import re
 import sqlite3
 import json
 import os
@@ -9,9 +10,9 @@ DATABASE = "CMT_database.db"
 def BuildRequest(args):
     if "INE" in args and "name" in args and "FirstName" in args and len(args) == 3:
         # on a fait une demande de candidat avec un ID
-        INE = args["INE"]
-        name = args["name"]
-        FirstName = args["FirstName"]
+        INE = sanitize(args["INE"])
+        name = sanitize(args["name"])
+        FirstName = sanitize(args["FirstName"])
         req = f"WHERE LOWER(INE) = LOWER('{INE}') " \
               f"AND LOWER(Nom) = LOWER('{name}') " \
               f"AND LOWER(Prenom) = LOWER('{FirstName}')"
@@ -31,6 +32,15 @@ def BuildRequest(args):
             tags = ["Coordonnées", "Scolarité", "Vœux", "Jury et centre d'examen", "Notes écrit", "Notes des oraux",
                     "Résultat et admissibilité"]
         return res, tags, "all"
+
+
+def sanitize(string):
+    pattern = "^[a-z0-9éèàùô]+$"
+    checker = re.compile(pattern, re.IGNORECASE)
+    if (checker.match(string)):
+        return string
+    else:
+        return "Wrong format"
 
 
 def buildCoordinates(req):
@@ -273,6 +283,7 @@ def buildNotesEcrit(req):
             notes.append(())
     return notes
 
+
 def buildNotesOral(req):
     # req = req.replace("candidat_id", "C.candidat_id")
     # req = req.replace("Nom", "C.Nom")
@@ -347,6 +358,7 @@ def buildNotesOral(req):
 
     return notes
 
+
 def buildEtatAdmis(req):
     admisReq = f"SELECT candidat_id, Nom, Statut_admission " \
                f"FROM Candidat " \
@@ -419,7 +431,8 @@ def buildGlobalResults():
     filieres = ["ATS", "MP", "PC", "PSI", "PT", "TSI"]
     count = buildTotalCount(filieres)
     admissible, admis = buildAdmissibiliteCount(filieres, count)
-    return count, admissible, admis
+    rangs = buildlastrang(filieres)
+    return count, admissible, admis, rangs
 
 
 def buildTotalCount(filieres):
@@ -694,7 +707,7 @@ def buildInfoEtab(args):
 
         if valid == 0:
             return valid, ["non vide"]
-        else: 
+        else:
             arg = ["ATS", "MP", "PC", "PSI", "PT", "TSI", "3/2", "5/2"]
             AllInfo = []
             for i in range(len(arg)):
@@ -744,7 +757,7 @@ def buildInfoEtab(args):
     else:
         return None,None
 
-        
+
 def buildProvenance():
     provenanceDB = GetDB().cursor()
 
@@ -785,6 +798,17 @@ def buildProvenance():
         franceRepartition.sort(key = element2, reverse = True)
 
     return etrangerCount, franceRepartition
+
+
+def buildlastrang(filieres):
+    rangs = []
+    DB = GetDB().cursor()
+    for i in range(len(filieres)):
+        rang = DB.execute(
+            f"SELECT MAX(resultat.rang), MIN(resultat.total) FROM resultat JOIN Candidat ON Candidat.candidat_id = resultat.candidat_id WHERE Candidat.Statut_admission = 'ADMIS' AND Candidat.Filliere = '{filieres[i]}'"
+        ).fetchall()[0]
+        rangs.append((filieres[i], rang[0], rang[1]))
+    return rangs
 
 
 def GetDB():

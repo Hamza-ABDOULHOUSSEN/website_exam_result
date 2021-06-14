@@ -30,9 +30,14 @@ def candidates():
 
 @app.route('/resultats', methods = ["GET"])
 def results():
-    totalCount, admissibleCount, admisCount = buildGlobalResults()
+    totalCount, admissibleCount, admisCount, lastrangs = buildGlobalResults()
     return render_template("results.html", totalCount = totalCount, admissibleCount = admissibleCount,
-                           admisCount = admisCount)
+                           admisCount = admisCount, lastrangs = lastrangs)
+
+
+@app.route('/statistiques', methods = ["GET"])
+def stats():
+    return render_template("statistiques.html")
 
 
 @app.route('/statistiques/matiere', methods = ["GET"])
