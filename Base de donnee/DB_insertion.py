@@ -239,9 +239,9 @@ for fichier in fichiers_Classes_csv:
     tab = file[fichier]
     for i in range(taille[fichier]):
         if not math.isnan(tab['rang_classe'][i]) or not math.isnan(tab['total_points'][i]) or not math.isnan(tab['moyenne_generale'][i]):
-            c.execute(req_resultat, (int(tab['scei'][i]), tab['rang_classe'][i], tab['total_points'][i], tab['moyenne_generale'][i]) )
+            c.execute(req_resultat, (int(tab['scei'][i]), int(tab['rang_classe'][i]), float(tab['total_points'][i].replace(',','.')), float(tab['moyenne_generale'][i].replace(',','.'))) )
         if type(tab['total_oral'][i]) == str:
-            c.execute(req_rang_oral_total, (int(tab['scei'][i]), tab['total_oral'][i]) )
+            c.execute(req_rang_oral_total, (int(tab['scei'][i]), float(tab['total_oral'][i].replace(',','.'))) )
 
 ### TABLE Note_Ecrit
 ##requetes
@@ -292,6 +292,11 @@ def centre(centre,jury):
         c.execute(req_jury, (jury_id, jury, Dic_centre[centre]) )
         return jury_id
 
+def note(x):
+    if not(0<=x and x<=20):
+        return None
+    else:
+        return float(x)
 
 ### TABLE Note_Oral_A
 # Les MP et PC passent Physique
@@ -299,7 +304,7 @@ for fichier in ['CMT_Oraux_YYYY_MP.xlsx', 'CMT_Oraux_YYYY_PC.xlsx']:
     tab = file[fichier]
     for i in range(taille[fichier]):
         if (0<=tab['Maths'][i] and tab['Maths'][i]<=20):
-            c.execute(req_oral_A, (int(tab["Numéro d'inscription"][i]), tab['Maths'][i],tab['Phys.'][i], tab['Entretien'][i], tab['Anglais'][i]) )
+            c.execute(req_oral_A, (int(tab["Numéro d'inscription"][i]), note(tab['Maths'][i]), note(tab['Phys.'][i]), note(tab['Entretien'][i]), note(tab['Anglais'][i])) )
         if type(tab['Centre'][i]) != float and file[fichier]['Centre'][i] != ' ':
             c.execute(req_centre_jury, (int(tab["Numéro d'inscription"][i]), centre(tab['Centre'][i],tab['Jury'][i])) )
 
@@ -308,7 +313,7 @@ for fichier in ['CMT_Oraux_YYYY_PSI.xlsx', 'CMT_Oraux_YYYY_PT.xlsx']:
     tab = file[fichier]
     for i in range(taille[fichier]):
         if (0<=tab['Maths'][i] and tab['Maths'][i]<=20):
-            c.execute(req_oral_A, (int(tab["Numéro d'inscription"][i]), tab['Maths'][i],tab['S.I.'][i], tab['Entretien'][i], tab['Anglais'][i]) )
+            c.execute(req_oral_A, (int(tab["Numéro d'inscription"][i]), note(tab['Maths'][i]), note(tab['S.I.'][i]), note(tab['Entretien'][i]), note(tab['Anglais'][i])) )
         if type(tab['Centre'][i]) != float and file[fichier]['Centre'][i] != ' ':
             c.execute(req_centre_jury, (int(tab["Numéro d'inscription"][i]), centre(tab['Centre'][i],tab['Jury'][i])) )
         
@@ -317,80 +322,74 @@ for fichier in ['CMT_Oraux_YYYY_PSI.xlsx', 'CMT_Oraux_YYYY_PT.xlsx']:
 
 tab = file['Classes_MP_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_MP_CMT_spe_XXXX.xlsx']):
-    c.execute(req_ecrit_MP, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['599 (Informatique ou Sciences industrielles)'][i], tab['total_ecrit'][i]) )
+    c.execute(req_ecrit_MP, (int(tab['login'][i]), note(tab['600 (Mathématiques 1)'][i]), note(tab['601 ( Mathématiques 2)'][i]), note(tab['602 (Physique 1)'][i]), note(tab['603 (Physique 2)'][i]), note(tab['604 (Chimie)'][i]), note(tab['605 (Français)'][i]), note(tab['28 (Langue)'][i]), note(tab['1050 (Informatique)'][i]), note(tab['599 (Informatique ou Sciences industrielles)'][i]), float(tab['total_ecrit'][i])) )
 
     if tab['type_admissible'][i] == 'A': 
         if not math.isnan(tab['1 (QCM info/physique)'][i]):
-            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+            c.execute(req_oral_opt, (int(tab['login'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
     else:
-        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+        c.execute(req_oral_B, (int(tab['login'][i]), note(tab['401 (Mathématiques (affichée))'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['2 (Entretien nouvelles technologies)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
 ### TABLE Note_Ecrit_PC
 tab = file['Classes_PC_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_PC_CMT_spe_XXXX.xlsx']):
-    c.execute(req_ecrit_PC, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['total_ecrit'][i]) )
+    c.execute(req_ecrit_PC, (int(tab['login'][i]), note(tab['600 (Mathématiques 1)'][i]), note(tab['601 ( Mathématiques 2)'][i]), note(tab['602 (Physique 1)'][i]), note(tab['603 (Physique 2)'][i]), note(tab['604 (Chimie)'][i]), note(tab['605 (Français)'][i]), note(tab['28 (Langue)'][i]), note(tab['1050 (Informatique)'][i]), float(tab['total_ecrit'][i])) )
 
     if tab['type_admissible'][i] == 'A':
         if not math.isnan(tab['1 (QCM info/physique)'][i]):
-            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+            c.execute(req_oral_opt, (int(tab['login'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
     else:
-        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+        c.execute(req_oral_B, (int(tab['login'][i]), note(tab['401 (Mathématiques (affichée))'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['2 (Entretien nouvelles technologies)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
 ### TABLE Note_Ecrit_PSI
 tab = file['Classes_PSI_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_PSI_CMT_spe_XXXX.xlsx']):
-    c.execute(req_ecrit_PSI, (int(tab['login'][i]), tab['600 (Mathématiques 1)'][i], tab['601 ( Mathématiques 2)'][i], tab['602 (Physique 1)'][i], tab['603 (Physique 2)'][i], tab['604 (Chimie)'][i], tab['605 (Français)'][i], tab['28 (Langue)'][i], tab['1050 (Informatique)'][i], tab['606 (Sciences industrielles)'][i], tab['total_ecrit'][i]) )
+    c.execute(req_ecrit_PSI, (int(tab['login'][i]), note(tab['600 (Mathématiques 1)'][i]), note(tab['601 ( Mathématiques 2)'][i]), note(tab['602 (Physique 1)'][i]), note(tab['603 (Physique 2)'][i]), note(tab['604 (Chimie)'][i]), note(tab['605 (Français)'][i]), note(tab['28 (Langue)'][i]), note(tab['1050 (Informatique)'][i]), note(tab['606 (Sciences industrielles)'][i]), float(tab['total_ecrit'][i])) )
 
     if tab['type_admissible'][i] == 'A':
         if not math.isnan(tab['1 (QCM info/physique)'][i]):
-            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+            c.execute(req_oral_opt, (int(tab['login'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
     else:
-        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+        c.execute(req_oral_B, (int(tab['login'][i]), note(tab['401 (Mathématiques (affichée))'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['2 (Entretien nouvelles technologies)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
 ### TABLE Note_Ecrit_PT
 tab = file['Classes_PT_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_PT_CMT_spe_XXXX.xlsx']):
-    c.execute(req_ecrit_PT, (int(tab['login'][i]), tab['700 (Mathématiques B)'][i], tab['701 (Mathématiques C)'][i], tab['702 (Physique A)'][i], tab['703 (Physique B)'][i], tab['704 (Informatique modélisation)'][i], tab['705 (Sciences industrielles A)'][i], float(tab['706 (Français B)'][i]), tab['707 (Langue A)'][i], tab['total_ecrit'][i]) )
+    c.execute(req_ecrit_PT, (int(tab['login'][i]), note(tab['700 (Mathématiques B)'][i]), note(tab['701 (Mathématiques C)'][i]), note(tab['702 (Physique A)'][i]), note(tab['703 (Physique B)'][i]), note(tab['704 (Informatique modélisation)'][i]), note(tab['705 (Sciences industrielles A)'][i]), note(tab['706 (Français B)'][i]), note(tab['707 (Langue A)'][i]), float(tab['total_ecrit'][i])) )
 
     if tab['type_admissible'][i] == 'A':
         if not math.isnan(tab['1 (QCM info/physique)'][i]):
-            c.execute(req_oral_opt, (int(tab['login'][i]), tab['1 (QCM info/physique)'][i], tab['3 (QCM anglais)'][i]) )
+            c.execute(req_oral_opt, (int(tab['login'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
     else:
-        c.execute(req_oral_B, (int(tab['login'][i]), tab['401 (Mathématiques (affichée))'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
+        c.execute(req_oral_B, (int(tab['login'][i]), note(tab['401 (Mathématiques (affichée))'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['2 (Entretien nouvelles technologies)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
 ### TABLE Note_Ecrit_TSI
 tab = file['Classes_TSI_CMT_spe_XXXX.xlsx']
 for i in range(taille['Classes_TSI_CMT_spe_XXXX.xlsx']):
-    c.execute(req_ecrit_TSI, (int(tab['login'][i]), tab['800 (Mathématiques 1)'][i], tab['801 (Mathématiques 2)'][i], tab['802 (Physique 1)'][i], tab['803 (Physique 2)'][i], tab['804 (Français)'][i], tab['805 (Langue)'][i], tab['806 (Sciences industrielles)'][i], tab['807 (Informatique)'][i], tab['total_ecrit'][i]) )
+    c.execute(req_ecrit_TSI, (int(tab['login'][i]), note(tab['800 (Mathématiques 1)'][i]), note(tab['801 (Mathématiques 2)'][i]), note(tab['802 (Physique 1)'][i]), note(tab['803 (Physique 2)'][i]), note(tab['804 (Français)'][i]), note(tab['805 (Langue)'][i]), note(tab['806 (Sciences industrielles)'][i]), note(tab['807 (Informatique)'][i]), float(tab['total_ecrit'][i])) )
     c.execute(req_rang_ecrit, (int(tab['login'][i]), int(tab['rang_admissible'][i])) )
     if tab['type_admissible'][i] == 'A':
-        c.execute(req_oral_A_TSI, (int(tab['login'][i]), tab['13 (Mathématiques 1)'][i], tab['14 (Mathématiques 2)'][i], tab['15 (Physique-chimie 1)'][i], tab['16 (Physique-chimie 2)'][i], tab['17 (Langue vivante)'][i], tab['18 (TP Physique-chimie)'][i], tab['19 (S2I)'][i]) )
+        c.execute(req_oral_A_TSI, (int(tab['login'][i]), note(tab['13 (Mathématiques 1)'][i]), note(tab['14 (Mathématiques 2)'][i]), note(tab['15 (Physique-chimie 1)'][i]), note(tab['16 (Physique-chimie 2)'][i]), note(tab['17 (Langue vivante)'][i]), note(tab['18 (TP Physique-chimie)'][i]), note(tab['19 (S2I)'][i])) )
     else:
-        c.execute(req_oral_B, (int(tab['login'][i]), tab['4 (Mathématiques)'][i], tab['1 (QCM info/physique)'][i], tab['2 (Entretien nouvelles technologies)'][i], tab['3 (QCM anglais)'][i]) )
-
-def note(x):
-    if not(0<=x and x<=20):
-        return None
-    else:
-        return x
+        c.execute(req_oral_B, (int(tab['login'][i]), note(tab['4 (Mathématiques)'][i]), note(tab['1 (QCM info/physique)'][i]), note(tab['2 (Entretien nouvelles technologies)'][i]), note(tab['3 (QCM anglais)'][i])) )
 
 def moyenne_ats(i):
     tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
     if note(tab['Mathématiques'][i])==None or note(tab['Sc. Physiques'][i])==None or note(tab['Français'][i])==None or note(tab['Anglais'][i])==None or note(tab['Sciences Industrielles'][i])==None:
         return None
     else:
-        return tab['Moyenne'][i]
+        return float(tab['Moyenne'][i])
 
 def total_ats(i):
     tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
     if note(tab['Mathématiques'][i])==None or note(tab['Sc. Physiques'][i])==None or note(tab['Français'][i])==None or note(tab['Anglais'][i])==None or note(tab['Sciences Industrielles'][i])==None:
         return None
     else:
-        return tab['Total'][i]
+        return float(tab['Total'][i])
 
 ### TABLE Note_Ecrit_ATS
 tab = file['ResultatEcrit_DD_MM_YYYY_ATS.xlsx']
@@ -405,9 +404,9 @@ for i in range(1,taille['ResultatOral_DD_MM_YYYY_ATS.xlsx']):
         c.execute(req_oral_ATS, (tab["Numéro d'inscription"][i], note(tab['Mathématiques'][i]), note(tab['Sciences Physiques'][i]), note(tab['Génie électrique'][i]), note(tab['Génie mécanique'][i]), note(tab['Langue au choix (oral commun)'][i])) )
     
     if not math.isnan(tab['Rang'][i]):
-        c.execute(req_resultat, (tab["Numéro d'inscription"][i], tab['Rang'][i], tab['Total'][i], tab['Moyenne'][i]) )
+        c.execute(req_resultat, (tab["Numéro d'inscription"][i], int(tab['Rang'][i]), float(tab['Total'][i]), float(tab['Moyenne'][i])) )
     else:
-        c.execute(req_resultat, (tab["Numéro d'inscription"][i], i, tab['Total'][i], tab['Moyenne'][i]) )
+        c.execute(req_resultat, (tab["Numéro d'inscription"][i], i, float(tab['Total'][i]), float(tab['Moyenne'][i])) )
 
 ### TABLE rang_oral
 ##requetes
